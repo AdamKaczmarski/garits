@@ -24,5 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .and()
                     .logout().permitAll();
     }
+    @Bean
+    @Override
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("password")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }
     //https://spring.io/guides/gs/securing-web/ To be continued
+
 }
