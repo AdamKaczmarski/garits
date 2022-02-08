@@ -2,8 +2,12 @@
 
 Project's structure
 
-```garits_back``` - Java Application (w/ Spring)
+```garits``` - Java Application (w/ Spring)
 
 ```garits_db``` - Here we put the latest MySQL dumps (exports)
 
-```garits_front``` - React Application
+```garits_gui``` - React Application
+
+
+RPC Guide: https://cityuni-my.sharepoint.com/:b:/r/personal/zainab_mayet_city_ac_uk/Documents/Second%20Year/Team%2014%20Repo/how_to_build_rpc.pdf?csf=1&web=1&e=ECCCQd
+Security Guide: https://cityuni-my.sharepoint.com/:b:/r/personal/zainab_mayet_city_ac_uk/Documents/Second%20Year/Team%2014%20Repo/spring_security.pdf?csf=1&web=1&e=Xs762a
