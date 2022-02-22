@@ -1,4 +1,4 @@
-package com.garits;
+package com.garits.user;
 
 import javax.persistence.*;
 
@@ -12,21 +12,11 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="ID_user")
     private Integer ID_user;
-    @Column(name="first_name")
-    private String firstName;
     @Column(name="email")
     private String email;
 
     public Integer getID_user() {
         return ID_user;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getEmail() {

@@ -1,7 +1,7 @@
+import UserTable from "../components/Users/UsersTable";
+
 const Users = () =>{
-    return <p>
-        This page is for the administrator to reset password, add and delete users.
-    </p>
+    return (<UserTable />)
 }
 
 export default Users;

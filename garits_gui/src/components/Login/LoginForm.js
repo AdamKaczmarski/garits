@@ -3,6 +3,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 const LoginForm = () => {
+
+  /**
+   * API REQUESTS
+   * VALIDATION
+   */
   return (
     <Card className="mt-5 mb-auto mx-auto" style={{width:'32rem'}}>
       <Card.Body className=" mx-3">
