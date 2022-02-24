@@ -17,7 +17,7 @@ const User = (props) => {
           <Dropdown.Menu>
             <Dropdown.Item href="#/action-1">Reset password</Dropdown.Item>
             <Dropdown.Item href="#/action-2">Change role</Dropdown.Item>
-            {props.user.role == "ADMIN" ? null : (
+            {props.user.role === "ADMIN" ? null : (
               <Dropdown.Item href="#/action-3">Delete</Dropdown.Item>
             )}
           </Dropdown.Menu>

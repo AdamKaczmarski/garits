@@ -8,8 +8,7 @@ import User from "./User";
 
 const UserTable = () => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShow(!show);
 
   const users = USERS.map((user) => <User key={user.id} user={user} />);
 
@@ -22,15 +21,19 @@ const UserTable = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th className="justify-content-around">Action       <Button variant="primary" onClick={handleShow} className="pl-5">
-        Add user
-      </Button>
-</th>
+            <th
+              style={{ display: "flex" }}
+              className="justify-content-between  "
+            >
+              Action{" "}
+              <Button variant="primary" onClick={handleShow}>
+                +
+              </Button>
+            </th>
           </tr>
         </thead>
         <tbody>{users}</tbody>
       </Table>
-
     </>
   );
 };
