@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import { USERS } from "../../dummy-data/users";
 import User from "./User";
+import AddUserModal from './AddUserModal';
 
 const UserTable = () => {
   const [show, setShow] = useState(false);
@@ -34,6 +35,7 @@ const UserTable = () => {
         </thead>
         <tbody>{users}</tbody>
       </Table>
+      <AddUserModal show={show} onClose={handleShow}/>
     </>
   );
 };

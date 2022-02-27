@@ -1,8 +1,7 @@
 import Modal from "react-bootstrap/Modal";
-import AddUserForm from "./AddUserForm";
 import Button from "react-bootstrap/Button";
-const AddUserModal = (props) => {
-  //const [lgShow, setLgShow] = useState(false);
+import UserChangeRoleForm from "./UserChangeRoleForm";
+const UserChangeRoleModal = (props) => {
   return (
     <Modal
       size="lg"
@@ -11,19 +10,19 @@ const AddUserModal = (props) => {
       aria-labelledby="example-modal-sizes-title-lg"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Add user</Modal.Title>
+        <Modal.Title>Change role</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddUserForm />
+        <UserChangeRoleForm roleFrom={props.roleFrom}/>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.onClose}>Add</Button>
+        <Button variant="primary" onClick={props.onClose}>Change</Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default AddUserModal;
+export default UserChangeRoleModal;
