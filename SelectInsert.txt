@@ -1,0 +1,10 @@
+SELECT Parts.id_part, Parts_Orders.part_id
+FROM Parts
+INNER JOIN Parts_Orders ON Parts.id_part = Parts_Orders.part_id;
+SELECT part_name, code, manufacturer, price FROM parts;
+
+INSERT INTO Parts (id_part, part_name, part_type, code, manufacturer, vehicle_type, year_s, price, stock_level, stock_level_threshold)
+VALUES (00000000095, 'Airtex Water Block', 'Water Pump', '475861', 'Hyundai', 'Tucson', 2020, 36.00, 12, 4)
+
+INSERT INTO Parts (id_part, part_name, code, manufacturer, vehicle_type, year_s, price, stock_level, stock_level_threshold)
+VALUES (00000000601, 'Ford Grill', 'G781-94PQ', 'Ford', Fiesta', '2017', 109.99, 6, 3)
