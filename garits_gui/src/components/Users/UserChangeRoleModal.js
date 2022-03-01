@@ -7,7 +7,7 @@ const UserChangeRoleModal = (props) => {
       size="lg"
       show={props.show}
       onHide={props.onClose}
-      aria-labelledby="example-modal-sizes-title-lg"
+      backdrop="static"
     >
       <Modal.Header closeButton>
         <Modal.Title>Change role</Modal.Title>
@@ -16,7 +16,7 @@ const UserChangeRoleModal = (props) => {
         <UserChangeRoleForm roleFrom={props.roleFrom}/>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onClose}>
+        <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
         <Button variant="primary" onClick={props.onClose}>Change</Button>

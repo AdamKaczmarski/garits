@@ -7,6 +7,7 @@ import Inventory from "./pages/Inventory";
 import Jobs from "./pages/Jobs";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
+import Customers from "./pages/Customers";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="inventory" element={<Inventory />} />
         <Route path="jobs" element={<Jobs />} />
         <Route path="users" element={<Users />} />
+        <Route path="customers" element={<Customers />} />
         <Route
           path="*"
           element={

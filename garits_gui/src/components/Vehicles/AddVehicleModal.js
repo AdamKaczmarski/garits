@@ -1,15 +1,14 @@
 import Modal from "react-bootstrap/Modal";
-import AddUserForm from "./AddUserForm";
+import AddVehicleForm from "./AddVehicleForm";
 import Button from "react-bootstrap/Button";
-const AddUserModal = (props) => {
-  //const [lgShow, setLgShow] = useState(false);
+const AddVehicleModal = (props) => {
   return (
     <Modal size="lg" show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Add user</Modal.Title>
+        <Modal.Title>Add vehicle</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddUserForm />
+        <AddVehicleForm />
       </Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={props.onClose}>
@@ -23,4 +22,4 @@ const AddUserModal = (props) => {
   );
 };
 
-export default AddUserModal;
+export default AddVehicleModal;

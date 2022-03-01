@@ -27,7 +27,7 @@ const UserTable = () => {
               className="justify-content-between  "
             >
               Action{" "}
-              <Button variant="primary" onClick={handleShow}>
+              <Button variant="outline-primary" onClick={handleShow}>
                 +
               </Button>
             </th>

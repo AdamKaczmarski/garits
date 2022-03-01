@@ -26,7 +26,7 @@ const User = (props) => {
               )}
 
               {props.user.role === "ADMIN" ? null : (
-                <Dropdown.Item href="#/action-3">Delete</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}href="#/action-3">Delete</Dropdown.Item>
               )}
             </Dropdown.Menu>
           </Dropdown>
