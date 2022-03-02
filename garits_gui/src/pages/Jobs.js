@@ -1,7 +1,7 @@
-import AddUserForm from "../components/Users/AddUserForm";
+import JobsTable from "../components/Jobs/JobsTable";
 
 const Jobs = (props) => {
-  return <AddUserForm />;
+  return <JobsTable />;
 };
 
 export default Jobs;

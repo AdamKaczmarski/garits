@@ -153,6 +153,7 @@ CREATE TABLE Jobs (
     create_date timestamp NOT NULL,
     booking_date datetime NULL,
     fix_date datetime NULL,
+	bay varchar(30) NULL,
     PRIMARY KEY (id_job),
     UNIQUE INDEX (id_job)
 );
