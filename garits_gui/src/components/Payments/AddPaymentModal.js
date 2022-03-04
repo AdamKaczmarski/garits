@@ -1,20 +1,12 @@
 import Modal from "react-bootstrap/Modal";
-import AddCustomerForm from "./AddCustomerForm";
 import Button from "react-bootstrap/Button";
 const AddCustomerModal = (props) => {
   return (
-    <Modal
-      size="lg"
-      show={props.show}
-      onHide={props.onClose}
-      backdrop="static"
-    >
+    <Modal size="lg" show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>Add customer</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <AddCustomerForm />
-      </Modal.Body>
+      <Modal.Body>{props.form}</Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={props.onClose}>
           Close

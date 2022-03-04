@@ -31,6 +31,9 @@ const NavigationBar = () => {
             <Nav.Link as={Link} to="inventory">
               Inventory
             </Nav.Link>
+            <Nav.Link as={Link} to="payments">
+              Payments
+            </Nav.Link>
             <Nav.Link as={Link} to="services">
               Services
             </Nav.Link>
