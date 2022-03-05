@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form";
 
-const STATUSES = ["ordered", "completed"];
+const STATUSES = ["ordered", "completed","cancelled"];
 
 const ChangeOrderStatusForm = (props) => {
   const options = STATUSES.filter(status=>status!==props.status).map((status, index) => (

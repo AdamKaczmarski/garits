@@ -108,9 +108,15 @@ DELETE FROM
     orders
 where
     status = 'CANCELLED';
-
 -- Report 1 (Job Sheet)
--- SELECT c.name,c.address,c.city,c.postcode
+SELECT j.id_job AS 'Job No',j.reg_no_id AS 'Vehicle registration',j.booking_date AS 'Date Booked',v.manufacturer AS 'Make',v.model AS 'Model',c.name AS 'Customer name',c.telephone_number AS 'Customer Tel' ,j.description_required AS 'Description of work required', j.est_time_min AS 'Estimated Time',j.description_done AS 'Descprtion of work carried out',j.act_time_min AS 'Actual time',group_concat(CONCAT(p.part_name,'  ',p.code,'  ',jp.quantity_used) SEPARATOR ',') AS 'Spare parts used'
+FROM customers c
+INNER JOIN jobs_customers jc ON c.id_customer=jc.customer_id
+INNER JOIN jobs j ON j.id_job=jc.job_id
+INNER JOIN vehicles v ON j.reg_no_id=v.id_reg_no
+INNER JOIN jobs_parts jp ON j.id_job=jp.job_id
+INNER JOIN parts p ON p.id_part=jp.part_id
+WHERE id_job=2;
 -- Report 2 (Spare Parts / Stock Level)
 SELECT
     p.part_name AS 'Part Name',
@@ -155,12 +161,5 @@ WHERE
     o.order_arrival = CURDATE()
     AND j.fix_date = CURDATE()
     AND o.status='completed'
-    AND j.status='completed';
-
-select * from parts_orders;
-/*select * from jobs;
-INSERT INTO orders (status,description,order_date,order_arrival,order_amount) VALUES('completed','test','2022-03-02','2022-03-05',100);
-insert into parts_orders (part_id,order_id,quantity_ordered) VALUES(1,1,3);
-insert into jobs(reg_no_id,status, est_time_min,act_time_min,fix_date,create_date) VALUES('123','completed',123,321,'2022-03-05',curdate());
-insert into jobs_parts (part_id,job_id,quantity_used) values(1,2,2);
-insert into vehicles (id_reg_no,manufacturer,model,engine_serial_number,chassis_number, colour,last_mot) VALUES('123','Hyundai','Tucson','654324','532532','red','2022-03-01');*/
+    AND j.status='completed'
+    ORDER BY 'Initial cost, £' DESC;
