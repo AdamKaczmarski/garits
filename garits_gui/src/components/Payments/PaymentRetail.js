@@ -12,11 +12,11 @@ const PaymentRetail = (props) => {
       <td>{props.paymentRetail.id_sale}</td>
       <td>{props.paymentRetail.sale_date}</td>
       <td>{props.paymentRetail.part_name}</td>
+      <td>{props.paymentRetail.quantity_sold}</td>{" "}
       <td>
         {(Math.round(props.paymentRetail.price * 100) / 100).toFixed(2) +
           " GBP"}
       </td>
-      <td>{props.paymentRetail.quantity_sold}</td>
       <td>
         {(
           Math.round(

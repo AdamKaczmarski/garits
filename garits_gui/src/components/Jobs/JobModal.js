@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
-const InventoryModal = (props) => {
+const JobModal = (props) => {
+  //const [lgShow, setLgShow] = useState(false);
   return (
     <Modal size="lg" show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
@@ -15,11 +15,11 @@ const InventoryModal = (props) => {
           Close
         </Button>
         <Button variant="primary" onClick={props.onClose}>
-          Submit
+          Add
         </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default InventoryModal;
+export default JobModal;

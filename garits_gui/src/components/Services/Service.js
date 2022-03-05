@@ -17,8 +17,8 @@ const Service = (props) => {
         <td>{(Math.round(props.service.service_price * 100) / 100).toFixed(2) + " GBP"}</td>
         <td>{props.service.approx_time_min + " min"}</td>
         <td>
-          {props.service.short_description.length > 70
-            ? props.service.short_description.substring(0, 67) + "..."
+          {props.service.short_description.length > 100
+            ? props.service.short_description.substring(0, 97) + "..."
             : props.service.short_description}
         </td>
         <td>

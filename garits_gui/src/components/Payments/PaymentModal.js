@@ -12,7 +12,7 @@ const PaymentModal = (props) => {
           Close
         </Button>
         <Button variant="primary" onClick={props.onClose}>
-          Add
+          Submit
         </Button>
       </Modal.Footer>
     </Modal>

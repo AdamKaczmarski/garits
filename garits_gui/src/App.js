@@ -16,7 +16,7 @@ import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
-    <Container className="d-flex min-vh-100 flex-column">
+    <Container className="d-flex min-vh-100 flex-column" style={{"maxWidth":'90%'}}>
       <NavigationBar />
       <Routes>
         <Route path="/" element={<Home />} />

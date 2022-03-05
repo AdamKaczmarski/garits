@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 
 import PaymentRetail from "./PaymentRetail";
 import { PAYMENTS_RETAIL } from "../../dummy-data/payments";
+import AddRetailPaymentForm from "./AddRetailPaymentForm";
+import PaymentModal from "./PaymentModal";
 
 const PaymentsRetailTable = () => {
   const [show, setShow] = useState(false);
@@ -34,6 +36,7 @@ const PaymentsRetailTable = () => {
         </thead>
         <tbody>{paymentsRetail}</tbody>
       </Table>
+      <PaymentModal show={show} onClose={handleShow} title="Add payment" form={<AddRetailPaymentForm />} />
     </>
   );
 };

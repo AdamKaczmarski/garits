@@ -1,7 +1,10 @@
-export const jobs = [
+export const JOBS = [
   {
     id_job: 1,
     car_id: 1,
+    customerName: "Customer 1",
+    car: "Opel Corsa",
+    reg_no_id: "AAAA 123",
     status: "active",
     description_done:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur rhoncus augue vel ultricies varius. Vivamus ipsum lacus, lacinia non orci ac, gravida elementum elit. Sed aliquet enim vel augue mollis, et bibendum lacus posuere. Phasellus pretium urna et urna pretium venenatis. Nulla nec enim eu purus sollicitudin dictum. Phasellus aliquam turpis sodales elit auctor euismod. Morbi gravida dapibus risus, vel porta nibh mattis id.",
@@ -13,11 +16,15 @@ export const jobs = [
     booking_date: "03-03-2022",
     fix_date: null,
     bay: "MOT",
-    assignedUserID: 2,
+    assignedUser: 'Tom Tomchevsky',
   },
   {
     id_job: 2,
     car_id: 2,
+    car: "Opel Mokka",
+    reg_no_id: "AAAB 123",
+    customerName: "Customer 1",
+
     status: "completed",
     description_done:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur rhoncus augue vel ultricies varius. Vivamus ipsum lacus, lacinia non orci ac, gravida elementum elit. Sed aliquet enim vel augue mollis, et bibendum lacus posuere. Phasellus pretium urna et urna pretium venenatis. Nulla nec enim eu purus sollicitudin dictum. Phasellus aliquam turpis sodales elit auctor euismod. Morbi gravida dapibus risus, vel porta nibh mattis id.",
@@ -29,11 +36,15 @@ export const jobs = [
     booking_date: "03-03-2022",
     fix_date: "04-02-2022",
     bay: "repair",
-    assignedUser: 2,
+    assignedUser: 'Tom Tomchevsky',
   },
   {
     id_job: 3,
     car_id: 3,
+    car: "Opel Vectra",
+    customerName: "Customer 2",
+
+    reg_no_id: "AAAC 123",
     status: "completed",
     description_done:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur rhoncus augue vel ultricies varius. Vivamus ipsum lacus, lacinia non orci ac, gravida elementum elit. Sed aliquet enim vel augue mollis, et bibendum lacus posuere. Phasellus pretium urna et urna pretium venenatis. Nulla nec enim eu purus sollicitudin dictum. Phasellus aliquam turpis sodales elit auctor euismod. Morbi gravida dapibus risus, vel porta nibh mattis id.",
@@ -45,11 +56,15 @@ export const jobs = [
     booking_date: "03-03-2022",
     fix_date: "04-02-2022",
     bay: "MOT",
-    assignedUser: 2,
+    assignedUser: 'Tom Tomchevsky',
   },
   {
     id_job: 4,
     car_id: 4,
+    car: "Opel Insignia",
+    customerName: "Customer 2",
+
+    reg_no_id: "AAAD 123",
     status: "booked",
     description_done:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur rhoncus augue vel ultricies varius. Vivamus ipsum lacus, lacinia non orci ac, gravida elementum elit. Sed aliquet enim vel augue mollis, et bibendum lacus posuere. Phasellus pretium urna et urna pretium venenatis. Nulla nec enim eu purus sollicitudin dictum. Phasellus aliquam turpis sodales elit auctor euismod. Morbi gravida dapibus risus, vel porta nibh mattis id.",
@@ -60,7 +75,7 @@ export const jobs = [
     created_date: "28-02-2021",
     booking_date: "20-03-2022",
     fix_date: "null",
-    bay: "repair",
-    assignedUser: 2,
+    bay: null,
+    assignedUser: 'Tom Tomchevsky',
   },
 ];

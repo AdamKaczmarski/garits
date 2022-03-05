@@ -6,13 +6,13 @@ const JobsTabs = () => {
   return (
     <Tabs defaultActiveKey="active" fill>
       <Tab eventKey="booked" title="Booked">
-        <JobsTable />
+        <JobsTable jobType="booked"/>
       </Tab>
       <Tab eventKey="active" title="Active">
-        <JobsTable />
+        <JobsTable jobType="active"/>
       </Tab>
       <Tab eventKey="completed" title="Completed">
-        <JobsTable />
+        <JobsTable jobType="completed"/>
       </Tab>
     </Tabs>
   );

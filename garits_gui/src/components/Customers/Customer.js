@@ -1,10 +1,15 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
-import CustomerDetailsModal from "./CustomerDetailsModal";
+import CustomerModal from "./CustomerModal";
+import CustomerDetailsTabs from "./CustomerDetailsTabs";
+import EditCustomer from "./EditCustomer";
+
 const Customer = (props) => {
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show);
+  const [showDetails, setShowDetails] = useState(false);
+  const handleShowDetails = () => setShowDetails(!showDetails);
+  const [showEdit, setShowEdit] = useState(false);
+  const handleShowEdit = () => setShowEdit(!showEdit);
 
   return (
     <tr>
@@ -17,7 +22,7 @@ const Customer = (props) => {
 
           <Dropdown.Menu>
             <Dropdown.Item>Generate monthly report</Dropdown.Item>
-            <Dropdown.Item>Edit</Dropdown.Item>
+            <Dropdown.Item onClick={handleShowEdit}>Edit</Dropdown.Item>
             <Dropdown.Item
               style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
               href="#/action-3"
@@ -26,15 +31,18 @@ const Customer = (props) => {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>{" "}
-        <Button variant="info" onClick={handleShow}>
+        <Button variant="info" onClick={handleShowDetails}>
           Details
         </Button>
       </td>
-      <CustomerDetailsModal
-        customer={props.customer}
-        show={show}
-        onClose={handleShow}
+      <CustomerModal
+        title={props.customer.name}
+        show={showDetails}
+        onClose={handleShowDetails}
+        form={<CustomerDetailsTabs customer={props.customer} /* setIsReportsTab={setIsReportsTab} *//>
+      }
       />
+      <CustomerModal title={"Edit "+props.customer.name} show={showEdit} onClose={handleShowEdit} form={<EditCustomer customer={props.customer} />}/>
     </tr>
   );
 };

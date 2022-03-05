@@ -43,9 +43,6 @@ const CustomerDetailsContent = (props) => {
         {props.customer.fax === null ? "N/A" : props.customer.fax}
       </ListGroup.Item>
       <ListGroup.Item>
-        <BoldSpan>Email</BoldSpan>: {props.customer.email}
-      </ListGroup.Item>
-      <ListGroup.Item>
         <BoldSpan>Fixed discount</BoldSpan>: {props.customer.fixed_discount}
       </ListGroup.Item>
       <ListGroup.Item>
