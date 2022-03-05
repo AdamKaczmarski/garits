@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import PaymentJob from "./PaymentJob";
 
 import { PAYMENTS_JOBS } from "../../dummy-data/payments";
+import PaymentModal from "./PaymentModal";
+import AddJobPaymentForm from './AddJobPaymentForm';
 const PaymentsTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
@@ -22,10 +24,8 @@ const PaymentsTable = () => {
             <th>Payment Date</th>
             <th>Payment Due</th>
             <th
-              style={{ display: "flex" }}
-              className="justify-content-between  "
             >
-              Action{" "}
+              <span>Actions</span></th><th>
               <Button variant="outline-primary" onClick={handleShow}>
                 +
               </Button>
@@ -34,6 +34,7 @@ const PaymentsTable = () => {
         </thead>
         <tbody>{paymentsJobs}</tbody>
       </Table>
+      <PaymentModal show={show} onClose={handleShow} title="Add job payment" form={<AddJobPaymentForm />} />
     </>
   );
 };

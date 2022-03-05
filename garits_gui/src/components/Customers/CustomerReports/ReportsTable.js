@@ -3,7 +3,7 @@ import Report from "./Report";
 import { REPORTS } from "../../../dummy-data/reports";
 
 const ReportTable = (props) => {
-  const reports = REPORTS.filter(report=>report.customer_id===props.customer_id).map((report) => <Report report={report} />);
+  const reports = REPORTS.filter(report=>report.customer_id===props.customer_id).map((report) => <Report key={report.id} report={report} />);
   return (
     <Table hover striped>
       <thead>

@@ -8,7 +8,7 @@ import ServiceModal from "./ServiceModal";
 const ServicesTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const services = SERVICES.map((service) => <Service service={service} />);
+  const services = SERVICES.map((service) => <Service key={service.id} service={service} />);
   return (
     <>
       <Table striped hover className="mt-3">

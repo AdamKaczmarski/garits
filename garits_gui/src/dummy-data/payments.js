@@ -45,9 +45,21 @@ export const PAYMENTS_JOBS = [
 
 export const PAYMENTS_RETAIL = [
   {
-    id: 1,
+    id_sale: 1,
     sale_date: "02-03-2022",
+    payment_type: "cash",
     quantity_sold: 5,
     id_part: 1,
+    part_name: "Airtex Water Block",
+    price: 36.0,
+  },
+  {
+    id_sale: 2,
+    sale_date: "04-03-2022",
+    part_id: 2,
+    quantity_sold: 3,
+    part_name: "Ford Grill",
+    price: 109.99,
+    payment_type: "card",
   },
 ];

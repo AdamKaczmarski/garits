@@ -1,3 +1,5 @@
+import { Button } from "react-bootstrap";
+
 const Report = (props) => {
   return (
     <tr>
@@ -8,7 +10,7 @@ const Report = (props) => {
           props.report.type.slice(1).toLowerCase()}
       </td>
       <td>
-        <a href="#">Download</a>
+        <Button variant="secondary" onClick={()=>{}}>Download</Button>
       </td>
     </tr>
   );

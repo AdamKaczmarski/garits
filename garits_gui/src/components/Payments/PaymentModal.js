@@ -1,10 +1,10 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-const AddCustomerModal = (props) => {
+const PaymentModal = (props) => {
   return (
     <Modal size="lg" show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Add customer</Modal.Title>
+        <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{props.form}</Modal.Body>
       <Modal.Footer>
@@ -19,4 +19,4 @@ const AddCustomerModal = (props) => {
   );
 };
 
-export default AddCustomerModal;
+export default PaymentModal;

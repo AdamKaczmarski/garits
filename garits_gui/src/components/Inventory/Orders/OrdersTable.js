@@ -1,16 +1,11 @@
 import { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import InventoryModal from "../InventoryModal";
 
-import PaymentRetail from "./PaymentRetail";
-import { PAYMENTS_RETAIL } from "../../dummy-data/payments";
-
-const PaymentsRetailTable = () => {
+const OrdersTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const paymentsRetail = PAYMENTS_RETAIL.map((paymentRetail) => (
-    <PaymentRetail key={paymentRetail.id_sale} paymentRetail={paymentRetail} />
-  ));
   return (
     <>
       <Table striped hover className="mt-3">
@@ -23,7 +18,7 @@ const PaymentsRetailTable = () => {
             <th>Part Price</th>
             <th>Total amount</th>
             <th>
-              <span>Actions</span>
+              <span className="pr-3">Actions</span>
             </th>
             <th>
               <Button variant="outline-primary" onClick={handleShow}>
@@ -32,10 +27,16 @@ const PaymentsRetailTable = () => {
             </th>
           </tr>
         </thead>
-        <tbody>{paymentsRetail}</tbody>
+        <tbody>{}</tbody>
       </Table>
+      <InventoryModal
+        show={show}
+        onClose={handleShow}
+        title="Add order"
+        form={null}
+      />
     </>
   );
 };
 
-export default PaymentsRetailTable;
+export default OrdersTable;
