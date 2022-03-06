@@ -13,8 +13,13 @@ import Payments from "./pages/Payments";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
-
+import {useState} from 'react'
+import NotificationModalPayments from "./components/Notifications/NotificationModalPayments";
+import NotificationModalStock from "./components/Notifications/NotificationModalStock";
 const App = () => {
+  const [show, setShow] = useState(true);
+  const handleShow = () => setShow(!show);
+
   return (
     <Container className="d-flex min-vh-100 flex-column" style={{"maxWidth":'90%'}}>
       <NavigationBar />
@@ -37,6 +42,7 @@ const App = () => {
         />
       </Routes>
       <Footer />
+      <NotificationModalStock show={show} onClose={handleShow} />
     </Container>
   );
 };

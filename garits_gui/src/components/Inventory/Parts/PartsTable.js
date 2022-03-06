@@ -3,14 +3,14 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import InventoryModal from "../InventoryModal";
 
-import {INVENTORY} from '../../../dummy-data/inventory';
+import { INVENTORY } from "../../../dummy-data/inventory";
 import Part from "./Part";
 import AddToInventoryForm from "../AddToInventoryForm";
 
 const PartsTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const parts = INVENTORY.map(part=><Part key={part.id} part={part}  />)
+  const parts = INVENTORY.map((part) => <Part key={part.id} part={part} />);
   return (
     <>
       <Table striped hover className="mt-3">
@@ -25,10 +25,12 @@ const PartsTable = () => {
             <th>Price</th>
             <th>Stock level</th>
             <th
-              /* style={{ display: "flex" }}
+            /* style={{ display: "flex" }}
               className="justify-content-between  " */
             >
-              <span className="pr-3">Actions</span></th><th>
+              <span className="pr-3">Actions</span>
+            </th>
+            <th>
               <Button variant="outline-primary" onClick={handleShow}>
                 +
               </Button>
@@ -37,7 +39,12 @@ const PartsTable = () => {
         </thead>
         <tbody>{parts}</tbody>
       </Table>
-      <InventoryModal show={show} onClose={handleShow} title="Add part" form={<AddToInventoryForm />} />
+      <InventoryModal
+        show={show}
+        onClose={handleShow}
+        title="Add part"
+        form={<AddToInventoryForm />}
+      />
     </>
   );
 };

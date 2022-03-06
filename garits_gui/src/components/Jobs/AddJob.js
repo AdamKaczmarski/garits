@@ -1,8 +1,8 @@
 import Form from "react-bootstrap/Form";
 import Button from'react-bootstrap/Button';
-import { CUSTOMERS } from "../../dummy-data/customers";
-import { VEHICLES } from "../../dummy-data/vehicles";
-import {SERVICES} from '../../dummy-data/services';
+import { CUSTOMERS } from "../dummy-data/customers";
+import { VEHICLES } from "../dummy-data/vehicles";
+import {SERVICES} from '../dummy-data/services';
 const AddJob = () => {
   const customerNames = CUSTOMERS.map((customer) => (
     <option key={customer.id} value={customer.id}>

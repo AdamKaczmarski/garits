@@ -29,14 +29,14 @@ const Job = (props) => {
         {props.jobType === "active" || props.jobType === "completed" ? (
           <td>{props.job.assignedUser}</td>
         ) : null}
-        {props.jobType === "active" || props.jobType === "completed" ? (
+        { props.jobType === "completed" ? (
           <td>
             {props.job.description_done.length > 70
               ? props.job.description_done.substring(0, 67) + "..."
               : props.job.description_done}
           </td>
         ) : null}
-        {props.jobType === "active" || props.jobType === "completed" ? (
+        { props.jobType === "completed" ? (
           <td>{props.job.act_time_min + " mins"}</td>
         ) : null}
         {props.jobType === "booked" ? (
@@ -49,6 +49,9 @@ const Job = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
+              {props.jobType==='completed'?<Dropdown.Item>Download report</Dropdown.Item>:null}
+              {props.jobType==='active'?<Dropdown.Item>Set completed</Dropdown.Item>:null}
+              {props.jobType==='booked'?<Dropdown.Item>Assign mechanic</Dropdown.Item>:null}
               <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}

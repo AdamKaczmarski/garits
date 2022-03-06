@@ -141,10 +141,10 @@ SELECT
     p.stock_level_threshold AS 'Low level Threshold'
 FROM
     parts p
-    LEFT JOIN parts_orders po ON po.part_id = p.id_part
-    LEFT JOIN orders o ON o.id_order = po.order_id
-     LEFT JOIN jobs_parts jp ON p.id_part = jp.part_id
-     LEFT JOIN jobs j ON j.id_job = jp.job_id
+    INNER JOIN parts_orders po ON po.part_id = p.id_part
+    INNER JOIN orders o ON o.id_order = po.order_id
+    INNER JOIN jobs_parts jp ON p.id_part = jp.part_id
+    INNER JOIN jobs j ON j.id_job = jp.job_id
 WHERE
     o.order_arrival = CURDATE()
     AND j.fix_date = CURDATE()
@@ -153,10 +153,10 @@ WHERE
 UNION
 SELECT 'Total','','','','','','',SUM(p.price*p.stock_level),'','','',ROUND((p.stock_level + po.quantity_ordered - jp.quantity_used) * p.price,2),''
 FROM parts p
-    LEFT JOIN parts_orders po ON po.part_id = p.id_part
-    LEFT JOIN orders o ON o.id_order = po.order_id
-     LEFT JOIN jobs_parts jp ON p.id_part = jp.part_id
-     LEFT JOIN jobs j ON j.id_job = jp.job_id
+    INNER JOIN parts_orders po ON po.part_id = p.id_part
+    INNER JOIN orders o ON o.id_order = po.order_id
+    INNER JOIN jobs_parts jp ON p.id_part = jp.part_id
+    INNER JOIN jobs j ON j.id_job = jp.job_id
 WHERE
     o.order_arrival = CURDATE()
     AND j.fix_date = CURDATE()

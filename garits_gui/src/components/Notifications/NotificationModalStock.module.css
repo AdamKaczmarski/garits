@@ -1,0 +1,5 @@
+.modal70w{
+    min-width: 60vw    /* Occupy the 90% of the screen width */;
+    width: 60vw    /* Occupy the 90% of the screen width */;
+    max-width: 60vw;
+}

@@ -29,10 +29,10 @@ const JobsTable = (props) => {
             {props.jobType === "active" || props.jobType === "completed" ? (
               <th>Assignee</th>
             ) : null}
-            {props.jobType === "active" || props.jobType === "completed" ? (
+            { props.jobType === "completed" ? (
               <th>Desc. Done</th>
             ) : null}
-            {props.jobType === "active" || props.jobType === "completed" ? (
+            {props.jobType === "completed" ? (
               <th>Actual time</th>
             ) : null}
             {props.jobType === "booked" ? <th>Created date</th> : null}
