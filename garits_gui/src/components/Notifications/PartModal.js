@@ -1,4 +1,3 @@
-import Dropdown from "react-bootstrap/Dropdown";
 const PartModal = (props) => {
   return (
     <>
