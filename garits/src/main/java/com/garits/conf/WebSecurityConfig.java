@@ -1,4 +1,3 @@
-/*
 package com.garits.conf;
 
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception{
-        http
+       /* http
                 .authorizeRequests()
                     .antMatchers(HttpMethod.GET,"/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
                     .permitAll().anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").permitAll()
                 .and()
-                    .logout().permitAll();
-    }
+                    .logout().permitAll();*/
+        http.csrf().disable().authorizeRequests().anyRequest().permitAll();}
 }
-*/

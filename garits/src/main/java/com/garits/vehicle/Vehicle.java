@@ -9,6 +9,8 @@ public class Vehicle {
     //FIELDS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_vehicle")
+    private Integer idVehicle;
     @Column(name = "id_reg_no")
     private String idRegNo;
     @Column(name="manufacturer")
@@ -25,6 +27,10 @@ public class Vehicle {
     private Date lastMot;
 
     //GETTERS AND SETTERS
+    public Integer getIdVehicle() {
+        return idVehicle;
+    }
+
     public String getIdRegNo() {
         return idRegNo;
     }

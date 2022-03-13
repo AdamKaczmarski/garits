@@ -177,15 +177,16 @@ CREATE TABLE `Parts` (
 );
 
 CREATE TABLE `Vehicles` (
-    `id_reg_no` varchar(10) NOT NULL,
+    `id_vehicle` int NOT NULL AUTO_INCREMENT,
+    `id_reg_no` varchar(10) NOT NULL UNIQUE,
     `manufacturer` varchar(20) NOT NULL,
     `model` varchar(50) NOT NULL,
     `engine_serial_number` varchar(9) NOT NULL UNIQUE,
     `chassis_number` varchar(8) NOT NULL UNIQUE,
     `colour` varchar(15) NOT NULL,
     `last_mot` date NOT NULL,
-    PRIMARY KEY (`id_reg_no`),
-    UNIQUE INDEX (`id_reg_no`)
+    PRIMARY KEY (`id_vehicle`),
+    UNIQUE INDEX (`id_vehicle`)
 );
 
 CREATE TABLE `Jobs_Customers` (

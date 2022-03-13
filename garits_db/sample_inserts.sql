@@ -55,5 +55,5 @@ insert into vehicles (id_reg_no,manufacturer,model,engine_serial_number,chassis_
 insert into customers (name,city,address,postcode,telephone_number,email) values('tom','london','street','123ewq',8237492,'test@test.com');
 insert into jobs_customers values(2,1);
 insert into parts_orders (part_id,order_id,quantity_ordered) VALUES(1,1,3);
-
 insert into jobs_parts (part_id,job_id,quantity_used) values(1,2,2);
+insert into customers_vehicles (customer_id,reg_no_id) values(1,'123');
