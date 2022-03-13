@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Profile("!https")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
-    protected void configure(final HttpSecurity http) throws Exception{
+    protected void configure(final HttpSecurity http) throws Exception {
        /* http
                 .authorizeRequests()
                     .antMatchers(HttpMethod.GET,"/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
@@ -21,5 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin().loginPage("/login").permitAll()
                 .and()
                     .logout().permitAll();*/
-        http.csrf().disable().authorizeRequests().anyRequest().permitAll();}
+        http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+    }
 }

@@ -9,21 +9,21 @@ public class Vehicle {
     //FIELDS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_vehicle")
+    @Column(name = "id_vehicle")
     private Integer idVehicle;
     @Column(name = "id_reg_no")
     private String idRegNo;
-    @Column(name="manufacturer")
+    @Column(name = "manufacturer")
     private String manufacturer;
-    @Column(name="model")
+    @Column(name = "model")
     private String model;
-    @Column(name="engine_serial_number")
+    @Column(name = "engine_serial_number")
     private String engingeSerialNumber;
-    @Column(name="chassis_number")
+    @Column(name = "chassis_number")
     private String chassisNumber;
-    @Column(name="colour")
+    @Column(name = "colour")
     private String colour;
-    @Column(name="last_mot")
+    @Column(name = "last_mot")
     private Date lastMot;
 
     //GETTERS AND SETTERS

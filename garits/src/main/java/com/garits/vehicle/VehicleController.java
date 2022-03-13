@@ -13,7 +13,6 @@ public class VehicleController {
     //GET MAPPINGS
 
     /**
-     * 
      * @param customerId
      * @return
      */
@@ -25,7 +24,6 @@ public class VehicleController {
     //POST MAPPINGS
 
     /**
-     *
      * @param customerId
      * @param newVehicle
      */
@@ -38,7 +36,6 @@ public class VehicleController {
     //PUT MAPPINGS
 
     /**
-     *
      * @param idRegNo
      * @param editedVehicle
      * @return
@@ -52,6 +49,7 @@ public class VehicleController {
             v.setEngingeSerialNumber(editedVehicle.getEngingeSerialNumber());
         if (editedVehicle.getChassisNumber() != null) v.setChassisNumber(editedVehicle.getChassisNumber());
         if (editedVehicle.getColour() != null) v.setColour(editedVehicle.getColour());
+        if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
         return vehicleRepository.save(v);
 
     }
@@ -59,7 +57,6 @@ public class VehicleController {
     //DELETE MAPPINGS
 
     /**
-     *
      * @param customerId
      * @param idRegNo
      */
