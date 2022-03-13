@@ -1,3 +1,6 @@
+DROP DATABASE IF EXISTS garits;
+CREATE DATABASE garits CHARACTER SET utf8;
+USE garits;
 CREATE TABLE `Users` (
     `id_user` int NOT NULL AUTO_INCREMENT,
     `email` varchar(100) NOT NULL UNIQUE,
