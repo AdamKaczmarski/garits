@@ -82,7 +82,7 @@ public class User {
         this.roles = roles;
     }
 
-    public void changeRole(Role newRole){
+    public void changeRole(Role newRole) {
         this.roles.clear();
         this.roles.add(newRole);
     }

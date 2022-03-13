@@ -11,6 +11,7 @@ public class UserController {
     private UserRepository userRepository;
 
     // GET MAPPINGS
+
     /**
      * This method returns all users in the system.
      *
@@ -24,6 +25,7 @@ public class UserController {
 
     /**
      * Get single user
+     *
      * @param id - user's id
      * @return User object
      */
@@ -32,6 +34,7 @@ public class UserController {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
     //POST MAPPINGS
+
     /**
      * Add new user mapping.
      *
@@ -44,8 +47,10 @@ public class UserController {
     }
 
     //PUT MAPPINGS
+
     /**
      * Change user's role
+     *
      * @return
      */
     @PutMapping("/user/{id}/role")
@@ -55,13 +60,15 @@ public class UserController {
             return userRepository.save(user);
         }).orElseThrow(() -> new UserNotFoundException(id));
     }
+
     /**
      * EDIT USER
+     *
      * @param id - Edited user's id
      */
     @PutMapping("/user/{id}")
-    User editUser(@RequestBody User editedUser, @PathVariable Integer id){
-        return userRepository.findById(id).map(user->{
+    User editUser(@RequestBody User editedUser, @PathVariable Integer id) {
+        return userRepository.findById(id).map(user -> {
             user.setEmail(editedUser.getEmail());
             user.setFirstName(editedUser.getFirstName());
             user.setLastName(editedUser.getLastName());
@@ -72,6 +79,7 @@ public class UserController {
 
     /**
      * Deletes the user
+     *
      * @param id - user ID
      */
     @DeleteMapping("/users/{id}")

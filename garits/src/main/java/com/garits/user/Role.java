@@ -6,9 +6,11 @@ import javax.persistence.*;
 @Table(name = "roles")
 public class Role {
     // CONSTRUCTORS
-    public Role(){}
-    public Role(String roleName){
-        this.roleName=roleName;
+    public Role() {
+    }
+
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
 
     public Role(Integer idRole) {
@@ -19,6 +21,7 @@ public class Role {
         this.idRole = idRole;
         this.roleName = roleName;
     }
+
     //FIELDS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,7 @@ public class Role {
 
     @Column(name = "role_name")
     private String roleName;
+
     //GETTERS AND SETTERS
     public Integer getIdRole() {
         return idRole;

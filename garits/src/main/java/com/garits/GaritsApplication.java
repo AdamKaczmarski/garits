@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class GaritsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GaritsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GaritsApplication.class, args);
+    }
 }
