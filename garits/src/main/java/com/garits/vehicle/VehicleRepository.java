@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-public interface VehicleRepository extends CrudRepository<Vehicle, String> {
+public interface VehicleRepository extends CrudRepository<Vehicle, Integer> {
     @Query(value = "SELECT * from vehicles v INNER JOIN customers_vehicles cv ON cv.reg_no_id = v.id_reg_no WHERE customer_id=:customerId", nativeQuery = true)
     Iterable<Vehicle> findAllCustomerVehicles(@Param("customerId") Integer customerId);
 
