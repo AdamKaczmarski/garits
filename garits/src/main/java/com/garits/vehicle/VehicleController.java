@@ -16,6 +16,7 @@ public class VehicleController {
      * @param customerId
      * @return
      */
+    // SECURE IT FOR NON EXISTENT CUSTOMERS. IF USER SEARCHES FOR CUSTOMER ID THAT DOESNT EXIST IT SHOULD RETURN ERROR
     @GetMapping("/vehicles/{customerId}")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
         return vehicleRepository.findAllCustomerVehicles(customerId);
