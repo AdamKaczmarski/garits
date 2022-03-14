@@ -31,7 +31,7 @@ public class UserController {
      */
     @GetMapping("/users/{id}")
     User one(@PathVariable Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        return userRepository.findById(id).orElseThrow(() -> new NotFound("Could not find user: " + id));
     }
     //POST MAPPINGS
 
@@ -46,19 +46,19 @@ public class UserController {
         return userRepository.save(newUser);
     }
 
-    //PUT MAPPINGS
+    //PATCH MAPPINGS
 
     /**
      * Change user's role
      *
      * @return
      */
-    @PutMapping("/user/{id}/role")
+    @PatchMapping("/user/{id}/role")
     User changeRole(@RequestBody Role newRole, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
-            user.changeRole(newRole);
+            if (newRole != null) user.changeRole(newRole);
             return userRepository.save(user);
-        }).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        }).orElseThrow(() -> new NotFound("Could not find user: " + id));
     }
 
     /**
@@ -73,7 +73,7 @@ public class UserController {
             user.setFirstName(editedUser.getFirstName());
             user.setLastName(editedUser.getLastName());
             return userRepository.save(user);
-        }).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        }).orElseThrow(() -> new NotFound("Could not find user: " + id));
     }
     //DELETE MAPPINGS
 
