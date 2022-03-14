@@ -19,13 +19,35 @@ public class PartController {
     Iterable<Part> allParts(){
         return partRepository.findAll();
     }
+
+    /**
+     *
+     * @param partId
+     * @return
+     */
     @GetMapping("/parts/{partId}")
     Part singlePart(@PathVariable Integer partId){
         return partRepository.findById(partId).orElseThrow(()-> new NotFound("Could not find part: "+partId));
     }
     //POST MAPPINGS
 
+    /**
+     *
+     * @param newPart
+     * @return
+     */
+    @PostMapping("/parts")
+    Part addPart(@RequestBody Part newPart){
+        return partRepository.save(newPart);
+    }
     //PATCH MAPPINGS
+
+    /**
+     *
+     * @param partId
+     * @param editedPart
+     * @return
+     */
     @PatchMapping("/parts/{partId}")
     Part updatePart(@PathVariable Integer partId,@RequestBody Part editedPart){
         return partRepository.findById(partId).map(p->{
@@ -42,6 +64,12 @@ public class PartController {
         }).orElseThrow(()->new NotFound("Could not find part: "+partId));
     }
     //DELETE MAPPINGS
+
+    /**
+     *
+     * @param partId
+     * @return
+     */
     @DeleteMapping("/parts/{partId}")
     String deletePart(@PathVariable Integer partId){
         partRepository.deleteById(partId);
