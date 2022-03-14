@@ -71,6 +71,7 @@ CREATE TABLE `Parts` (
 );
 
 CREATE TABLE `Vehicles` (
+    `id_vehicle` int NOT NULL AUTO_INCREMENT,
     `id_reg_no` varchar(10) NOT NULL,
     `manufacturer` varchar(20) NOT NULL,
     `model` varchar(50) NOT NULL,
@@ -78,8 +79,8 @@ CREATE TABLE `Vehicles` (
     `chassis_number` varchar(8) NOT NULL UNIQUE,
     `colour` varchar(15) NOT NULL,
     `last_mot` date NOT NULL,
-    PRIMARY KEY (`id_reg_no`),
-    UNIQUE INDEX (`id_reg_no`)
+    PRIMARY KEY (`id_vehicle`),
+    UNIQUE INDEX (`id_vehicle`)
 );
 
 CREATE TABLE `Jobs_Customers` (
