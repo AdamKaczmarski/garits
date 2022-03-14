@@ -15,6 +15,9 @@ const Vehicle = (props) => {
           <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
           <Dropdown.Menu>
+            <Dropdown.Item>
+              Edit
+            </Dropdown.Item>
             <Dropdown.Item style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}>
               Delete
             </Dropdown.Item>

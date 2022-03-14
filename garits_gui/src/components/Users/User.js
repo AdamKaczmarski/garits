@@ -20,6 +20,9 @@ const User = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
+              <Dropdown.Item>
+                Edit
+              </Dropdown.Item>
               <Dropdown.Item href="#/action-1">Reset password</Dropdown.Item>
               {props.user.role === "ADMIN" ? null : (
                 <Dropdown.Item onClick={handleShow}>Change role</Dropdown.Item>
