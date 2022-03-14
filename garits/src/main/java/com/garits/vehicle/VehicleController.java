@@ -46,8 +46,8 @@ public class VehicleController {
         Vehicle v = vehicleRepository.findVehicle(idRegNo);
         if (editedVehicle.getManufacturer() != null) v.setManufacturer(editedVehicle.getManufacturer());
         if (editedVehicle.getModel() != null) v.setModel(editedVehicle.getModel());
-        if (editedVehicle.getEngingeSerialNumber() != null)
-            v.setEngingeSerialNumber(editedVehicle.getEngingeSerialNumber());
+        if (editedVehicle.getEngineSerialNumber() != null)
+            v.setEngineSerialNumber(editedVehicle.getEngineSerialNumber());
         if (editedVehicle.getChassisNumber() != null) v.setChassisNumber(editedVehicle.getChassisNumber());
         if (editedVehicle.getColour() != null) v.setColour(editedVehicle.getColour());
         if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
