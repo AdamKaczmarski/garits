@@ -13,7 +13,7 @@ public class Service {
     @Column(name = "service_name")
     private String serviceName;
     @Column(name = "service_price")
-    private double serivcePrice;
+    private double servicePrice;
     @Column(name = "approx_time_min")
     private int approxTimeMin;
     
