@@ -33,14 +33,15 @@ public class VehicleController {
         vehicleRepository.addVehicleToCustomer(customerId, newVehicle.getIdRegNo());
     }
 
-    //PUT MAPPINGS
+    //PATCH MAPPINGS
 
     /**
+     * Updates the Vehicle object given that there's one in the database with the specified idRegNo
      * @param idRegNo
      * @param editedVehicle
      * @return
      */
-    @PutMapping("/vehicles/{idRegNo}")
+    @PatchMapping("/vehicles/{idRegNo}")
     Vehicle updateVehicle(@PathVariable String idRegNo, @RequestBody Vehicle editedVehicle) {
         Vehicle v = vehicleRepository.findVehicle(idRegNo);
         if (editedVehicle.getManufacturer() != null) v.setManufacturer(editedVehicle.getManufacturer());
