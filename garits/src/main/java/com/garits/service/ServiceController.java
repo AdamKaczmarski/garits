@@ -4,8 +4,9 @@ import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping(path = "/")
 public class ServiceController {
-
     @Autowired
     private ServiceRepository serviceRepository;
 
@@ -18,7 +19,7 @@ public class ServiceController {
          */
         @GetMapping("/services")
         public @ResponseBody
-        Iterable<Servicve> getAllServices() {
+        Iterable<Service> getAllServices() {
             return serviceRepository.findAll();
         }
 
@@ -50,14 +51,14 @@ public class ServiceController {
         /**
          * Change service's role
          *
-         * @return
          */
-        @PutMapping("/service/{id}/role")
-        Service changeRole(@RequestBody Role newRole, @PathVariable Integer id) {
-            return serviceRepository.findById(id).map(service -> {
-                service.changeRole(newRole);
-                return serviceRepository.save(service);
-            }).orElseThrow(() -> new NotFound("Could not find service: "+id));
+        @PutMapping("/services/{idService}")
+        Service updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
+                Service s = serviceRepository.findService(idService);
+                if (editedService.getServiceName() != null) s.setServiceName(editedService.getServiceName());
+                if (editedService.getServicePrice() >= 0.0) s.setServicePrice(editedService.getServicePrice());
+                if (editedService.getApproxTimeMin() > 0) s.setApproxTimeMin(editedService.getApproxTimeMin());
+            return serviceRepository.save(s);
         }
 
         /**
@@ -86,7 +87,8 @@ public class ServiceController {
             serviceRepository.deleteById(id);
         }
     }
-}
+
+
 
 
 
