@@ -49,32 +49,18 @@ public class ServiceController {
         //PUT MAPPINGS
 
         /**
-         * Change service's role
+         * Edit service
          *
          */
         @PutMapping("/services/{idService}")
         Service updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
-                Service s = serviceRepository.findService(idService);
+                Service s = serviceRepository.findById(idService).orElseThrow(()->new NotFound("Could not find the service: "+idService));
                 if (editedService.getServiceName() != null) s.setServiceName(editedService.getServiceName());
                 if (editedService.getServicePrice() >= 0.0) s.setServicePrice(editedService.getServicePrice());
                 if (editedService.getApproxTimeMin() > 0) s.setApproxTimeMin(editedService.getApproxTimeMin());
             return serviceRepository.save(s);
         }
 
-        /**
-         * EDIT SERVICE
-         *
-         * @param id - Edited services's id
-         */
-        @PutMapping("/service/{id}")
-        Service editService(@RequestBody Service editedService, @PathVariable Integer id) {
-            return serviceRepository.findById(id).map(service -> {
-                service.setServiceName(editedService.getServiceName());
-                service.setServicePrice(editedService.getServicePrice());
-                service.setServicePrice(editedService.getApproxTimeMin());
-                return serviceRepository.save(service);
-            }).orElseThrow(() -> new NotFound("Could not find service: "+id));
-        }
         //DELETE MAPPINGS
 
         /**
