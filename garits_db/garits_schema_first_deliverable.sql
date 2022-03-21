@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS garits;
 CREATE DATABASE garits CHARACTER SET utf8;
 USE garits;
+
+
 CREATE TABLE `Users` (
     `id_user` int NOT NULL AUTO_INCREMENT,
     `email` varchar(100) NOT NULL UNIQUE,
@@ -45,8 +47,8 @@ CREATE TABLE `Jobs` (
     `status` varchar(50) NOT NULL,
     `description_done` varchar(2000),
     `description_required` varchar(2000),
-    `est_time_min` int NOT NULL,
-    `act_time_min` int NOT NULL,
+    `est_time_min` int,
+    `act_time_min` int,
     `create_date` timestamp NOT NULL,
     `booking_date` date NULL,
     `fix_date` date NULL,
@@ -72,7 +74,7 @@ CREATE TABLE `Parts` (
 
 CREATE TABLE `Vehicles` (
     `id_vehicle` int NOT NULL AUTO_INCREMENT,
-    `id_reg_no` varchar(10) NOT NULL,
+    `id_reg_no` varchar(10) NOT NULL UNIQUE,
     `manufacturer` varchar(20) NOT NULL,
     `model` varchar(50) NOT NULL,
     `engine_serial_number` varchar(9) NOT NULL UNIQUE,
