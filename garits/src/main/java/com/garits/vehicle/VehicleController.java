@@ -2,9 +2,7 @@ package com.garits.vehicle;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(path = "/")
@@ -77,7 +75,7 @@ public class VehicleController {
      * @param customerId
      * @param idRegNo
      */
-    @DeleteMapping("vehicles/{customerId}/{idRegNo}")
+    @DeleteMapping("/vehicles/{customerId}/{idRegNo}")
     void deleteVehicle(@PathVariable("customerId") Integer customerId, @PathVariable("idRegNo") String idRegNo) {
         vehicleRepository.deleteCustomerVehicle(idRegNo, customerId);
         vehicleRepository.deleteVehicle(idRegNo);
