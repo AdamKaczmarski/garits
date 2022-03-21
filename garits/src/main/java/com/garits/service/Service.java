@@ -16,7 +16,8 @@ public class Service {
     private double servicePrice;
     @Column(name = "approx_time_min")
     private int approxTimeMin;
-    
+    @Column(name="short_description")
+    private String shortDescription;
     //Getters and Setters
     public Integer getIdService() {
         return idService;
@@ -44,5 +45,13 @@ public class Service {
     
     public void setApproxTimeMin(int approxTimeMin) {
         this.approxTimeMin = approxTimeMin;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 }
