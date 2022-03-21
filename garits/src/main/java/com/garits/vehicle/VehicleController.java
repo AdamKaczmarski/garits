@@ -1,9 +1,10 @@
 package com.garits.vehicle;
 
-import org.hibernate.annotations.NotFound;
+import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
 @RequestMapping(path = "/")
@@ -20,11 +21,11 @@ public class VehicleController {
     // SECURE IT FOR NON EXISTENT CUSTOMERS. IF USER SEARCHES FOR CUSTOMER ID THAT DOESNT EXIST IT SHOULD RETURN ERROR
     @GetMapping("/vehicles/{customerId}")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
-        if (vehicleRepository.findCustomer(customerId).equals("1")){
+        if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             return vehicleRepository.findAllCustomerVehicles(customerId);
 
         } else {
-            throw new NotFound("Could not find customer: "+customerId);
+            throw new NotFound("Could not find customer: " + customerId);
         }
     }
 
@@ -36,14 +37,19 @@ public class VehicleController {
      */
     @PostMapping("/vehicles/{customerId}")
     void addCustomerVehicle(@PathVariable Integer customerId, @RequestBody Vehicle newVehicle) {
-        vehicleRepository.save(newVehicle);
-        vehicleRepository.addVehicleToCustomer(customerId, newVehicle.getIdRegNo());
+        if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
+            vehicleRepository.save(newVehicle);
+            vehicleRepository.addVehicleToCustomer(customerId, newVehicle.getIdRegNo());
+        } else {
+            throw new NotFound("Could not find customer: " + customerId);
+        }
     }
 
     //PATCH MAPPINGS
 
     /**
      * Updates the Vehicle object given that there's one in the database with the specified idRegNo
+     *
      * @param idRegNo
      * @param editedVehicle
      * @return
@@ -51,15 +57,18 @@ public class VehicleController {
     @PatchMapping("/vehicles/{idRegNo}")
     Vehicle updateVehicle(@PathVariable String idRegNo, @RequestBody Vehicle editedVehicle) {
         Vehicle v = vehicleRepository.findVehicle(idRegNo);
-        if (editedVehicle.getManufacturer() != null) v.setManufacturer(editedVehicle.getManufacturer());
-        if (editedVehicle.getModel() != null) v.setModel(editedVehicle.getModel());
-        if (editedVehicle.getEngineSerialNumber() != null)
-            v.setEngineSerialNumber(editedVehicle.getEngineSerialNumber());
-        if (editedVehicle.getChassisNumber() != null) v.setChassisNumber(editedVehicle.getChassisNumber());
-        if (editedVehicle.getColour() != null) v.setColour(editedVehicle.getColour());
-        if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
-        return vehicleRepository.save(v);
-
+        if (v != null) {
+            if (editedVehicle.getManufacturer() != null) v.setManufacturer(editedVehicle.getManufacturer());
+            if (editedVehicle.getModel() != null) v.setModel(editedVehicle.getModel());
+            if (editedVehicle.getEngineSerialNumber() != null)
+                v.setEngineSerialNumber(editedVehicle.getEngineSerialNumber());
+            if (editedVehicle.getChassisNumber() != null) v.setChassisNumber(editedVehicle.getChassisNumber());
+            if (editedVehicle.getColour() != null) v.setColour(editedVehicle.getColour());
+            if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
+            return vehicleRepository.save(v);
+        } else {
+            throw new NotFound("Could not find vehicle: "+idRegNo);
+        }
     }
 
     //DELETE MAPPINGS
