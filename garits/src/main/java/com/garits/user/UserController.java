@@ -41,7 +41,7 @@ public class UserController {
      * @param newUser - user object
      * @return
      */
-    @PostMapping("/user")
+    @PostMapping("/users")
     User newUser(@RequestBody User newUser) {
         return userRepository.save(newUser);
     }
@@ -53,7 +53,7 @@ public class UserController {
      *
      * @return
      */
-    @PatchMapping("/user/{id}/role")
+    @PatchMapping("/users/{id}/role")
     User changeRole(@RequestBody Role newRole, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
             if (newRole != null) user.changeRole(newRole);
@@ -66,7 +66,7 @@ public class UserController {
      *
      * @param id - Edited user's id
      */
-    @PutMapping("/user/{id}")
+    @PutMapping("/users/{id}")
     User editUser(@RequestBody User editedUser, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(editedUser.getEmail());
