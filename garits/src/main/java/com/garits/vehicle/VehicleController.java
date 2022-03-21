@@ -1,5 +1,6 @@
 package com.garits.vehicle;
 
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,12 @@ public class VehicleController {
     // SECURE IT FOR NON EXISTENT CUSTOMERS. IF USER SEARCHES FOR CUSTOMER ID THAT DOESNT EXIST IT SHOULD RETURN ERROR
     @GetMapping("/vehicles/{customerId}")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
-        return vehicleRepository.findAllCustomerVehicles(customerId);
+        if (vehicleRepository.findCustomer(customerId).equals("1")){
+            return vehicleRepository.findAllCustomerVehicles(customerId);
+
+        } else {
+            throw new NotFound("Could not find customer: "+customerId);
+        }
     }
 
     //POST MAPPINGS
