@@ -1,5 +1,6 @@
 package com.garits.order;
 
+import com.garits.exceptions.NotFound;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,20 +13,19 @@ public class OrderController {
      */
     @GetMapping("/orders")
     Iterable<Order> getAllOrders(){
-        return null;
+        return orderRepository.findAll();
     }
 
     @GetMapping("/orders/{idOrder}")
-    Iterable<OrderPart> getOrderDetails(@PathVariable Integer idOrder){
-        return null;
+    Order getOrderDetails(@PathVariable Integer idOrder){
+        return orderRepository.findById(idOrder).orElseThrow(() -> new NotFound("Could not find order: "+idOrder));
     }
-
 
     /**
      * @ADEL
      */
     @DeleteMapping("/orders/{idOrder}")
-    void deletOrder(@PathVariable Integer idOrder){
-
+    void deleteOrder(@PathVariable Integer idOrder){
+        orderRepository.deleteById(idOrder);
     }
 }
