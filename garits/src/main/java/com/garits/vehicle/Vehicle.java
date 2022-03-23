@@ -18,7 +18,7 @@ public class Vehicle {
     @Column(name = "model")
     private String model;
     @Column(name = "engine_serial_number")
-    private String engingeSerialNumber;
+    private String engineSerialNumber;
     @Column(name = "chassis_number")
     private String chassisNumber;
     @Column(name = "colour")
@@ -51,12 +51,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getEngingeSerialNumber() {
-        return engingeSerialNumber;
+    public String getEngineSerialNumber() {
+        return engineSerialNumber;
     }
 
-    public void setEngingeSerialNumber(String engingeSerialNumber) {
-        this.engingeSerialNumber = engingeSerialNumber;
+    public void setEngineSerialNumber(String engineSerialNumber) {
+        this.engineSerialNumber = engineSerialNumber;
     }
 
     public String getChassisNumber() {
