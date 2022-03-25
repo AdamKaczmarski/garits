@@ -5,12 +5,6 @@ ALTER TABLE
     `Users_Roles` DROP FOREIGN KEY `FKUsers_Role790442`;
 
 ALTER TABLE
-    `Jobs_Customers` DROP FOREIGN KEY `FKJobs_Custo162114`;
-
-ALTER TABLE
-    `Jobs_Customers` DROP FOREIGN KEY `FKJobs_Custo598651`;
-
-ALTER TABLE
     `Users_Jobs` DROP FOREIGN KEY `FKUsers_Jobs928384`;
 
 ALTER TABLE
@@ -80,8 +74,6 @@ DROP TABLE IF EXISTS `Jobs`;
 DROP TABLE IF EXISTS `Parts`;
 
 DROP TABLE IF EXISTS `Vehicles`;
-
-DROP TABLE IF EXISTS `Jobs_Customers`;
 
 DROP TABLE IF EXISTS `Users_Jobs`;
 
@@ -189,11 +181,6 @@ CREATE TABLE `Vehicles` (
     UNIQUE INDEX (`id_vehicle`)
 );
 
-CREATE TABLE `Jobs_Customers` (
-    `job_id` int NOT NULL,
-    `customer_id` int NOT NULL
-);
-
 CREATE TABLE `Users_Jobs` (
     `user_id` int NOT NULL,
     `job_id` int NOT NULL
@@ -284,16 +271,6 @@ ALTER TABLE
     `Users_Roles`
 ADD
     CONSTRAINT `FKUsers_Role790442` FOREIGN KEY (`role_id`) REFERENCES `Roles` (`id_role`) ON UPDATE CASCADE;
-
-ALTER TABLE
-    `Jobs_Customers`
-ADD
-    CONSTRAINT `FKJobs_Custo162114` FOREIGN KEY (`job_id`) REFERENCES `Jobs` (`id_job`) ON UPDATE CASCADE;
-
-ALTER TABLE
-    `Jobs_Customers`
-ADD
-    CONSTRAINT `FKJobs_Custo598651` FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`id_customer`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Users_Jobs`
