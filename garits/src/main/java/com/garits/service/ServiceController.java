@@ -33,6 +33,10 @@ public class ServiceController {
     Service one(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
+    @GetMapping("/services/{id}/name")
+    String getServiceName(@PathVariable Integer id){
+        return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id)).getServiceName();
+    }
     //POST MAPPINGS
 
     /**
