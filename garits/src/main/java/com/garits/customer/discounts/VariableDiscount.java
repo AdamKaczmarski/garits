@@ -23,6 +23,17 @@ public class VariableDiscount {
 
     }
 
+    public VariableDiscount(Integer customerId, Integer serviceId, int discount) {
+        this.customerId = customerId;
+        this.serviceId = serviceId;
+        this.discount = discount;
+    }
+
+    public VariableDiscount(Integer serviceId, int discount) {
+        this.serviceId = serviceId;
+        this.discount = discount;
+    }
+
     public VariableDiscount(Integer idVarDiscount, Integer customerId, Integer serviceId, int discount) {
         this.idVarDiscount = idVarDiscount;
         this.customerId = customerId;
@@ -51,4 +62,11 @@ public class VariableDiscount {
         return serviceId;
     }
 
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
+    }
 }

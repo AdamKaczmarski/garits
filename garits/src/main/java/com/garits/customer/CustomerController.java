@@ -1,11 +1,15 @@
 package com.garits.customer;
 
+import com.garits.customer.discounts.FlexDiscount;
 import com.garits.customer.discounts.VariableDiscount;
 import com.garits.exceptions.NotFound;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/")
@@ -36,6 +40,25 @@ public class CustomerController {
         return customerRepository.save(newCustomer);
     }
 
+    @PostMapping("/customers/{idCustomer}/flexDiscount")
+    Customer addFlexDiscount(@PathVariable Integer idCustomer, @RequestBody FlexDiscount fD) {
+        customerRepository.addFlexDiscount(idCustomer, fD.getRangeFrom(), fD.getDiscount());
+        return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not obtain customer: " + idCustomer));
+    }
+
+    @PostMapping("/customers/{idCustomer}/varDiscount")
+    Customer addVariableDiscount(@PathVariable Integer idCustomer, @RequestBody VariableDiscount vD) {
+/*
+        Customer c = customerRepository.findById(idCustomer).orElseThrow(()->new NotFound("Could not obtain customer: "+idCustomer));
+        Set<VariableDiscount>  newVd = c.getVariableDiscounts();
+        newVd.add(vD);
+        c.setVariableDiscounts(newVd);
+        return customerRepository.save(c);
+*/
+        customerRepository.addVarDiscount(idCustomer, vD.getServiceId(), vD.getDiscount());
+        return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not obtain customer: " + idCustomer));
+    }
+
     @PutMapping("/customers/{idCustomer}")
     Customer editCustomer(@PathVariable Integer idCustomer, @RequestBody Customer editedCustomer) {
         Customer c = customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
@@ -47,11 +70,23 @@ public class CustomerController {
         if (editedCustomer.getEmail() != null) c.setEmail(editedCustomer.getEmail());
         if (editedCustomer.getFax() != null) c.setFax(editedCustomer.getFax());
         if (editedCustomer.getFixedDiscount() >= 0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
-        return c;
+        if (editedCustomer.getVariableDiscounts() != null)
+            c.setVariableDiscounts(editedCustomer.getVariableDiscounts());
+        if (editedCustomer.getFlexDiscounts() != null) c.setFlexDiscounts(editedCustomer.getFlexDiscounts());
+        return customerRepository.save(c);
     }
 
     @DeleteMapping("/customers/{idCustomer}")
     void deleteCustomer(@PathVariable Integer idCustomer) {
         customerRepository.deleteById(idCustomer);
+    }
+
+    @DeleteMapping("/customers/{idCustomer}/varDiscount/{idVarDiscount}")
+    void deleteVariableDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idVarDiscount) {
+        customerRepository.deleteVarDiscount(idCustomer, idVarDiscount);
+    }
+    @DeleteMapping("/customers/{idCustomer}/flexDiscount/{idFlexDiscount}")
+    void deleteFlexDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idFlexDiscount) {
+        customerRepository.deleteFlexDiscount(idCustomer, idFlexDiscount);
     }
 }
