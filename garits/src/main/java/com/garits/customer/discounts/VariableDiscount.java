@@ -1,8 +1,8 @@
 package com.garits.customer.discounts;
 
-import com.garits.exceptions.NotFound;
 import com.garits.service.Service;
-import com.garits.service.ServiceRepository;
+import org.hibernate.annotations.Formula;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 @Entity
@@ -18,6 +18,7 @@ public class VariableDiscount {
     private Integer serviceId;
     @Column(name="discount")
     private int discount;
+
     public VariableDiscount(){
 
     }
@@ -28,6 +29,7 @@ public class VariableDiscount {
         this.serviceId = serviceId;
         this.discount = discount;
     }
+
 
     public Integer getIdVarDiscount() {
         return idVarDiscount;
@@ -48,4 +50,5 @@ public class VariableDiscount {
     public Integer getServiceId() {
         return serviceId;
     }
+
 }

@@ -1,8 +1,11 @@
 package com.garits.customer;
 
+import com.garits.customer.discounts.VariableDiscount;
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 @RestController
 @RequestMapping("/")
@@ -11,17 +14,21 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     /**
-     *
      * @return
      */
     @GetMapping("/customers")
     Iterable<Customer> getAllCustomers() {
-       return customerRepository.findAll();
+        return customerRepository.findAll();
     }
 
     @GetMapping("/customers/{idCustomer}")
     Customer getOneCustomer(@PathVariable Integer idCustomer) {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
+    }
+
+    @GetMapping("/customers/{idCustomer}/varDiscounts")
+    Iterable<VariableDiscount> getVariableDiscounts(@PathVariable Integer idCustomer) {
+        return null;
     }
 
     @PostMapping("/customers")
@@ -39,7 +46,12 @@ public class CustomerController {
         if (editedCustomer.getTelephoneNumber() != null) c.setTelephoneNumber(editedCustomer.getTelephoneNumber());
         if (editedCustomer.getEmail() != null) c.setEmail(editedCustomer.getEmail());
         if (editedCustomer.getFax() != null) c.setFax(editedCustomer.getFax());
-        if (editedCustomer.getFixedDiscount()>=0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
+        if (editedCustomer.getFixedDiscount() >= 0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
         return c;
+    }
+
+    @DeleteMapping("/customers/{idCustomer}")
+    void deleteCustomer(@PathVariable Integer idCustomer) {
+        customerRepository.deleteById(idCustomer);
     }
 }
