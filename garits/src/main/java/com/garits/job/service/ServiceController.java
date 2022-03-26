@@ -1,4 +1,4 @@
-package com.garits.service;
+package com.garits.job.service;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,9 +3,6 @@ package com.garits.customer;
 
 import com.garits.customer.discounts.FlexDiscount;
 import com.garits.customer.discounts.VariableDiscount;
-import com.garits.exceptions.NotFound;
-import com.garits.service.Service;
-import com.garits.service.ServiceRepository;
 
 import javax.persistence.*;
 import java.util.HashSet;

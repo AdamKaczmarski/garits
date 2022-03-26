@@ -1,4 +1,4 @@
-package com.garits.service;
+package com.garits.job.service;
 
 import javax.persistence.*;
 

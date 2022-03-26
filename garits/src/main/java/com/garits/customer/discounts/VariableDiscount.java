@@ -1,9 +1,5 @@
 package com.garits.customer.discounts;
 
-import com.garits.service.Service;
-import org.hibernate.annotations.Formula;
-import org.springframework.data.jpa.repository.Query;
-
 import javax.persistence.*;
 @Entity
 @Table(name="customer_variable_discounts_services")
