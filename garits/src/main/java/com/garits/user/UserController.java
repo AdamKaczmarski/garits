@@ -73,7 +73,7 @@ public class UserController {
      *
      * @param id - Edited user's id
      */
-    @PutMapping("/users/{id}")
+    @PatchMapping("/users/{id}")
     User editUser(@RequestBody User editedUser, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
             user.setEmail(editedUser.getEmail());

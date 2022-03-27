@@ -282,3 +282,5 @@ ALTER TABLE
     `Parts_Payments`
 ADD
     CONSTRAINT `FKParts_Paym813726` FOREIGN KEY (`payment_id`) REFERENCES `Payments` (`id_payment`) ON UPDATE CASCADE;
+    
+insert into roles (role_name)values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");
