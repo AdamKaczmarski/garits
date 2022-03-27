@@ -59,7 +59,7 @@ public class CustomerController {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not obtain customer: " + idCustomer));
     }
 
-    @PutMapping("/customers/{idCustomer}")
+    @PatchMapping("/customers/{idCustomer}")
     Customer editCustomer(@PathVariable Integer idCustomer, @RequestBody Customer editedCustomer) {
         Customer c = customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
         if (editedCustomer.getName() != null) c.setName(editedCustomer.getName());
