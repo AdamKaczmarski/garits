@@ -1,89 +1,92 @@
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Accordion from "react-bootstrap/Accordion";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { SERVICES } from "../../dummy-data/services";
+//import { SERVICES } from "../../dummy-data/services";
 const EditCustomer = (props) => {
-  const services = SERVICES.map((service) => (
-    <option key={service.id} value={service.id}>
-      {service.service_name}
-    </option>
-  ));
+  const emailHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.email = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const nameHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.name = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const addressHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.address = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const postcodeHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.postcode = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const telephoneNumberHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.telephoneNumber = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const faxHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.fax = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+  const fixedDiscountHandler = (ev) => {
+    const newCustomer = props.customer;
+    newCustomer.fixedDiscount = ev.target.value;
+    props.setCustomer(newCustomer);
+  };
+
   return (
     <Form>
       <Form.Group>
         <Form.Label>Name</Form.Label>
-        <Form.Control value={props.customer.name} />
+        <Form.Control
+          defaultValue={props.customer.name}
+          onChange={emailHandler}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>Email</Form.Label>
-        <Form.Control value={props.customer.email} />
+        <Form.Control
+          defaultValue={props.customer.email}
+          onChange={nameHandler}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>Address</Form.Label>
-        <Form.Control value={props.customer.address} />
+        <Form.Control
+          defaultValue={props.customer.address}
+          onChange={addressHandler}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>Postcode</Form.Label>
-        <Form.Control value={props.customer.postcode} />
+        <Form.Control
+          defaultValue={props.customer.postcode}
+          onChange={postcodeHandler}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>Telephone number</Form.Label>
-        <Form.Control value={props.customer.telephone_number} />
+        <Form.Control
+          defaultValue={props.customer.telephoneNumber}
+          onChange={telephoneNumberHandler}
+        />
       </Form.Group>
       <Form.Group>
         <Form.Label>FAX</Form.Label>
-        <Form.Control value={props.customer.fax} />
+        <Form.Control defaultValue={props.customer.fax} onChange={faxHandler} />
       </Form.Group>
       <Form.Group>
         <Form.Label>Fixed discount</Form.Label>
-        <Form.Control value={props.customer.fixed_discount} />
+        <Form.Control
+          defaultValue={props.customer.fixedDiscount}
+          onChange={fixedDiscountHandler}
+          min={0}
+          max={100}
+        />
       </Form.Group>
-      <Accordion className="mt-3">
-        <Accordion.Item eventKey={0}>
-          <Accordion.Header>Flexible discounts</Accordion.Header>
-          <Accordion.Body>
-            <Row>
-              <Col>
-                <Form.Group>
-                  {" "}
-                  <Form.Label>Range from</Form.Label>
-                  <Form.Control value={props.customer.fixed_discount} />
-                </Form.Group>
-              </Col>
-              <Col>
-                {" "}
-                <Form.Group>
-                  <Form.Label>Amount</Form.Label>
-                  <Form.Control value={props.customer.fixed_discount} />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Button className="mt-3">Add range</Button>
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey={1}>
-          <Accordion.Header>Service discounts</Accordion.Header>
-          <Accordion.Body>
-            <Row>
-              <Col>
-                <Form.Group>
-                  <Form.Label>Service</Form.Label>
-                  <Form.Select>{services}</Form.Select>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group>
-                  <Form.Label>Discount</Form.Label>
-                  <Form.Control type="number" value={15} />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
     </Form>
   );
 };

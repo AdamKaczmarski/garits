@@ -26,8 +26,8 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM customers_vehicles where reg_no_id=:idRegNo AND customer_id=:customerId", nativeQuery = true)
-    void deleteCustomerVehicle(@Param("idRegNo") String idRegNo, @Param("customerId") Integer customerId);
+    @Query(value = "DELETE FROM customers_vehicles where reg_no_id=:idRegNo", nativeQuery = true)
+    void deleteCustomerVehicle(@Param("idRegNo") String idRegNo);
 
     @Query(value = "SELECT * FROM vehicles where id_reg_no=:idRegNo", nativeQuery = true)
     Vehicle findVehicle(@Param("idRegNo") String idRegNo);

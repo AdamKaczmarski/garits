@@ -14,14 +14,14 @@ const CustomerDetailsTabs = (props) => {
         title="Vehicles"
 /*         onClick={props.setIsReportsTab(false)}
  */      >
-        <CustomerDetailsVehicles customer_id={props.customer.id} />
+        <CustomerDetailsVehicles customer_id={props.customer.idCustomer} />
       </Tab>
       <Tab
         eventKey="reports"
         title="Reports"
 /*         onClick={props.setIsReportsTab(true)}
  */      >
-        <ReportsTable customer_id={props.customer.id} />
+        <ReportsTable customer_id={props.customer.idCustomer} />
       </Tab>
     </Tabs>
   );

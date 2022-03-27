@@ -20,10 +20,14 @@ public class VehicleController {
     @GetMapping("/vehicles/{customerId}")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
-            return vehicleRepository.findAllCustomerVehicles(customerId);
+            Iterable<Vehicle> v= vehicleRepository.findAllCustomerVehicles(customerId);
+            for (Vehicle vehicle : v) {
+                System.out.println(vehicle.getLastMot());
+            }
+                    return v;
 
         } else {
-            throw new NotFound("Could not find customer: " + customerId);
+            return null;
         }
     }
 
@@ -72,12 +76,11 @@ public class VehicleController {
     //DELETE MAPPINGS
 
     /**
-     * @param customerId
      * @param idRegNo
      */
-    @DeleteMapping("/vehicles/{customerId}/{idRegNo}")
-    void deleteVehicle(@PathVariable("customerId") Integer customerId, @PathVariable("idRegNo") String idRegNo) {
-        vehicleRepository.deleteCustomerVehicle(idRegNo, customerId);
+    @DeleteMapping("/vehicles/{idRegNo}")
+    void deleteVehicle( @PathVariable("idRegNo") String idRegNo) {
+        vehicleRepository.deleteCustomerVehicle(idRegNo);
         vehicleRepository.deleteVehicle(idRegNo);
     }
 }

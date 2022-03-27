@@ -70,9 +70,6 @@ public class CustomerController {
         if (editedCustomer.getEmail() != null) c.setEmail(editedCustomer.getEmail());
         if (editedCustomer.getFax() != null) c.setFax(editedCustomer.getFax());
         if (editedCustomer.getFixedDiscount() >= 0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
-        if (editedCustomer.getVariableDiscounts() != null)
-            c.setVariableDiscounts(editedCustomer.getVariableDiscounts());
-        if (editedCustomer.getFlexDiscounts() != null) c.setFlexDiscounts(editedCustomer.getFlexDiscounts());
         return customerRepository.save(c);
     }
 
