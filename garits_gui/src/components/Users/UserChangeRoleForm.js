@@ -11,6 +11,9 @@ const UserChangeRoleForm = (props) => {
       );
     } else return null;
   });
+  const roleHandler = ev => {
+    props.setRoleName(ev.target.value);
+  }
   return (
     <Form className="mt-3">
       <Form.Group>
@@ -22,7 +25,7 @@ const UserChangeRoleForm = (props) => {
       </Form.Group>
       <Form.Group controlId="role">
         <Form.Label>To: </Form.Label>
-        <Form.Select aria-label="roleSelect">
+        <Form.Select aria-label="roleSelect" onChange={roleHandler}>
           <option>Role...</option>
           {options}
         </Form.Select>

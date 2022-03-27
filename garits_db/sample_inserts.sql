@@ -22,33 +22,8 @@ VALUES
         12,
         4
     );
-
--- Insert 2
-INSERT INTO
-    customers (
-        name,
-        address,
-        city,
-        postcode,
-        telephone_number,
-        email,
-        fax,
-        fixed_discount,
-        flex_discounts_json
-    )
-VALUES
-    (
-        'The Car Company',
-        'Top Gear Street 17',
-        'London',
-        'E1 15ER',
-        '1234567890',
-        'car_company@gmail.com',
-        null,
-        7,
-        "{{ rangeFrom: 10000, discount: 5 },{ rangeFrom: 20000, discount: 10 }}"
-    );
-
+INSERT INTO users (email, password, salt, first_name, last_name) values ("test_user@gmail.com","ldshfsldj","asdsadsa","Test","test");
+insert into users_roles (user_id,role_id) values (24,1);
 INSERT INTO orders (status,description,order_date,order_arrival,order_amount) VALUES('completed','test','2022-03-02','2022-03-05',100);
 insert into jobs(reg_no_id,status, est_time_min,act_time_min,fix_date,create_date) VALUES('123','completed',123,321,'2022-03-05',curdate());
 insert into vehicles (id_reg_no,manufacturer,model,engine_serial_number,chassis_number, colour,last_mot) VALUES('123','Hyundai','Tucson','654324','532532','red','2022-03-01');
