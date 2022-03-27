@@ -1,18 +1,34 @@
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import UserChangeRoleModal from "./UserChangeRoleModal";
+import axios from "axios";
 const User = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
 
   const role =
-    props.user.role.charAt(0).toUpperCase() +
-    props.user.role.slice(1).toLowerCase();
+    props.user.roles[0].roleName.charAt(0).toUpperCase() +
+    props.user.roles[0].roleName.slice(1).toLowerCase();
+
+  const deleteUser = () => {
+    try {
+      const response = axios({
+        method:"DELETE",
+        url:"http://localhost:8080/users/"+props.user.idUser
+      });
+      console.log(response)
+    } catch (err) {
+        console.log(err)
+    } finally {
+      window.location.reload();
+    }
+  }
+
   return (
     <>
       <tr>
-        <td>{props.user.id}</td>
-        <td>{props.user.first_name + " " + props.user.last_name}</td>
+        <td>{props.user.idUser}</td>
+        <td>{props.user.firstName + " " + props.user.lastName}</td>
         <td>{props.user.email}</td>
         <td>{role}</td>
         <td>
@@ -29,7 +45,7 @@ const User = (props) => {
               )}
 
               {props.user.role === "ADMIN" ? null : (
-                <Dropdown.Item style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}href="#/action-3">Delete</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }} onClick={deleteUser}>Delete</Dropdown.Item>
               )}
             </Dropdown.Menu>
           </Dropdown>
@@ -38,7 +54,8 @@ const User = (props) => {
       <UserChangeRoleModal
         show={show}
         onClose={handleShow}
-        roleFrom={props.user.role}
+        roleFrom={props.user.roles[0].roleName}
+        idUser={props.user.idUser}
       />
     </>
   );

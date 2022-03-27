@@ -43,7 +43,12 @@ public class UserController {
      */
     @PostMapping("/users")
     User newUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        newUser.setPassword("1234");
+        newUser.setSalt("1234");
+        userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getSalt(), newUser.getFirstName(), newUser.getLastName());
+        Integer id = userRepository.getUserId(newUser.getEmail());
+        userRepository.addUserRole(id,newUser.getRoles().iterator().next().getRoleName());
+        return userRepository.findById(id).orElseThrow(()->new NotFound("Couldn't add user"));
     }
 
     //PATCH MAPPINGS
@@ -53,12 +58,14 @@ public class UserController {
      *
      * @return
      */
-    @PatchMapping("/users/{id}/role")
-    User changeRole(@RequestBody Role newRole, @PathVariable Integer id) {
-        return userRepository.findById(id).map(user -> {
+    @PatchMapping("/users/{idUser}/role")
+    void changeRole(@RequestBody Role newRole, @PathVariable Integer idUser) {
+        /*return userRepository.findById(id).map(user -> {
             if (newRole != null) user.changeRole(newRole);
             return userRepository.save(user);
-        }).orElseThrow(() -> new NotFound("Could not find user: " + id));
+        }).orElseThrow(() -> new NotFound("Could not find user: " + id));*/
+        System.out.println(newRole.getRoleName());
+        userRepository.changeUserRole(idUser,newRole.getRoleName());
     }
 
     /**

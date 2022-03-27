@@ -17,7 +17,7 @@ import {useState} from 'react'
 import NotificationModalPayments from "./components/Notifications/NotificationModalPayments";
 import NotificationModalStock from "./components/Notifications/NotificationModalStock";
 const App = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
 
   return (
