@@ -33,3 +33,4 @@ insert into parts_orders (part_id,order_id,quantity_ordered) VALUES(1,1,3);
 insert into jobs_parts (part_id,job_id,quantity_used) values(1,2,2);
 insert into customers_vehicles (customer_id,reg_no_id) values(1,'123');
 INSERT INTO users(email,password,salt,first_name,last_name) values("test@gmail.com","skjdfhksdjfa","ASDASVZ","Test","User");
+INSERT INTO payments(cash_or_card,amount,create_date,payment_date,payment_due) values("card","500",'2022-03-02','2022-01-01','2022-02-06');
