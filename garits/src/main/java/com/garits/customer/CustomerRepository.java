@@ -30,4 +30,6 @@ public interface CustomerRepository extends CrudRepository<Customer,Integer> {
     @Transactional
     @Query(value = "DELETE FROM customer_flex_discounts where customer_id=:idCustomer and id_flex_discount=:idFlexDiscount",nativeQuery = true)
     void deleteFlexDiscount(@Param("idCustomer")Integer idCustomer,@Param("idFlexDiscount") Integer idFlexDiscount);
+    @Query(value="SELECT 1 from customer_variable_discounts_services where service_id=?1 and customer_id=?2",nativeQuery = true)
+    Integer checkDuplicateVarDiscount(Integer serviceId, Integer customerId);
 }

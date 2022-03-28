@@ -3,18 +3,24 @@ import Accordion from "react-bootstrap/Accordion";
 const BoldSpan = (props) => {
   return <span style={{ fontWeight: "bold" }}>{props.children}</span>;
 };
-
 const CustomerDetailsContent = (props) => {
+
   const flexDiscounts = props.customer.flexDiscounts.map((discount) => (
     <ListGroup.Item key={discount.idFlexDiscount}>
-      From {discount.rangeFrom}: {discount.discount}%
+          <span>
+            From {discount.rangeFrom}: {discount.discount}%
+          </span>
     </ListGroup.Item>
   ));
-  const serviceDiscount = props.customer.variableDiscounts.map((discount) => {
-    return (<ListGroup.Item key={discount.idVarDiscount}>
-      {discount.serviceId}: {discount.discount}%
-    </ListGroup.Item>
-  )});
+  const serviceDiscounts = props.customer.variableDiscounts.map((discount) => {
+    return (
+      <ListGroup.Item key={discount.idVarDiscount}>
+            <span>
+              {discount.serviceId}: {discount.discount}%
+            </span>
+      </ListGroup.Item>
+    );
+  });
 
   return (
     <ListGroup>
@@ -51,7 +57,7 @@ const CustomerDetailsContent = (props) => {
           </Accordion.Item>
           <Accordion.Item eventKey={1}>
             <Accordion.Header>Service discounts</Accordion.Header>
-            <Accordion.Body>{serviceDiscount}</Accordion.Body>
+            <Accordion.Body>{serviceDiscounts}</Accordion.Body>
           </Accordion.Item>
         </Accordion>
       </ListGroup.Item>

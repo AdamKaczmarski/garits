@@ -1,5 +1,6 @@
 export default class Customer  {
     constructor(){
+      this.idCustomer=0;
       this.name= "";
       this.address= "";
       this.postcode= "";

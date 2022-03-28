@@ -76,7 +76,7 @@ const Customer = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      window.location.reload();
+      //window.location.reload();
     }
   };
   return (

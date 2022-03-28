@@ -41,6 +41,10 @@ select * from vehicles;
 select * from customers;
 select * from customers_vehicles;
 select * from customer_variable_discounts_services;
+select * from users;
+insert into customers_vehicles(customer_id,reg_no_id) values(1,'123');
+INSERT INTO users_roles(user_id,role_id) values(26,1),(27,1);
+select * from jobs;
 INSERT 
     INTO
         customer_variable_discounts_services
@@ -48,3 +52,6 @@ INSERT
     VALUES
         (2,2,23);
         DELETE FROM customer_variable_discounts_services where customer_id=2;
+        
+        select * from customer_variable_discounts_services where customer_id=2;
+        

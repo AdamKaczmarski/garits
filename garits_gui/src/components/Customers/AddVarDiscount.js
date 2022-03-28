@@ -6,9 +6,9 @@ const AddVarDiscount = (props) => {
   const serviceNameRef = useRef();
 
   let servicesOptions;
-    /**
-     * ADD SERVICES FILTERING SO THE ONES THAT CUSTOMER ALREADY HAS ARE NOT DISPLAYED IN THE OPTIONS
-     */
+  /**
+   * ADD SERVICES FILTERING SO THE ONES THAT CUSTOMER ALREADY HAS ARE NOT DISPLAYED IN THE OPTIONS
+   */
   const obtainServices = useCallback(async () => {
     try {
       const response = await axios({
@@ -16,14 +16,23 @@ const AddVarDiscount = (props) => {
         url: "http://localhost:8080/services",
       });
       /*       const filteredServices = response.data
-       */ setServices(response.data);
+       */
+      if (response.status === 200) {
+        setServices(response.data);
+        const newVarDisc = props.varDiscount;
+        newVarDisc.serviceId = 1
+      }
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [props.varDiscount]);
 
   if (services && services.length > 0) {
+    /* const filteredServices = services.filter();
+    console.log(filteredServices);
+     */
     servicesOptions = services.map((service) => (
+
       <option key={service.idService} value={service.idService}>
         {service.serviceName}
       </option>
@@ -34,6 +43,7 @@ const AddVarDiscount = (props) => {
   }, [obtainServices]);
   const serviceHandler = (ev) => {
     const newVarDisc = props.varDiscount;
+    if (+ev.target.value === 0 ) newVarDisc.serviceId = 1;
     newVarDisc.serviceId = +ev.target.value;
   };
   const discountHandler = (ev) => {
