@@ -26,6 +26,7 @@ const AddFlexDiscount = (props) => {
           type="number"
           min={0}
           onChange={amountHandler}
+          max={100}
         />
       </Form.Group>
     </Form>

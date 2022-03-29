@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import AddVehicleForm from "./AddVehicleForm";
 
-import AddVehicleModal from "./AddVehicleModal";
+import VehicleModal from "./VehicleModal";
 import Vehicle from "./Vehicle";
 
 //import { VEHICLES } from "../../dummy-data/vehicles";
@@ -44,12 +45,37 @@ const VehiclesTable = (props) => {
  */
   if (vehicles && vehicles.length > 0) {
     vehiclesView = vehicles.map((vehicle) => (
-      <Vehicle key={vehicle.idRegNo} vehicle={vehicle} removeVehicle={removeVehicle}/>
+      <Vehicle key={vehicle.idRegNo} vehicle={vehicle} removeVehicle={removeVehicle} setVehicles={setVehicles} vehicles={vehicles}/>
     ));
   }
   if (isLoading){
     return <Spinner animation="border" variant="primary" />
+  }  const vehicle={
+    idRegNo:"",
+    manufacturer:"",
+    model:"",
+    engineSerialNumber:"",
+    chassisNumber:"",
+    colour:"",
+    lastMot:""
   }
+  const addVehicle = ()=>{
+    try {
+       const response =axios({
+        method:"POST",
+        url:"http://localhost:8080/vehicles/"+props.customer_id,
+        data:vehicle
+      }) 
+      console.log(response);
+    } catch(err){
+
+    } finally {
+      const newVehicles=[...vehicles];
+      newVehicles.push(vehicle);
+      setVehicles(newVehicles)
+    }
+  }
+
   return (
     <>
       <Table striped hover className="mt-3">
@@ -71,7 +97,7 @@ const VehiclesTable = (props) => {
         </thead>
         <tbody>{vehiclesView}</tbody>
       </Table>
-      <AddVehicleModal show={show} onClose={handleShow} />
+      <VehicleModal show={show} onClose={handleShow} submitAction={addVehicle} title="Add vehicle" form={<AddVehicleForm vehicle={vehicle}/>}/>
     </>
   );
 };

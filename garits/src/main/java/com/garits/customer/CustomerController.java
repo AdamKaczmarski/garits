@@ -3,9 +3,11 @@ package com.garits.customer;
 import com.garits.customer.discounts.FlexDiscount;
 import com.garits.customer.discounts.VariableDiscount;
 import com.garits.exceptions.NotFound;
+import org.apache.coyote.Response;
 import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +50,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/{idCustomer}/varDiscount")
-    Customer addVariableDiscount(@PathVariable Integer idCustomer, @RequestBody VariableDiscount vD) throws Exception {
+    ResponseEntity<String> addVariableDiscount(@PathVariable Integer idCustomer, @RequestBody VariableDiscount vD) throws Exception {
 /*
         Customer c = customerRepository.findById(idCustomer).orElseThrow(()->new NotFound("Could not obtain customer: "+idCustomer));
         Set<VariableDiscount>  newVd = c.getVariableDiscounts();
@@ -56,12 +58,17 @@ public class CustomerController {
         c.setVariableDiscounts(newVd);
         return customerRepository.save(c);
 */
-        if (customerRepository.checkDuplicateVarDiscount(vD.getServiceId(),vD.getCustomerId()) != null &&customerRepository.checkDuplicateVarDiscount(vD.getServiceId(),vD.getCustomerId())==1){
-            customerRepository.addVarDiscount(idCustomer, vD.getServiceId(), vD.getDiscount());
+        if (customerRepository.checkDuplicateVarDiscount(vD.getServiceId(), vD.getCustomerId()) != null && customerRepository.checkDuplicateVarDiscount(vD.getServiceId(), vD.getCustomerId()) == 1) {
+            if (vD.getDiscount() > 100 || vD.getDiscount() >= 0) {
+                customerRepository.addVarDiscount(idCustomer, vD.getServiceId(), vD.getDiscount());
+                return ResponseEntity.status(HttpStatus.OK).body("Added the discount");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Discount value is incorrect");
+            }
         } else {
-            throw new Exception("Couldn't duplicate service discount");
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Couldn't duplicate service discount");
+
         }
-        return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not obtain customer: " + idCustomer));
     }
 
     @PatchMapping("/customers/{idCustomer}")
@@ -87,6 +94,7 @@ public class CustomerController {
     void deleteVariableDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idVarDiscount) {
         customerRepository.deleteVarDiscount(idCustomer, idVarDiscount);
     }
+
     @DeleteMapping("/customers/{idCustomer}/flexDiscount/{idFlexDiscount}")
     void deleteFlexDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idFlexDiscount) {
         customerRepository.deleteFlexDiscount(idCustomer, idFlexDiscount);

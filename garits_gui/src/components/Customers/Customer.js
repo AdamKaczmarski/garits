@@ -72,7 +72,11 @@ const Customer = (props) => {
           "/varDiscount",
         data: varDiscount,
       });
-      console.log(response);
+      if (response.status !== 200) {
+        handleShowVar();
+      } else {
+        console.log(response);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -85,7 +89,7 @@ const Customer = (props) => {
       <td>{props.customer.name}</td>
       <td>{props.customer.email}</td>
       <td style={{ display: "flex", justifyContent: "space-evenly" }}>
-        <Dropdown className="m-0 p-0" align={"end"}>
+        <Dropdown className="m-0 p-0" align={"end"} >
           <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
           <Dropdown.Menu>
