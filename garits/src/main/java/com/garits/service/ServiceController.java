@@ -2,6 +2,8 @@ package com.garits.service;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,14 +53,14 @@ public class ServiceController {
     /**
      * Edit service
      */
-    @PutMapping("/services/{idService}")
-    Service updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
+    @PatchMapping("/services/{idService}")
+    ResponseEntity<Service> updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
         Service s = serviceRepository.findById(idService).orElseThrow(() -> new NotFound("Could not find the service: " + idService));
         if (editedService.getServiceName() != null) s.setServiceName(editedService.getServiceName());
         if (editedService.getServicePrice() >= 0.0) s.setServicePrice(editedService.getServicePrice());
         if (editedService.getApproxTimeMin() > 0) s.setApproxTimeMin(editedService.getApproxTimeMin());
         if (editedService.getShortDescription() != null) s.setShortDescription(editedService.getShortDescription());
-        return serviceRepository.save(s);
+        return ResponseEntity.status(HttpStatus.OK).body(s);
     }
 
     //DELETE MAPPINGS
