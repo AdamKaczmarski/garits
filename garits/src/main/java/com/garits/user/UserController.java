@@ -31,7 +31,7 @@ public class UserController {
      */
     @GetMapping("/users/{id}")
     User one(@PathVariable Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        return userRepository.findById(id).orElseThrow(() -> new NotFound("Could not find user: " + id));
     }
     //POST MAPPINGS
 
@@ -41,40 +41,51 @@ public class UserController {
      * @param newUser - user object
      * @return
      */
-    @PostMapping("/user")
+    @PostMapping("/users")
     User newUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        newUser.setPassword("1234");
+        newUser.setSalt("1234");
+        userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getSalt(), newUser.getFirstName(), newUser.getLastName());
+        Integer id = userRepository.getUserId(newUser.getEmail());
+        userRepository.addUserRole(id,newUser.getRoles().iterator().next().getRoleName());
+        return userRepository.findById(id).orElseThrow(()->new NotFound("Couldn't add user"));
     }
 
-    //PUT MAPPINGS
+    //PATCH MAPPINGS
 
     /**
      * Change user's role
      *
      * @return
      */
-    @PutMapping("/user/{id}/role")
-    User changeRole(@RequestBody Role newRole, @PathVariable Integer id) {
-        return userRepository.findById(id).map(user -> {
-            user.changeRole(newRole);
+    @PatchMapping("/users/{idUser}/role")
+    void changeRole(@RequestBody Role newRole, @PathVariable Integer idUser) {
+        /*return userRepository.findById(id).map(user -> {
+            if (newRole != null) user.changeRole(newRole);
             return userRepository.save(user);
-        }).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        }).orElseThrow(() -> new NotFound("Could not find user: " + id));*/
+        System.out.println(newRole.getRoleName());
+        userRepository.changeUserRole(idUser,newRole.getRoleName());
     }
 
-    /**
+/*
+    */
+/**
      * EDIT USER
      *
      * @param id - Edited user's id
-     */
-    @PutMapping("/user/{id}")
+     *//*
+
+    @PatchMapping("/users/{id}")
     User editUser(@RequestBody User editedUser, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
-            user.setEmail(editedUser.getEmail());
-            user.setFirstName(editedUser.getFirstName());
-            user.setLastName(editedUser.getLastName());
+            if (editedUser.getEmail()!=null)user.setEmail(editedUser.getEmail());
+            if (editedUser.getFirstName()!=null)user.setFirstName(editedUser.getFirstName());
+            if(editedUser.getLastName()!=null)user.setLastName(editedUser.getLastName());
             return userRepository.save(user);
-        }).orElseThrow(() -> new NotFound("Could not find user: "+id));
+        }).orElseThrow(() -> new NotFound("Could not find user: " + id));
     }
+*/
     //DELETE MAPPINGS
 
     /**
