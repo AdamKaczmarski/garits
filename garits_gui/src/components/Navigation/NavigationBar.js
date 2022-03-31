@@ -25,6 +25,9 @@ const NavigationBar = () => {
 
         <Navbar.Collapse id="navbar-nav">
           <Nav className="justify-content-end flex-grow-1 pe-3">
+          <Nav.Link as={Link} to="reports">
+              Reports
+            </Nav.Link>
             <Nav.Link as={Link} to="jobs">
               Jobs
             </Nav.Link>

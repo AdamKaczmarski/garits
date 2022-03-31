@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import Customers from "./pages/Customers";
 import Services from "./pages/Services";
 import Payments from "./pages/Payments";
+import Reports from "./pages/Reports";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="users" element={<Users />} />
         <Route path="customers" element={<Customers />} />
         <Route path="services" element={<Services />} />
+        <Route path="reports" element={<Reports />} />
         <Route
           path="*"
           element={
