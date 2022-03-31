@@ -24,12 +24,7 @@ const PartsTable = () => {
     stockeLevelThreshold: 0,
   };
 
-  const removePartUI = (editedPart) => {
-    const newParts = parts.filter((p) => p.idPart !== editedPart.idPart);
-    newParts.push(editedPart);
-    setParts(newParts);
-  };
-  const deletePart = async (idPart) => {
+    const deletePart = async (idPart) => {
     try {
       const response = await axios({
         method: "DELETE",
@@ -69,6 +64,7 @@ const PartsTable = () => {
       console.log(err);
     } finally {
       obtainParts();
+      handleShow();
     }
   };
   useEffect(() => {
@@ -82,7 +78,7 @@ const PartsTable = () => {
       key={part.idPart}
       part={part}
       deletePart={deletePart}
-      removePartUI={removePartUI}
+      obtainParts={obtainParts}
     />
   ));
 

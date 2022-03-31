@@ -19,7 +19,8 @@ const Part = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      props.removePartUI(editedPart);
+      handleShow();
+      props.obtainParts();
     }
   };
 
