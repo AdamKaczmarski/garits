@@ -1,7 +1,8 @@
 package com.garits.order;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -13,9 +14,9 @@ public class Order {
     @Column(name = "status")
     private String status;
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private Date orderDate;
     @Column(name = "order_arrival")
-    private LocalDate orderArrival;
+    private Date orderArrival;
     @Column(name="order_amount")
     private double orderAmount;
     @Column(name="description")
@@ -23,10 +24,6 @@ public class Order {
     //Getters and Setters
     public Integer getIdOrder() {
         return idOrder;
-    }
-
-    public void setIdOrder(Integer idOrder) {
-        this.idOrder = idOrder;
     }
 
     public String getStatus() {
@@ -37,19 +34,19 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
-    public LocalDate getOrderArrival() {
+    public Date getOrderArrival() {
         return orderArrival;
     }
 
-    public void setOrderArrival(LocalDate orderArrival) {
+    public void setOrderArrival(Date orderArrival) {
         this.orderArrival = orderArrival;
     }
 
