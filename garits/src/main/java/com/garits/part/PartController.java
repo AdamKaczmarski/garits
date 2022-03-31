@@ -2,6 +2,8 @@ package com.garits.part;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -71,8 +73,8 @@ public class PartController {
      * @return
      */
     @DeleteMapping("/parts/{partId}")
-    String deletePart(@PathVariable Integer partId){
+    ResponseEntity<String> deletePart(@PathVariable Integer partId){
         partRepository.deleteById(partId);
-        return ("Part deleted");
+        return ResponseEntity.status(HttpStatus.OK).body("Part deleted");
     }
 }
