@@ -71,14 +71,6 @@ const AddUserForm = (props) => {
           onChange={fixedDiscountHandler}
         />
       </Form.Group>
-      <Form.Group controlId="flex_discount">
-        <Form.Label>Flexible Discount</Form.Label>
-        <Form.Control />
-      </Form.Group>
-      <Form.Group controlId="service_discount">
-        <Form.Label>Service Discount</Form.Label>
-        <Form.Control />
-      </Form.Group>
     </Form>
   );
 };
