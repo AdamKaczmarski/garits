@@ -36,11 +36,8 @@ const Service = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      const newServices = props.services.filter(
-        (s) => s.idService !== props.service.idService
-      );
-      newServices.push(editedService);
-      props.setServices(newServices);
+      handleShow();
+      props.obtainServices();
     }
   };
   return (

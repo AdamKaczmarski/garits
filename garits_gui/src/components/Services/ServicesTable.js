@@ -12,9 +12,11 @@ const ServicesTable = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState([]);
   const handleShow = () => setShow(!show);
-  const servicesView = services.map((service) => (
-    <Service key={service.idService} service={service} services={services} setServices={setServices}/>
-  ));
+  let servicesView=[];
+  if (services && services.lenght>0) {
+  servicesView = services.map((service) => (
+    <Service key={service.idService} service={service} services={services} setServices={setServices} obtainServices={obtainServices}/>
+  ));}
   let newService = {
     serviceName: "",
     servicePrice: 0,
@@ -48,14 +50,16 @@ const ServicesTable = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      const newServices = [...services];
+      /* const newServices = [...services];
       newServices.push(newService);
       newService = {
         serviceName: "",
         servicePrice: 0,
         shortDescription: "",
         approxTimeMin: 0,
-      };
+      }; */
+      handleShow();
+      obtainServices();
     }
   };
   if (isLoading) {
