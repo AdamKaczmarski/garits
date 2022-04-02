@@ -80,7 +80,7 @@ const AddOrderForm = (props) => {
     props.newOrder.orderDate = ev.target.value;
   };
   const arrivalDateHandler = (ev) => {
-    props.newOrder.arrivalDate = ev.target.value;
+    props.newOrder.orderArrival = ev.target.value;
   };
   const descriptionHandler = (ev) => {
     props.newOrder.description = ev.target.value;

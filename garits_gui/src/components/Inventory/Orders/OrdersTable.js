@@ -39,6 +39,17 @@ const OrdersTable = () => {
       obtainOrders();
     }
   };
+  const completeOrder=async(idOrder,newArrivalOrder)=>{
+    try {
+      const response = await axios({method:"PATCH",url:`http://localhost:8080/orders/${idOrder}`,data:newArrivalOrder});    
+      console.log(response)
+    } catch(err){
+      console.log(err)
+    } finally {
+      obtainOrders();
+    }
+  }
+
   const changeOrderStatus = async (id, newStatus) => {
     try {
       setIsLoading(true);
@@ -66,6 +77,7 @@ const OrdersTable = () => {
       order={order}
       deleteOrder={deleteOrder}
       changeOrderStatus={changeOrderStatus}
+      completeOrder={completeOrder}
     />
   ));
   const newOrder = {
