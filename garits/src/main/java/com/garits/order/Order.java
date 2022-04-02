@@ -21,6 +21,7 @@ public class Order {
     private double orderAmount;
     @Column(name="description")
     private String description;
+
     //Getters and Setters
     public Integer getIdOrder() {
         return idOrder;
@@ -65,6 +66,8 @@ public class Order {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    /*public void setOrderTotalAmount(double amount){this.orderAmount=amount}*/
 }
 
 

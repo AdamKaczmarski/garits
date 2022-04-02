@@ -9,12 +9,21 @@ const Order = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const handleShowChange = () => setShowChange(!showChange);
   const handleShowDetails = () => setShowDetails(!showDetails);
-  let formattedDateArrival = new Date(props.order.orderArrival)
-  .toISOString()
-  .substring(0, 10);
+  const newStatus = { status: "" };
+  let formattedDateArrival="";
+  if (props.order.orderArrival!=null) {
+    formattedDateArrival = new Date(props.order.orderArrival)
+      .toISOString()
+      .substring(0, 10);
+  } 
   let formattedOrderDate = new Date(props.order.orderDate)
-  .toISOString()
-  .substring(0, 10);
+    .toISOString()
+    .substring(0, 10);
+  //Delete order
+  const handleDelete = () => {
+    props.deleteOrder(props.order.idOrder);
+  };
+
   return (
     <>
       <tr>
@@ -41,11 +50,11 @@ const Order = (props) => {
               <Dropdown.Item>Download report</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                href="#/action-3"
+                onClick={handleDelete}
               >
                 Delete
               </Dropdown.Item>
-            </Dropdown.Menu>  
+            </Dropdown.Menu>
           </Dropdown>{" "}
         </td>
         <td>
@@ -54,14 +63,18 @@ const Order = (props) => {
           </Button>
         </td>
       </tr>
+
       <InventoryModal
         show={showChange}
         onClose={handleShowChange}
         title="Change status"
+        submitAction={() =>
+          props.changeOrderStatus(props.order.idOrder, newStatus)
+        }
         form={
           <ChangeOrderStatusForm
-            id_order={props.order.idOrder}
             status={props.order.status}
+            newStatus={newStatus}
           />
         }
       />
@@ -69,7 +82,8 @@ const Order = (props) => {
         show={showDetails}
         onClose={handleShowDetails}
         title="Order details"
-        form={<OrderDetails order={props.order} />}
+        submitAction={null}
+        form={<OrderDetails idOrder={props.order.idOrder} />}
       />
     </>
   );

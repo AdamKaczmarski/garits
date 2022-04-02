@@ -11,7 +11,6 @@ const OrdersTable = () => {
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
-  const newOrder = {};
   const obtainOrders = async () => {
     try {
       const response = await axios({
@@ -26,12 +25,12 @@ const OrdersTable = () => {
       setIsLoading(false);
     }
   };
-  const addOrder = async () => {
+  const deleteOrder = async (id) => {
     try {
+      setIsLoading(true);
       const response = await axios({
-        method: "POST",
-        url: "http://localhost:8080/orders",
-        data: newOrder,
+        method: "DELETE",
+        url: `http://localhost:8080/orders/${id}`,
       });
       console.log(response);
     } catch (err) {
@@ -40,7 +39,21 @@ const OrdersTable = () => {
       obtainOrders();
     }
   };
-
+  const changeOrderStatus = async (id, newStatus) => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "PATCH",
+        url: `http://localhost:8080/orders/${id}`,
+        data: newStatus,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      obtainOrders();
+    }
+  };
   useEffect(() => {
     obtainOrders();
   }, []);
@@ -48,8 +61,54 @@ const OrdersTable = () => {
     return <Spinner animation="border" variant="primary" />;
   }
   const ordersView = orders.map((order) => (
-    <Order key={order.idOrder} order={order} />
+    <Order
+      key={order.idOrder}
+      order={order}
+      deleteOrder={deleteOrder}
+      changeOrderStatus={changeOrderStatus}
+    />
   ));
+  const newOrder = {
+    status: "ordered",
+    description: "",
+    orderDate: new Date().toISOString().substring(0, 10),
+    orderArrival: null,
+  };
+  const orderItems = [];
+  const addOrder = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8080/orders",
+        data: newOrder,
+      });
+      console.log(response);
+      const idOrder = response.data.idOrder;
+      addItemsToOrder(idOrder);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleShow();
+    }
+   };
+   const addItemsToOrder = async(idOrder)=>{
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: `http://localhost:8080/orders/${idOrder}/items`,
+        data: orderItems,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleShow();
+      obtainOrders();
+    }
+   };
+
   return (
     <>
       <Table striped hover className="mt-3">
@@ -78,7 +137,7 @@ const OrdersTable = () => {
         onClose={handleShow}
         title="Add order"
         submitAction={addOrder}
-        form={<AddOrderForm newOrder={newOrder} />}
+        form={<AddOrderForm newOrder={newOrder} orderItems={orderItems} />}
       />
       <InventoryModal />
     </>
