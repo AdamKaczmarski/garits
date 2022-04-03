@@ -1,4 +1,4 @@
-package com.garits.service;
+package com.garits.job.service;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,10 @@ public class ServiceController {
     @GetMapping("/services/{id}")
     Service one(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
+    }
+    @GetMapping("/services/{id}/name")
+    String getServiceName(@PathVariable Integer id){
+        return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id)).getServiceName();
     }
     //POST MAPPINGS
 
