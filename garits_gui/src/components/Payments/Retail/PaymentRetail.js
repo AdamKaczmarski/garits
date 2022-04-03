@@ -1,5 +1,4 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { INVENTORY } from "../../dummy-data/inventory";
 
 const PaymentRetail = (props) => {
   /** CHANGE THE PROPS HERE FOR PART BECAUSE SOMETHING DIDN'T WORK FOR ME */

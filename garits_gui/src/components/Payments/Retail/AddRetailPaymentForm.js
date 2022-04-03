@@ -1,11 +1,11 @@
 import Form from "react-bootstrap/Form";
-import { INVENTORY } from "../../dummy-data/inventory";
 const AddRetailPaymentForm = () => {
-  const itemNames = INVENTORY.map((item) => (
+  let itemNames;
+  /* const itemNames = INVENTORY.map((item) => (
     <option key={item.id} value={item.id}>
       {item.part_name}
     </option>
-  ));
+  )); */
   itemNames.unshift(<option key={0} value={0}>Add items...</option>)  
   return (
     <Form>

@@ -4,9 +4,8 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
 import PaymentRetail from "./PaymentRetail";
-import { PAYMENTS_RETAIL } from "../../dummy-data/payments";
 import AddRetailPaymentForm from "./AddRetailPaymentForm";
-import PaymentModal from "./PaymentModal";
+import PaymentModal from "../PaymentModal";
 import { Spinner } from "react-bootstrap";
 
 const PaymentsRetailTable = () => {
