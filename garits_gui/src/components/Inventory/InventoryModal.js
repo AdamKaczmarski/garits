@@ -12,9 +12,6 @@ const InventoryModal = (props) => {
         <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.submitAction}>
-          Submit
-        </Button>
         {props.submitAction == null ? null : (
           <Button variant="primary" onClick={props.submitAction}>
             Submit
