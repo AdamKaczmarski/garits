@@ -29,8 +29,8 @@ public class Customer {
     private String email;
     @Column(name="fax")
     private String fax;
-    @Column(name="fixed_discount")
-    private int fixedDiscount;
+    @Column(name="fixed_discount", nullable = true)
+    private Integer fixedDiscount;
     @OneToMany(mappedBy = "customerId")
     private Set<FlexDiscount> flexDiscounts = new HashSet<>();
 
@@ -98,11 +98,11 @@ public class Customer {
         this.fax = fax;
     }
 
-    public int getFixedDiscount() {
+    public Integer getFixedDiscount() {
         return fixedDiscount;
     }
 
-    public void setFixedDiscount(int fixedDiscount) {
+    public void setFixedDiscount(Integer fixedDiscount) {
         this.fixedDiscount = fixedDiscount;
     }
 
