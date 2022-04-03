@@ -30,6 +30,19 @@ const PaymentsRetailTable = () => {
       setIsLoading(false);
     }
   };
+  const deletePaymentRetail = async (idPayment) => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `http://localhost:8080/payments-retail/${idPayment}`,
+      });
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      obtainPaymentsRetail();
+    }
+  }
   useEffect(() => {
     obtainPaymentsRetail();
   }, []);
@@ -40,7 +53,7 @@ const PaymentsRetailTable = () => {
   if (paymentsRetail && paymentsRetail.length>0) {
     console.log("MAPPING")
     paymentsRetailView = paymentsRetail.map((paymentRetail) => (
-      <PaymentRetail key={paymentRetail.idPayment} paymentRetail={paymentRetail} />
+      <PaymentRetail key={paymentRetail.idPayment} paymentRetail={paymentRetail} deletePaymentRetail={deletePaymentRetail} />
     ));}
   
   return (

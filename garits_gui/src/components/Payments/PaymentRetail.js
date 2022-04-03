@@ -31,7 +31,7 @@ const PaymentRetail = (props) => {
             <Dropdown.Item>Download invoice</Dropdown.Item>
             <Dropdown.Item
               style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-              href="#/action-3"
+              onClick={()=>{props.deletePaymentRetail(props.paymentRetail.idPayment)}}
             >
               Delete
             </Dropdown.Item>
