@@ -89,7 +89,7 @@ const AddRetailPaymentForm = (props) => {
         </Button>
       </Form.Group>
       <Form.Group controlId="total">
-      <Form.Label><span style={{fontWeight:'bold'}}>Total: {total}</span></Form.Label>
+      <Form.Label><span style={{fontWeight:'bold', fontSize:"1.5em"}}>Total: {total}</span></Form.Label>
       </Form.Group>
     </Form>
   );
