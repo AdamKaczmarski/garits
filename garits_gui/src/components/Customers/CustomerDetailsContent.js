@@ -6,17 +6,31 @@ const BoldSpan = (props) => {
 };
 
 const CustomerDetailsContent = (props) => {
-  const { flex_discount, service_discount } = props.customer;
-  const flexDiscounts = flex_discount.map((discount, index) => (
-    <ListGroup.Item key={index}>
-      From {discount.rangeFrom}: {discount.discount}%
-    </ListGroup.Item>
-  ));
-  const serviceDiscount = service_discount.map((discount, index) => (
-    <ListGroup.Item key={index}>
-      {discount.service_name}: {discount.discount}%
-    </ListGroup.Item>
-  ));
+  let flexDiscounts;
+  let serviceDiscounts;
+  if (props.customer.flexDiscounts) {
+     flexDiscounts = props.customer.flexDiscounts.map((discount) => (
+      <ListGroup.Item key={discount.idFlexDiscount}>
+        <span>
+          From {discount.rangeFrom}: {discount.discount}%
+        </span>
+      </ListGroup.Item>
+    ));
+  }
+  if (props.customer.variableDiscounts) {
+     serviceDiscounts = props.customer.variableDiscounts.map(
+      (discount) => {
+        return (
+          <ListGroup.Item key={discount.idVarDiscount}>
+            <span>
+              {discount.serviceId}: {discount.discount}%
+            </span>
+          </ListGroup.Item>
+        );
+      }
+    );
+  }
+
 
   return (
     <ListGroup>
