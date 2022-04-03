@@ -116,7 +116,7 @@ CREATE TABLE `Jobs_Parts` (
 
 CREATE TABLE `Customers_Vehicles` (
     `customer_id` int NOT NULL,
-    `reg_no_id` varchar(10) NOT NULL
+    `vehicle_id` int NOT NULL
 );
 
 CREATE TABLE `Parts_Payments` (
@@ -147,7 +147,7 @@ CREATE TABLE `Payments` (
 CREATE TABLE `Orders` (
     `id_order` int NOT NULL AUTO_INCREMENT,
     `status` varchar(20) DEFAULT 'pending' NOT NULL,
-    `description` varchar(50) NOT NULL,
+    `description` varchar(200) NOT NULL,
     `order_date` date NOT NULL,
     `order_arrival` date,
     `order_amount` decimal(8, 2) NOT NULL,
@@ -243,7 +243,7 @@ ADD
 ALTER TABLE
     `Customers_Vehicles`
 ADD
-    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
+    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Payments_Customer`
@@ -299,11 +299,14 @@ ALTER TABLE
     `Parts_Payments`
 ADD
     CONSTRAINT `FKParts_Paym813726` FOREIGN KEY (`payment_id`) REFERENCES `Payments` (`id_payment`) ON UPDATE CASCADE;
+<<<<<<<< HEAD:garits_db/garits_schema.sql
 
 ALTER TABLE
     `customer_flex_discounts`
 ADD
     CONSTRAINT `FKCust_CustFlex` FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`id_customer`) ON UPDATE CASCADE;
 
+========
+>>>>>>>> orders:garits_db/garits_schema_first_deliverable.sql
     
 insert into roles (role_name) values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");

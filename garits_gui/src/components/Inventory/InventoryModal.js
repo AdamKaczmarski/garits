@@ -7,16 +7,16 @@ const InventoryModal = (props) => {
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        {props.form}
-      </Modal.Body>
+      <Modal.Body>{props.form}</Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.submitAction}>
-          Submit
-        </Button>
+        {props.submitAction == null ? null : (
+          <Button variant="primary" onClick={props.submitAction}>
+            Submit
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
