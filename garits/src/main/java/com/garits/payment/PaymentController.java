@@ -1,5 +1,6 @@
 package com.garits.payment;
 
+import com.garits.customer.Customer;
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,14 @@ public class PaymentController {
      * @return Array of Payment objects.
      */
 
-    @GetMapping("/payments")
+    @GetMapping("/payments-retail")
     public @ResponseBody
-    Iterable<PaymentRetail> getAllPayments() {return paymentRepository.findAll();
+    Iterable<PaymentRetail> getAllPayments() {
+        Iterable<PaymentRetail> result = paymentRepository.findAll();
+        for (PaymentRetail payment : result) {
+            payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(),payment.getCustomer().getName()));
+        }
+        return result;
     }
 
     /**
@@ -28,7 +34,7 @@ public class PaymentController {
      * @param id - Payment's id
      * @return Payment object
      */
-    @GetMapping("/payments/{id}")
+    @GetMapping("/payments-retail/{id}")
     PaymentRetail one(@PathVariable Integer id) {
         return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find Payment: " + id));
     }
@@ -41,7 +47,7 @@ public class PaymentController {
      * @param newPayment - payment object
      * @return
      */
-    @PostMapping("/payments")
+    @PostMapping("/payments-retail")
     PaymentRetail newPayment(@RequestBody PaymentRetail newPayment)  {
         return paymentRepository.save(newPayment);
 
@@ -52,7 +58,7 @@ public class PaymentController {
      *
      * @param id - Payment ID
      */
-    @DeleteMapping("/payments/{id}")
+    @DeleteMapping("/payments-retail/{id}")
     void deletePayment(@PathVariable Integer id) {paymentRepository.deleteById(id);
     }
 

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
@@ -6,13 +7,42 @@ import PaymentRetail from "./PaymentRetail";
 import { PAYMENTS_RETAIL } from "../../dummy-data/payments";
 import AddRetailPaymentForm from "./AddRetailPaymentForm";
 import PaymentModal from "./PaymentModal";
+import { Spinner } from "react-bootstrap";
 
 const PaymentsRetailTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const paymentsRetail = PAYMENTS_RETAIL.map((paymentRetail) => (
-    <PaymentRetail key={paymentRetail.id_sale} paymentRetail={paymentRetail} />
-  ));
+  const [isLoading, setIsLoading] = useState(true);
+  const [paymentsRetail, setPaymentsRetail] = useState([]);
+  let paymentsRetailView;
+
+  const obtainPaymentsRetail =async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/payments-retail",
+      });
+      console.log(response);
+      if (response.status === 200) setPaymentsRetail(response.data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    obtainPaymentsRetail();
+  }, []);
+
+  if (isLoading) {
+    return <Spinner variant="primary" />;
+  }
+  if (paymentsRetail && paymentsRetail.length>0) {
+    console.log("MAPPING")
+    paymentsRetailView = paymentsRetail.map((paymentRetail) => (
+      <PaymentRetail key={paymentRetail.idPayment} paymentRetail={paymentRetail} />
+    ));}
+  
   return (
     <>
       <Table striped hover className="mt-3">
@@ -20,9 +50,8 @@ const PaymentsRetailTable = () => {
           <tr>
             <th>Sale ID</th>
             <th>Sale Date</th>
-            <th>Part Name</th>
-            <th>Quantity</th>
-            <th>Part Price</th>
+            <th>Customer</th>
+            <th>Payment Type</th>
             <th>Total amount</th>
             <th>
               <span>Actions</span>
@@ -34,9 +63,14 @@ const PaymentsRetailTable = () => {
             </th>
           </tr>
         </thead>
-        <tbody>{paymentsRetail}</tbody>
+        <tbody>{paymentsRetailView}</tbody>
       </Table>
-      <PaymentModal show={show} onClose={handleShow} title="Add payment" form={<AddRetailPaymentForm />} />
+      <PaymentModal
+        show={show}
+        onClose={handleShow}
+        title="Add payment"
+        form={<AddRetailPaymentForm />}
+      />
     </>
   );
 };

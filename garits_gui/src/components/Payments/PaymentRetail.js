@@ -4,23 +4,21 @@ import { INVENTORY } from "../../dummy-data/inventory";
 const PaymentRetail = (props) => {
   /** CHANGE THE PROPS HERE FOR PART BECAUSE SOMETHING DIDN'T WORK FOR ME */
   const type =
-    props.paymentRetail.payment_type.charAt(0).toUpperCase() +
-    props.paymentRetail.payment_type.slice(1).toLowerCase();
-
+    props.paymentRetail.cashOrCard.charAt(0).toUpperCase() +
+    props.paymentRetail.cashOrCard.slice(1).toLowerCase();
+    const formattedDateArrival = new Date(props.paymentRetail.paymentDate)
+    .toISOString()
+    .substring(0, 10);
   return (
     <tr>
-      <td>{props.paymentRetail.id_sale}</td>
-      <td>{props.paymentRetail.sale_date}</td>
-      <td>{props.paymentRetail.part_name}</td>
-      <td>{props.paymentRetail.quantity_sold}</td>{" "}
-      <td>
-        {(Math.round(props.paymentRetail.price * 100) / 100).toFixed(2) +
-          " GBP"}
-      </td>
+      <td>{props.paymentRetail.idPayment}</td>
+      <td>{formattedDateArrival}</td>
+      <td>{props.paymentRetail.customer.name}</td>
+      <td>{type}</td>
       <td>
         {(
           Math.round(
-            props.paymentRetail.quantity_sold * props.paymentRetail.price * 100
+            props.paymentRetail.amount * 100
           ) / 100
         ).toFixed(2) + " GBP"}
       </td>
