@@ -1,12 +1,9 @@
-import { useState, useEffect, Suspense } from "react";
-import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import Customer from "./Customer";
-//import { CUSTOMERS } from "../../dummy-data/customers";
-import AddCustomerModal from "./AddCustomerModal";
-import Spinner from "react-bootstrap/Spinner";
-
+import { useState } from "react";
+import Customer from './Customer';
+import { CUSTOMERS } from "../../dummy-data/customers";
+import AddCustomerModal from './AddCustomerModal';
 const CustomersTable = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const handleShowAdd = () => setShowAdd(!showAdd);

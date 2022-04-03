@@ -1,7 +1,7 @@
 package com.garits.payment;
 
-import com.garits.customer.Customer;
 import com.garits.exceptions.NotFound;
+import com.garits.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,33 +12,26 @@ public class PaymentController {
     private PaymentRepository paymentRepository;
 
     //GET MAPPINGS
+
     /**
      * This method returns all payments in the system.
      *
      * @return Array of Payment objects.
      */
-
-    @GetMapping("/payments-retail")
+    @GetMapping("/payments")
     public @ResponseBody
-    Iterable<PaymentRetail> getAllPayments() {
-        Iterable<PaymentRetail> result = paymentRepository.findAll();
-        for (PaymentRetail payment : result) {
-            payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(),payment.getCustomer().getName()));
-        }
-        return result;
-    }
+    Iterable<Payment> getAllPayments(){return paymentRepository.findAll();}
 
     /**
-     * Get single Payment
+     * Get single payment
      *
-     * @param id - Payment's id
+     * @param id - payment's id
      * @return Payment object
      */
-    @GetMapping("/payments-retail/{id}")
-    PaymentRetail one(@PathVariable Integer id) {
-        return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find Payment: " + id));
+    @GetMapping("payments/{id}")
+    Payment one(@PathVariable Integer id) {
+        return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find payment" +id));
     }
-
     //POST MAPPINGS
 
     /**
@@ -47,19 +40,19 @@ public class PaymentController {
      * @param newPayment - payment object
      * @return
      */
-    @PostMapping("/payments-retail")
-    PaymentRetail newPayment(@RequestBody PaymentRetail newPayment)  {
-        return paymentRepository.save(newPayment);
 
-    }
+    @PostMapping("/user")
+
+        Payment newPayment(@RequestBody Payment newPayment) {return paymentRepository.save(newPayment); }
+
+    //DELETE MAPPINGS
 
     /**
-     * Deletes the Payment
+     * Deletes the payment
      *
-     * @param id - Payment ID
+     * @param id - payment ID
      */
-    @DeleteMapping("/payments-retail/{id}")
+    @DeleteMapping("/payments/{id}")
     void deletePayment(@PathVariable Integer id) {paymentRepository.deleteById(id);
     }
-
 }
