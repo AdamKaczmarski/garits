@@ -103,7 +103,7 @@ const Customer = (props) => {
             </Dropdown.Item>
             <Dropdown.Item
               style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-              href="#/action-3"
+              onClick={() => props.deleteCustomer(props.customer.idCustomer)}
             >
               Delete
             </Dropdown.Item>

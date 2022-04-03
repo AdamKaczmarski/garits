@@ -11,13 +11,25 @@ const CustomersTable = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const handleShowAdd = () => setShowAdd(!showAdd);
   const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   /*   const customers = CUSTOMERS.map((customer) => (
     <Customer key={customer.id} customer={customer} />
   )); */
+  const deleteCustomer = async (id) => {
+    try {
+      const response = axios({
+        method: "DELETE",
+        url: "http://localhost:8080/customers/" + id,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      obtainCustomers();
+    }
+  };
+
   let customersView;
-  useEffect(() => {
-    obtainCustomers();
-  }, []);
 
   const obtainCustomers = async () => {
     try {
@@ -28,17 +40,28 @@ const CustomersTable = (props) => {
       setCustomers(response.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
+  useEffect(() => {
+    obtainCustomers();
+  }, []);
+  if (isLoading) {
+    return <Spinner animation="border" variant="primary" />;
+  }
   if (customers && customers.length > 0) {
     customersView = customers.map((customer) => (
-      <Customer key={customer.idCustomer} customer={customer} />
+      <Customer
+        key={customer.idCustomer}
+        customer={customer}
+        deleteCustomer={deleteCustomer}
+      />
     ));
   }
-
   return (
     <>
-      <Suspense fallback={<Spinner animation="border" variant="primary" />}>
+     
         <Table striped hover className="mt-3">
           <thead>
             <tr>
@@ -59,7 +82,7 @@ const CustomersTable = (props) => {
           <tbody>{customersView}</tbody>
         </Table>
         <AddCustomerModal show={showAdd} onClose={handleShowAdd} />
-      </Suspense>
+    
     </>
   );
 };
