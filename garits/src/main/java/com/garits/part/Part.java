@@ -40,6 +40,12 @@ public class Part {
 
     }
 
+    public Part(Integer idPart, String partName, double price) {
+        this.idPart = idPart;
+        this.partName = partName;
+        this.price = price;
+    }
+
     public Part(Integer idPart, String partName, String partType, String code, String manufacturer, String vehicleType, String yearS, double price, int stockLevel, int stockLevelThreshold) {
         this.idPart = idPart;
         this.partName = partName;

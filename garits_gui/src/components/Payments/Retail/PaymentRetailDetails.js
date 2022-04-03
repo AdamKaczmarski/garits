@@ -9,7 +9,7 @@ const PaymentRetailDetails = props =>{
         try{
             const response = await axios({
                 method:"GET",
-                url:`http://localhost:8080/payments/${props.idPayment}/retail-details`
+                url:`http://localhost:8080/payments-retail/${props.idPayment}/details`
             });
             console.log(response);
             setPaymentsRetailDetails(response.data);

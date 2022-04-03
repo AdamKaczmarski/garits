@@ -1,11 +1,13 @@
 package com.garits.payment;
 
+import com.garits.customer.Customer;
+
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class PaymentRetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment")
@@ -15,19 +17,18 @@ public class Payment {
     @Column(name = "amount")
     private double amount;
     @Column(name = "create_date")
-    private LocalDate createDate;
+    private Date createDate;
     @Column(name = "payment_date")
-    private LocalDate paymentDate;
+    private Date paymentDate;
     @Column(name = "payment_due")
-    private LocalDate paymentDue;
+    private Date paymentDue;
+    @OneToOne
+    @JoinTable(name="payments_customer",joinColumns = @JoinColumn(name="payment_id"),inverseJoinColumns = @JoinColumn(name="customer_id"))
+    private Customer customer;
     //Getters and Setters
 
     public Integer getIdPayment() {
         return idPayment;
-    }
-
-    public void setIdPayment(Integer idPayment) {
-        this.idPayment = idPayment;
     }
 
     public String getCashOrCard() {
@@ -46,27 +47,35 @@ public class Payment {
         this.amount = amount;
     }
 
-    public LocalDate getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-    public LocalDate getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 
-    public LocalDate getPaymentDue() {
+    public Date getPaymentDue() {
         return paymentDue;
     }
 
-    public void setPaymentDue(LocalDate paymentDue) {
+    public void setPaymentDue(Date paymentDue) {
         this.paymentDue = paymentDue;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

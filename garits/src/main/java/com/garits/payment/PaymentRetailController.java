@@ -1,15 +1,15 @@
 package com.garits.payment;
 
+import com.garits.customer.Customer;
 import com.garits.exceptions.NotFound;
-import com.garits.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/")
-public class PaymentController {
+public class PaymentRetailController {
     @Autowired
-    private PaymentRepository paymentRepository;
+    private PaymentRetailRepository paymentRepository;
 
     //GET MAPPINGS
 
@@ -18,9 +18,14 @@ public class PaymentController {
      *
      * @return Array of Payment objects.
      */
-    @GetMapping("/payments")
+    @GetMapping("/payments-retail")
     public @ResponseBody
-    Iterable<Payment> getAllPayments(){return paymentRepository.findAll();}
+    Iterable<PaymentRetail> getAllPayments(){
+        Iterable<PaymentRetail> result = paymentRepository.findAll();
+        for (PaymentRetail payment : result) {
+            payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(),payment.getCustomer().getName()));
+        }
+        return result;}
 
     /**
      * Get single payment
@@ -28,8 +33,8 @@ public class PaymentController {
      * @param id - payment's id
      * @return Payment object
      */
-    @GetMapping("payments/{id}")
-    Payment one(@PathVariable Integer id) {
+    @GetMapping("/payments-retail/{id}")
+    PaymentRetail one(@PathVariable Integer id) {
         return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find payment" +id));
     }
     //POST MAPPINGS
@@ -41,9 +46,8 @@ public class PaymentController {
      * @return
      */
 
-    @PostMapping("/user")
-
-        Payment newPayment(@RequestBody Payment newPayment) {return paymentRepository.save(newPayment); }
+    @PostMapping("/payments-retail")
+    PaymentRetail newPayment(@RequestBody PaymentRetail newPayment) {return paymentRepository.save(newPayment); }
 
     //DELETE MAPPINGS
 
@@ -52,7 +56,7 @@ public class PaymentController {
      *
      * @param id - payment ID
      */
-    @DeleteMapping("/payments/{id}")
+    @DeleteMapping("/payments-retail/{id}")
     void deletePayment(@PathVariable Integer id) {paymentRepository.deleteById(id);
     }
 }

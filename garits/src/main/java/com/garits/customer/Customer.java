@@ -1,6 +1,7 @@
 package com.garits.customer;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.garits.customer.discounts.FlexDiscount;
 import com.garits.customer.discounts.VariableDiscount;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customers")
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,13 @@ public class Customer {
     @OneToMany(mappedBy = "customerId")
     private Set<VariableDiscount> variableDiscounts = new HashSet<>();
 
+    public Customer() {
+    }
+
+    public Customer(Integer idCustomer, String name) {
+        this.idCustomer = idCustomer;
+        this.name = name;
+    }
 
     public Integer getIdCustomer() {
         return idCustomer;

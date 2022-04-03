@@ -5,7 +5,7 @@ import com.garits.part.Part;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "parts_orders")
+@Table(name = "parts_orders")
 public class PartsOrdersDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
