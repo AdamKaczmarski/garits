@@ -1,8 +1,10 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Accordion from "react-bootstrap/Accordion";
+
 const BoldSpan = (props) => {
   return <span style={{ fontWeight: "bold" }}>{props.children}</span>;
 };
+
 const CustomerDetailsContent = (props) => {
   let flexDiscounts;
   let serviceDiscounts;
@@ -29,10 +31,11 @@ const CustomerDetailsContent = (props) => {
     );
   }
 
+
   return (
     <ListGroup>
       <ListGroup.Item>
-        <BoldSpan>ID</BoldSpan>: {props.customer.idCustomer}
+        <BoldSpan>ID</BoldSpan>: {props.customer.id}
       </ListGroup.Item>
       <ListGroup.Item>
         <BoldSpan>Name</BoldSpan>: {props.customer.name}
@@ -47,14 +50,14 @@ const CustomerDetailsContent = (props) => {
         <BoldSpan>Postcode</BoldSpan>: {props.customer.postcode}
       </ListGroup.Item>
       <ListGroup.Item>
-        <BoldSpan>Telephone number</BoldSpan>: {props.customer.telephoneNumber}
+        <BoldSpan>Telephone number</BoldSpan>: {props.customer.telephone_number}
       </ListGroup.Item>
       <ListGroup.Item>
         <BoldSpan>FAX</BoldSpan>:{" "}
         {props.customer.fax === null ? "N/A" : props.customer.fax}
       </ListGroup.Item>
       <ListGroup.Item>
-        <BoldSpan>Fixed discount</BoldSpan>: {props.customer.fixedDiscount}
+        <BoldSpan>Fixed discount</BoldSpan>: {props.customer.fixed_discount}
       </ListGroup.Item>
       <ListGroup.Item>
         <Accordion>
@@ -64,7 +67,7 @@ const CustomerDetailsContent = (props) => {
           </Accordion.Item>
           <Accordion.Item eventKey={1}>
             <Accordion.Header>Service discounts</Accordion.Header>
-            <Accordion.Body>{serviceDiscounts}</Accordion.Body>
+            <Accordion.Body>{serviceDiscount}</Accordion.Body>
           </Accordion.Item>
         </Accordion>
       </ListGroup.Item>

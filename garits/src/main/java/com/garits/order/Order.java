@@ -1,8 +1,8 @@
 package com.garits.order;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -14,19 +14,17 @@ public class Order {
     @Column(name = "status")
     private String status;
     @Column(name = "order_date")
-    private LocalDate orderDate;
-    @Column(name = "orderArrival")
-    private LocalDate paymentDate;
+    private Date orderDate;
+    @Column(name = "order_arrival")
+    private Date orderArrival;
+    @Column(name="order_amount")
+    private double orderAmount;
     @Column(name="description")
     private String description;
-    //Getters and Setters
 
+    //Getters and Setters
     public Integer getIdOrder() {
         return idOrder;
-    }
-
-    public void setIdOrder(Integer idOrder) {
-        this.idOrder = idOrder;
     }
 
     public String getStatus() {
@@ -37,20 +35,28 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDate getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
-    public LocalDate getPaymentDate() {
-        return paymentDate;
+    public Date getOrderArrival() {
+        return orderArrival;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
-        this.paymentDate = paymentDate;
+    public void setOrderArrival(Date orderArrival) {
+        this.orderArrival = orderArrival;
+    }
+
+    public double getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(double orderAmount) {
+        this.orderAmount = orderAmount;
     }
 
     public String getDescription() {
@@ -60,4 +66,8 @@ public class Order {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    /*public void setOrderTotalAmount(double amount){this.orderAmount=amount}*/
 }
+
+
