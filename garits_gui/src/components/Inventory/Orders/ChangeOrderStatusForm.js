@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 
 const STATUSES = ["ordered", "completed","cancelled"];
@@ -10,16 +9,10 @@ const ChangeOrderStatusForm = (props) => {
             status.slice(1).toLowerCase()}
     </option>
   ));
-  const handleChangeStatus = (e) => {
-    props.newStatus.status = e.target.value;
-  }
-  useEffect(()=>{
-    props.newStatus.status=STATUSES[0];
-  },[props])
   return (
     <Form>
       <Form.Group controlId="changeStatus">
-        <Form.Select onChange={handleChangeStatus}>{options}</Form.Select>
+        <Form.Select>{options}</Form.Select>
       </Form.Group>
     </Form>
   );
