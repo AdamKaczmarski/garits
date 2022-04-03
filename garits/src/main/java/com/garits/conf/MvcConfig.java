@@ -15,3 +15,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addMapping("/**")
                 .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }}
+

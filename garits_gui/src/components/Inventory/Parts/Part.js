@@ -1,68 +1,39 @@
-import Dropdown from "react-bootstrap/Dropdown";
-import { useState } from "react";
-import axios from "axios";
-import InventoryModal from "../InventoryModal";
-import EditPartForm from "./EditPartForm";
-const Part = (props) => {
-  const [show, setShow] = useState(false);
-  const handleShow = () => setShow(!show);
-  let editedPart = { ...props.part };
+import Dropdown from 'react-bootstrap/Dropdown';
+import { useState } from 'react';
+import InventoryModal from '../InventoryModal';
+import EditPartForm from './EditPartForm';
+const Part = props => {
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(!show);
+  
+    return(<>
+        <tr>
+            <td>{props.part.code}</td>
+            <td>{props.part.part_name}</td>
+            <td>{props.part.part_type}</td>
+            <td>{props.part.manufacturer}</td>
+            <td>{props.part.vehicle_type}</td>
+            <td>{props.part.year_s}</td>
+            <td>{(Math.round(props.part.price * 100) / 100).toFixed(2) + " GBP"}</td>
+            <td>{props.part.stock_level}</td>
+            <td colSpan={2}>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
-  const editPart = async () => {
-    try {
-      const response = await axios({
-        method: "PATCH",
-        url: "http://localhost:8080/parts/" + editedPart.idPart,
-        data: editedPart,
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      handleShow();
-      props.obtainParts();
-    }
-  };
-
-  return (
-    <>
-      <tr>
-        <td>{props.part.code}</td>
-        <td>{props.part.partName}</td>
-        <td>{props.part.partType}</td>
-        <td>{props.part.manufacturer}</td>
-        <td>{props.part.vehicleType}</td>
-        <td>{props.part.yearS}</td>
-        <td>
-          {(Math.round(props.part.price * 100) / 100).toFixed(2) + " GBP"}
-        </td>
-        <td>{props.part.stockLevel}</td>
-        <td colSpan={2}>
-          <Dropdown>
-            <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
-              <Dropdown.Item
-                style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                onClick={() => props.deletePart(props.part.idPart)}
-              >
-                Delete
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>{" "}
-        </td>
-        <td></td>
-      </tr>
-      <InventoryModal
-        show={show}
-        onClose={handleShow}
-        title={"Edit " + props.part.partName}
-        submitAction={editPart}
-        form={<EditPartForm part={props.part} editedPart={editedPart} />}
-      />
-    </>
-  );
-};
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
+            <Dropdown.Item
+              style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+              href="#/action-3"
+            >
+              Delete
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>{" "}
+      </td>
+      <td></td>
+        </tr><InventoryModal show={show} onClose={handleShow} title={"Edit "+props.part.part_name} form={<EditPartForm part={props.part}/>} /></>
+    )
+}
 
 export default Part;

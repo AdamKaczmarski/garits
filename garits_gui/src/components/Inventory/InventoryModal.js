@@ -14,7 +14,7 @@ const InventoryModal = (props) => {
         <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.submitAction}>
+        <Button variant="primary" onClick={props.onClose}>
           Submit
         </Button>
       </Modal.Footer>
