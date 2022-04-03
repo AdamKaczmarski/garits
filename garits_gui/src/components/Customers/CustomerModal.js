@@ -16,7 +16,7 @@ const CustomerDetailsModal = (props) => {
         <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={props.submitAction}>
+        <Button variant="primary" onClick={props.onClose}>
           Save
         </Button>
       </Modal.Footer>
