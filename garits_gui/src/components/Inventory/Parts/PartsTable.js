@@ -1,16 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import InventoryModal from "../InventoryModal";
-
-import { INVENTORY } from "../../../dummy-data/inventory";
 import Part from "./Part";
 import AddToInventoryForm from "../AddToInventoryForm";
+import { Spinner } from "react-bootstrap";
 
 const PartsTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const parts = INVENTORY.map((part) => <Part key={part.id} part={part} />);
+  const [isLoading, setIsLoading] = useState(true);
+  const [parts, setParts] = useState([]);
+  let newPart = {
+    partName: "",
+    partType: "",
+    code: "",
+    manufacturer: "",
+    vehicleType: "",
+    yearS: "",
+    price: 0,
+    stockLevel: 0,
+    stockeLevelThreshold: 0,
+  };
+
+    const deletePart = async (idPart) => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: "http://localhost:8080/parts/" + idPart,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      const newParts = parts.filter((p) => p.idPart !== idPart);
+      setParts(newParts);
+    }
+  };
+
+  const obtainParts = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/parts",
+      });
+      setParts(response.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const addPart = async () => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8080/parts/",
+        data: newPart,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      obtainParts();
+      handleShow();
+    }
+  };
+  useEffect(() => {
+    obtainParts();
+  }, []);
+  if (isLoading) {
+    return <Spinner variant="primary" />;
+  }
+  const partsView = parts.map((part) => (
+    <Part
+      key={part.idPart}
+      part={part}
+      deletePart={deletePart}
+      obtainParts={obtainParts}
+    />
+  ));
+
   return (
     <>
       <Table striped hover className="mt-3">
@@ -37,13 +108,14 @@ const PartsTable = () => {
             </th>
           </tr>
         </thead>
-        <tbody>{parts}</tbody>
+        <tbody>{partsView}</tbody>
       </Table>
       <InventoryModal
         show={show}
         onClose={handleShow}
         title="Add part"
-        form={<AddToInventoryForm />}
+        submitAction={addPart}
+        form={<AddToInventoryForm newPart={newPart} />}
       />
     </>
   );

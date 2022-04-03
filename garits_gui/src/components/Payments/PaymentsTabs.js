@@ -1,7 +1,7 @@
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import PaymentsJobsTable from "./PaymentsJobsTable";
-import PaymentsRetailTable from "./Retail/PaymentsRetailTable";
+import PaymentsRetailTable from "./PaymentsRetailTable";
 
 const PaymentsTabs = () => {
   return (
