@@ -1,9 +1,12 @@
 package com.garits.part;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "parts")
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,28 @@ public class Part {
     private int stockLevel;
     @Column(name="stock_level_threshold")
     private int stockLevelThreshold;
+
+    public Part(Integer idPart, String partName) {
+        this.idPart = idPart;
+        this.partName = partName;
+    }
+
+    public Part() {
+
+    }
+
+    public Part(Integer idPart, String partName, String partType, String code, String manufacturer, String vehicleType, String yearS, double price, int stockLevel, int stockLevelThreshold) {
+        this.idPart = idPart;
+        this.partName = partName;
+        this.partType = partType;
+        this.code = code;
+        this.manufacturer = manufacturer;
+        this.vehicleType = vehicleType;
+        this.yearS = yearS;
+        this.price = price;
+        this.stockLevel = stockLevel;
+        this.stockLevelThreshold = stockLevelThreshold;
+    }
 
     public Integer getIdPart() {
         return idPart;
