@@ -10,7 +10,7 @@ const OrdersTable = () => {
   const handleShow = () => setShow(!show);
 
   const orders = ORDERS.map(order=><Order key={order.id_order} order={order}/>);
-
+  
   return (
     <>
       <Table striped hover className="mt-3">

@@ -14,8 +14,15 @@ const PaymentsRetailTable = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [paymentsRetail, setPaymentsRetail] = useState([]);
   let paymentsRetailView;
-
-  const obtainPaymentsRetail =async () => {
+  let newPayment = {
+    cashOrCard: "",
+    amount: 0,
+    createDate: new Date().toISOString().substring(0, 10),
+    paymentDate: new Date().toISOString().substring(0, 10),
+    customer: { idCustomer: 0 },
+  };
+  let newPaymentItems =[]
+  const obtainPaymentsRetail = async () => {
     try {
       const response = await axios({
         method: "GET",
@@ -41,7 +48,7 @@ const PaymentsRetailTable = () => {
     } finally {
       obtainPaymentsRetail();
     }
-  }
+  };
   useEffect(() => {
     obtainPaymentsRetail();
   }, []);
@@ -49,12 +56,17 @@ const PaymentsRetailTable = () => {
   if (isLoading) {
     return <Spinner variant="primary" />;
   }
-  if (paymentsRetail && paymentsRetail.length>0) {
-    console.log("MAPPING")
+  if (paymentsRetail && paymentsRetail.length > 0) {
+    console.log("MAPPING");
     paymentsRetailView = paymentsRetail.map((paymentRetail) => (
-      <PaymentRetail key={paymentRetail.idPayment} paymentRetail={paymentRetail} deletePaymentRetail={deletePaymentRetail} />
-    ));}
-  
+      <PaymentRetail
+        key={paymentRetail.idPayment}
+        paymentRetail={paymentRetail}
+        deletePaymentRetail={deletePaymentRetail}
+      />
+    ));
+  }
+
   return (
     <>
       <Table striped hover className="mt-3">

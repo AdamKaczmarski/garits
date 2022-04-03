@@ -18,7 +18,7 @@ public class PaymentRetailDetailController {
         Iterable<PaymentRetailDetail> result=paymentRetailDetailRepository.findByPaymentId(idPayment);
 
         for (PaymentRetailDetail x :result){
-            x.setPart(new Part(x.getPart().getIdPart(),x.getPart().getPartName()));
+            x.setPart(new Part(x.getPart().getIdPart(),x.getPart().getCode(),x.getPart().getPartName(),x.getPart().getPrice()));
         }
 
         return result;

@@ -39,6 +39,19 @@ public class Part {
         this.partName = partName;
     }
 
+    public Part(Integer idPart, String partName, double price) {
+        this.idPart = idPart;
+        this.partName = partName;
+        this.price = price;
+    }
+
+    public Part(Integer idPart, String partName, String code, double price) {
+        this.idPart = idPart;
+        this.partName = partName;
+        this.code = code;
+        this.price = price;
+    }
+
     public Integer getIdPart() {
         return idPart;
     }
