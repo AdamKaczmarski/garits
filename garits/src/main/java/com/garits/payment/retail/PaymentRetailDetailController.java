@@ -1,4 +1,4 @@
-package com.garits.payment;
+package com.garits.payment.retail;
 
 import com.garits.part.Part;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/payments-retail/")
+@RequestMapping("/payments-retails/")
 public class PaymentRetailDetailController {
     @Autowired
     private PaymentRetailDetailRepository paymentRetailDetailrepository;
@@ -16,7 +16,7 @@ public class PaymentRetailDetailController {
     Iterable<PaymentRetailDetail> getAllDetailsByPaymentId(@PathVariable Integer paymentId) {
         Iterable<PaymentRetailDetail> result = paymentRetailDetailrepository.findAllByPaymentId(paymentId);
         for (PaymentRetailDetail x : result) {
-            x.setPart(new Part(x.getPart().getIdPart(),x.getPart().getCode(),x.getPart().getPrice()));
+            x.setPart(new Part(x.getPart().getIdPart(),x.getPart().getPartName(),x.getPart().getPrice(),x.getPart().getCode()));
         }
         return result;
     }

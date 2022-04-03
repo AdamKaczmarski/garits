@@ -1,4 +1,4 @@
-package com.garits.payment;
+package com.garits.payment.retail;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.Query;

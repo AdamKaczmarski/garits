@@ -26,7 +26,7 @@ const PaymentsRetailTable = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:8080/payments-retail",
+        url: "http://localhost:8080/payments-retails",
       });
       console.log(response);
       if (response.status === 200) setPaymentsRetail(response.data);
@@ -40,7 +40,7 @@ const PaymentsRetailTable = () => {
     try {
       const response = await axios({
         method: "DELETE",
-        url: `http://localhost:8080/payments-retail/${idPayment}`,
+        url: `http://localhost:8080/payments-retails/${idPayment}`,
       });
       console.log(response);
     } catch (e) {

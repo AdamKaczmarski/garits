@@ -1,4 +1,4 @@
-package com.garits.payment;
+package com.garits.payment.retail;
 
 import com.garits.part.Part;
 

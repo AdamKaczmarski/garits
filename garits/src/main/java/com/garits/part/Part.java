@@ -40,10 +40,11 @@ public class Part {
 
     }
 
-    public Part(Integer idPart, String partName, double price) {
+    public Part(Integer idPart, String partName, double price, String code) {
         this.idPart = idPart;
         this.partName = partName;
         this.price = price;
+        this.code=code;
     }
 
     public Part(Integer idPart, String partName, String partType, String code, String manufacturer, String vehicleType, String yearS, double price, int stockLevel, int stockLevelThreshold) {

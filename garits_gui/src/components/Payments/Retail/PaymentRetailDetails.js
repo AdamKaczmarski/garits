@@ -9,7 +9,7 @@ const PaymentRetailDetails = props =>{
         try{
             const response = await axios({
                 method:"GET",
-                url:`http://localhost:8080/payments-retail/${props.idPayment}/details`
+                url:`http://localhost:8080/payments-retails/${props.idPayment}/details`
             });
             console.log(response);
             setPaymentsRetailDetails(response.data);
@@ -30,8 +30,8 @@ const PaymentRetailDetails = props =>{
         partsRetail = paymentRetailDetails.map((detail,index)=>{
             return(
                 <tr key={index}>
-                    <td>{detail.part.partName}</td>
                     <td>{detail.part.code}</td>
+                    <td>{detail.part.partName}</td>
                     <td>{detail.part.price}</td>
                     <td>{detail.quantitySold}</td>
                     <td>{(Math.round(detail.part.price*detail.quantitySold * 100) / 100).toFixed(2) +
