@@ -1,19 +1,48 @@
+import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import Table from "react-bootstrap/Table";
+import Spinner from "react-bootstrap/Spinner";
 
 const OrderDetails = (props) => {
-  const partsOrder = props.order.parts.map((part, index) => (
-    <tr key={index}>
-      <td>{part.code}</td>
-      <td>{part.part_name}</td>
-      <td>{part.price}</td>
-      <td>{part.quantity_ordered}</td>
-      <td>
-        {(Math.round(part.quantity_ordered * part.price * 100) / 100).toFixed(
-          2
-        ) + " GBP"}
-      </td>
-    </tr>
-  ));
+  const [isLoading, setIsLoading] = useState(true);
+  const [orderDetails, setOrderDetails] = useState([]);
+  const obtainOrderDetails = useCallback(async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://localhost:8080/partsorders/${props.idOrder}`,
+      });
+      console.log(response);
+      setOrderDetails(response.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [props]);
+  useEffect(() => {
+    obtainOrderDetails();
+  }, [obtainOrderDetails]);
+  if (isLoading) {
+    return <Spinner animation="border" variant="primary" />;
+  }
+  let partsOrder;
+  if (orderDetails && orderDetails.length > 0) {
+    partsOrder = orderDetails.map((oD, index) => (
+      <tr key={index}>
+        <td>{oD.part.code}</td>
+        <td>{oD.part.partName}</td>
+        <td>{oD.part.price}</td>
+        <td>{oD.quantityOrdered}</td>
+        <td>
+          {(Math.round(oD.quantityOrdered * oD.part.price * 100) / 100).toFixed(
+            2
+          ) + " GBP"}
+        </td>
+      </tr>
+    ));
+  }
+
   return (
     <>
       <Table hover striped>

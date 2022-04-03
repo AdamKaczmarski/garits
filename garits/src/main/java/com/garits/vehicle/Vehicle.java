@@ -23,7 +23,6 @@ public class Vehicle {
     private String chassisNumber;
     @Column(name = "colour")
     private String colour;
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_mot")
     private Date lastMot;
 
