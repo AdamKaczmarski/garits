@@ -1,9 +1,11 @@
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
-import Customer from './Customer';
+import { useState, useEffect } from "react";
+import Customer from "./Customer";
 import { CUSTOMERS } from "../../dummy-data/customers";
-import AddCustomerModal from './AddCustomerModal';
+import AddCustomerModal from "./AddCustomerModal";
+import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 const CustomersTable = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const handleShowAdd = () => setShowAdd(!showAdd);
@@ -58,28 +60,26 @@ const CustomersTable = (props) => {
   }
   return (
     <>
-     
-        <Table striped hover className="mt-3">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th
-                style={{ display: "flex" }}
-                className="justify-content-evenly  "
-              >
-                Actions{" "}
-                <Button variant="outline-primary" onClick={handleShowAdd}>
-                  +
-                </Button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>{customersView}</tbody>
-        </Table>
-        <AddCustomerModal show={showAdd} onClose={handleShowAdd} />
-    
+      <Table striped hover className="mt-3">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th
+              style={{ display: "flex" }}
+              className="justify-content-evenly  "
+            >
+              Actions{" "}
+              <Button variant="outline-primary" onClick={handleShowAdd}>
+                +
+              </Button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>{customersView}</tbody>
+      </Table>
+      <AddCustomerModal show={showAdd} onClose={handleShowAdd} />
     </>
   );
 };

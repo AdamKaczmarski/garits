@@ -67,7 +67,7 @@ const CustomerDetailsContent = (props) => {
           </Accordion.Item>
           <Accordion.Item eventKey={1}>
             <Accordion.Header>Service discounts</Accordion.Header>
-            <Accordion.Body>{serviceDiscount}</Accordion.Body>
+            <Accordion.Body>{serviceDiscounts}</Accordion.Body>
           </Accordion.Item>
         </Accordion>
       </ListGroup.Item>
