@@ -3,8 +3,10 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { Spinner } from "react-bootstrap";
 import SelectItem from '../../Inventory/Orders/SelectItem';
+import Button from 'react-bootstrap/Button';
 const AddRetailPaymentForm = (props) => {
   const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   let itemNames = useRef([]);
   const obtainItemNames = useCallback(async () => {
@@ -79,6 +81,15 @@ const AddRetailPaymentForm = (props) => {
           <option value="card">Card</option>
           <option value="cash">Cash</option>
         </Form.Select>
+      </Form.Group>
+      <Form.Group controlId="items">
+        {items}
+        <Button className="mt-3"onClick={addItemSelect}>
+          Add item
+        </Button>
+      </Form.Group>
+      <Form.Group controlId="total">
+      <Form.Label><span style={{fontWeight:'bold'}}>Total: {total}</span></Form.Label>
       </Form.Group>
     </Form>
   );

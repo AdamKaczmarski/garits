@@ -93,7 +93,7 @@ const PaymentsRetailTable = () => {
         show={show}
         onClose={handleShow}
         title="Add payment"
-        form={<AddRetailPaymentForm />}
+        form={<AddRetailPaymentForm paymentRetailItems={newPaymentItems} newPayment={newPayment}/>}
       />
     </>
   );
