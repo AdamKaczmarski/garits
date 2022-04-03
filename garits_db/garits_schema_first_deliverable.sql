@@ -41,7 +41,7 @@ CREATE TABLE `Customers` (
 
 CREATE TABLE `Jobs` (
     `id_job` int NOT NULL AUTO_INCREMENT,
-    `reg_no_id` varchar(10) NOT NULL,
+    `vehicle_id` int NOT NULL,
     `status` varchar(50) NOT NULL,
     `description_done` varchar(2000),
     `description_required` varchar(2000),
@@ -116,7 +116,7 @@ CREATE TABLE `Jobs_Parts` (
 
 CREATE TABLE `Customers_Vehicles` (
     `customer_id` int NOT NULL,
-    `reg_no_id` varchar(10) NOT NULL
+    `vehicle_id` int NOT NULL
 );
 
 CREATE TABLE `Parts_Payments` (
@@ -144,7 +144,7 @@ CREATE TABLE `Payments` (
 CREATE TABLE `Orders` (
     `id_order` int NOT NULL AUTO_INCREMENT,
     `status` varchar(20) DEFAULT 'pending' NOT NULL,
-    `description` varchar(50) NOT NULL,
+    `description` varchar(200) NOT NULL,
     `order_date` date NOT NULL,
     `order_arrival` date,
     `order_amount` decimal(8, 2) NOT NULL,
@@ -153,9 +153,12 @@ CREATE TABLE `Orders` (
 );
 
 CREATE TABLE `Parts_Orders` (
+	`id_parts_order` int NOT NULL AUTO_INCREMENT,
     `part_id` int NOT NULL,
     `order_id` int NOT NULL,
-    `quantity_ordered` int NOT NULL
+    `quantity_ordered` int NOT NULL,
+    PRIMARY KEY (`id_parts_order`),
+    UNIQUE INDEX (`id_parts_order`)
 );
 
 CREATE TABLE `Customer_Variable_Discounts_Services` (
@@ -227,7 +230,7 @@ ADD
 ALTER TABLE
     `Customers_Vehicles`
 ADD
-    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
+    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Payments_Customer`
@@ -252,7 +255,7 @@ ADD
 ALTER TABLE
     `Jobs`
 ADD
-    CONSTRAINT `FKJobs210684` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
+    CONSTRAINT `FKJobs210684` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Customer_Variable_Discounts_Services`
@@ -283,7 +286,5 @@ ALTER TABLE
     `Parts_Payments`
 ADD
     CONSTRAINT `FKParts_Paym813726` FOREIGN KEY (`payment_id`) REFERENCES `Payments` (`id_payment`) ON UPDATE CASCADE;
-
-
     
 insert into roles (role_name) values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");

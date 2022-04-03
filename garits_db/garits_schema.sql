@@ -1,112 +1,6 @@
-ALTER TABLE
-    `Users_Roles` DROP FOREIGN KEY `FKUsers_Role251675`;
-
-ALTER TABLE
-    `Users_Roles` DROP FOREIGN KEY `FKUsers_Role790442`;
-
-ALTER TABLE
-    `Jobs_Customers` DROP FOREIGN KEY `FKJobs_Custo162114`;
-
-ALTER TABLE
-    `Jobs_Customers` DROP FOREIGN KEY `FKJobs_Custo598651`;
-
-ALTER TABLE
-    `Users_Jobs` DROP FOREIGN KEY `FKUsers_Jobs928384`;
-
-ALTER TABLE
-    `Users_Jobs` DROP FOREIGN KEY `FKUsers_Jobs91376`;
-
-ALTER TABLE
-    `Jobs_Services` DROP FOREIGN KEY `FKJobs_Servi182926`;
-
-ALTER TABLE
-    `Jobs_Services` DROP FOREIGN KEY `FKJobs_Servi475550`;
-
-ALTER TABLE
-    `Jobs_Parts` DROP FOREIGN KEY `FKJobs_Parts634881`;
-
-ALTER TABLE
-    `Jobs_Parts` DROP FOREIGN KEY `FKJobs_Parts55459`;
-
-ALTER TABLE
-    `Customers_Vehicles` DROP FOREIGN KEY `FKCustomers_94687`;
-
-ALTER TABLE
-    `Customers_Vehicles` DROP FOREIGN KEY `FKCustomers_547421`;
-
-ALTER TABLE
-    `Payments_Customer` DROP FOREIGN KEY `FKPayments_C594261`;
-
-ALTER TABLE
-    `Payments_Customer` DROP FOREIGN KEY `FKPayments_C52864`;
-
-ALTER TABLE
-    `Parts_Orders` DROP FOREIGN KEY `FKParts_Orde7122`;
-
-ALTER TABLE
-    `Parts_Orders` DROP FOREIGN KEY `FKParts_Orde56004`;
-
-ALTER TABLE
-    `Jobs` DROP FOREIGN KEY `FKJobs210684`;
-
-ALTER TABLE
-    `Customer_Variable_Discounts_Services` DROP FOREIGN KEY `FKCustomer_V790173`;
-
-ALTER TABLE
-    `Customer_Variable_Discounts_Services` DROP FOREIGN KEY `FKCustomer_V539825`;
-
-ALTER TABLE
-    `Jobs_Payments` DROP FOREIGN KEY `FKJobs_Payme844591`;
-
-ALTER TABLE
-    `Jobs_Payments` DROP FOREIGN KEY `FKJobs_Payme733948`;
-
-ALTER TABLE
-    `Parts_Payments` DROP FOREIGN KEY `FKParts_Paym554541`;
-
-ALTER TABLE
-    `Parts_Payments` DROP FOREIGN KEY `FKParts_Paym813726`;
-
-DROP TABLE IF EXISTS `Users`;
-
-DROP TABLE IF EXISTS `Roles`;
-
-DROP TABLE IF EXISTS `Users_Roles`;
-
-DROP TABLE IF EXISTS `Customers`;
-
-DROP TABLE IF EXISTS `Jobs`;
-
-DROP TABLE IF EXISTS `Parts`;
-
-DROP TABLE IF EXISTS `Vehicles`;
-
-DROP TABLE IF EXISTS `Jobs_Customers`;
-
-DROP TABLE IF EXISTS `Users_Jobs`;
-
-DROP TABLE IF EXISTS `Services`;
-
-DROP TABLE IF EXISTS `Jobs_Services`;
-
-DROP TABLE IF EXISTS `Jobs_Parts`;
-
-DROP TABLE IF EXISTS `Customers_Vehicles`;
-
-DROP TABLE IF EXISTS `Parts_Payments`;
-
-DROP TABLE IF EXISTS `Payments_Customer`;
-
-DROP TABLE IF EXISTS `Payments`;
-
-DROP TABLE IF EXISTS `Orders`;
-
-DROP TABLE IF EXISTS `Parts_Orders`;
-
-DROP TABLE IF EXISTS `Customer_Variable_Discounts_Services`;
-
-DROP TABLE IF EXISTS `Jobs_Payments`;
-
+DROP DATABASE IF EXISTS garits;
+CREATE DATABASE garits CHARACTER SET utf8;
+USE garits;
 CREATE TABLE `Users` (
     `id_user` int NOT NULL AUTO_INCREMENT,
     `email` varchar(100) NOT NULL UNIQUE,
@@ -147,7 +41,7 @@ CREATE TABLE `Customers` (
 
 CREATE TABLE `Jobs` (
     `id_job` int NOT NULL AUTO_INCREMENT,
-    `reg_no_id` varchar(10) NOT NULL,
+    `vehicle_id` int NOT NULL,
     `status` varchar(50) NOT NULL,
     `description_done` varchar(2000),
     `description_required` varchar(2000),
@@ -178,7 +72,7 @@ CREATE TABLE `Parts` (
 
 CREATE TABLE `Vehicles` (
     `id_vehicle` int NOT NULL AUTO_INCREMENT,
-    `id_reg_no` varchar(10) NOT NULL UNIQUE,
+    `id_reg_no` varchar(10) NOT NULL,
     `manufacturer` varchar(20) NOT NULL,
     `model` varchar(50) NOT NULL,
     `engine_serial_number` varchar(9) NOT NULL UNIQUE,
@@ -222,7 +116,7 @@ CREATE TABLE `Jobs_Parts` (
 
 CREATE TABLE `Customers_Vehicles` (
     `customer_id` int NOT NULL,
-    `reg_no_id` varchar(10) NOT NULL
+    `vehicle_id` int NOT NULL
 );
 
 CREATE TABLE `Parts_Payments` (
@@ -259,9 +153,12 @@ CREATE TABLE `Orders` (
 );
 
 CREATE TABLE `Parts_Orders` (
+	`id_parts_order` int NOT NULL AUTO_INCREMENT,
     `part_id` int NOT NULL,
     `order_id` int NOT NULL,
-    `quantity_ordered` int NOT NULL
+    `quantity_ordered` int NOT NULL,
+    PRIMARY KEY (`id_parts_order`),
+    UNIQUE INDEX (`id_parts_order`)
 );
 
 CREATE TABLE `Customer_Variable_Discounts_Services` (
@@ -333,7 +230,7 @@ ADD
 ALTER TABLE
     `Customers_Vehicles`
 ADD
-    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
+    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Payments_Customer`
@@ -358,7 +255,7 @@ ADD
 ALTER TABLE
     `Jobs`
 ADD
-    CONSTRAINT `FKJobs210684` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
+    CONSTRAINT `FKJobs210684` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Customer_Variable_Discounts_Services`
@@ -389,5 +286,7 @@ ALTER TABLE
     `Parts_Payments`
 ADD
     CONSTRAINT `FKParts_Paym813726` FOREIGN KEY (`payment_id`) REFERENCES `Payments` (`id_payment`) ON UPDATE CASCADE;
+
+
     
-insert into roles (role_name)values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");
+insert into roles (role_name) values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");
