@@ -1,8 +1,6 @@
 package com.garits.payment;
 
 import com.garits.exceptions.NotFound;
-import com.garits.payment.Payment;
-import com.garits.payment.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,7 @@ public class PaymentController {
 
     @GetMapping("/payments")
     public @ResponseBody
-    Iterable<Payment> getAllPayments() {return paymentRepository.findAll();
+    Iterable<PaymentRetail> getAllPayments() {return paymentRepository.findAll();
     }
 
     /**
@@ -31,7 +29,7 @@ public class PaymentController {
      * @return Payment object
      */
     @GetMapping("/payments/{id}")
-    Payment one(@PathVariable Integer id) {
+    PaymentRetail one(@PathVariable Integer id) {
         return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find Payment: " + id));
     }
 
@@ -44,7 +42,7 @@ public class PaymentController {
      * @return
      */
     @PostMapping("/payments")
-    Payment newPayment(@RequestBody Payment newPayment)  {
+    PaymentRetail newPayment(@RequestBody PaymentRetail newPayment)  {
         return paymentRepository.save(newPayment);
 
     }

@@ -12,7 +12,7 @@ INSERT INTO
     )
 VALUES
     (
-        'Airtex Water Block',
+        'Airtex Water Block123',
         'Water Pump',
         '475861',
         'Hyundai',
@@ -33,3 +33,12 @@ insert into parts_orders (part_id,order_id,quantity_ordered) VALUES(1,1,3);
 insert into jobs_parts (part_id,job_id,quantity_used) values(1,2,2);
 insert into customers_vehicles (customer_id,reg_no_id) values(1,'123');
 INSERT INTO users(email,password,salt,first_name,last_name) values("test@gmail.com","skjdfhksdjfa","ASDASVZ","Test","User");
+
+insert into payments (cash_or_card,amount,create_date,payment_date, payment_due) values ("card",1000.20,current_date(),current_date(),"2022-04-20");
+select * from payments;
+insert into parts_payments (part_id, quantity_sold, payment_id) values (1,100,1);
+select * from parts_payments;
+select * from parts;
+insert into payments_customer (payment_id,customer_id) values (1,1);
+
+alter table parts drop column part_id;alter table parts drop column payment_id;
