@@ -11,11 +11,9 @@ const PaymentModal = (props) => {
         <Button variant="danger" onClick={props.onClose}>
           Close
         </Button>
-        {props.submitAction != null ? (
-          <Button variant="primary" onClick={props.submitAction}>
-            Submit
-          </Button>
-        ) : null}
+        <Button variant="primary" onClick={props.onClose}>
+          Submit
+        </Button>
       </Modal.Footer>
     </Modal>
   );
