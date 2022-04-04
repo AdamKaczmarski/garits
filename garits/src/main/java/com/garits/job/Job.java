@@ -1,13 +1,19 @@
 package com.garits.job;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.garits.part.Part;
+import com.garits.service.Service;
+import com.garits.user.User;
 import com.garits.vehicle.Vehicle;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "jobs")
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Job {
     //FIELDS
     @Id
@@ -26,7 +32,7 @@ public class Job {
     @Column(name="est_time_min")
     private int estTimeMin;
     @Column(name="act_time_min")
-    private int actTimeMin = 0;
+    private Integer actTimeMin = 0;
     @Column(name="create_date")
     private Timestamp createDate;
     @Column(name="booking_date")
@@ -35,7 +41,16 @@ public class Job {
     private Date fixDate;
     @Column(name="bay")
     private String bay;
-
+    @ManyToMany
+    @JoinTable(name = "users_jobs",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="user_id"))
+    private Set<User> user;
+    /* Those should be in jobs details
+    @ManyToMany
+    @JoinTable(name="jobs_services",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="service_id"))
+    private Set<Service> services;
+    @ManyToMany
+    @JoinTable(name="jobs_parts",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="part_id"))
+    public Set<Part> parts;*/
     //GETTERS AND SETTER
 
     public Integer getIdJob() {
@@ -82,11 +97,11 @@ public class Job {
         this.estTimeMin = estTimeMin;
     }
 
-    public int getActTimeMin() {
+    public Integer getActTimeMin() {
         return actTimeMin;
     }
 
-    public void setActTimeMin(int actTimeMin) {
+    public void setActTimeMin(Integer actTimeMin) {
         this.actTimeMin = actTimeMin;
     }
 
@@ -121,4 +136,22 @@ public class Job {
     public void setBay(String bay) {
         this.bay = bay;
     }
+
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
+
+/*
+    public Set<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(Set<Service> services) {
+        this.services = services;
+    }
+*/
 }

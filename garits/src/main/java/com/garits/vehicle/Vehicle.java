@@ -1,7 +1,11 @@
 package com.garits.vehicle;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.garits.customer.Customer;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "vehicles")
@@ -25,7 +29,9 @@ public class Vehicle {
     private String colour;
     @Column(name = "last_mot")
     private Date lastMot;
-
+    @ManyToMany
+    @JoinTable(name = "customers_vehicles",joinColumns = @JoinColumn(name = "reg_no_id"),inverseJoinColumns = @JoinColumn(name = "customer_id"))
+    private Set<Customer> customer;
     //GETTERS AND SETTERS
     public Integer getIdVehicle() {
         return idVehicle;
@@ -81,5 +87,13 @@ public class Vehicle {
 
     public void setLastMot(Date lastMot) {
         this.lastMot = lastMot;
+    }
+
+    public Set<Customer> getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Set<Customer> customer) {
+        this.customer = customer;
     }
 }

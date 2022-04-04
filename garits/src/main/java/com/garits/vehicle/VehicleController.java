@@ -11,7 +11,11 @@ public class VehicleController {
     private VehicleRepository vehicleRepository;
 
     //GET MAPPINGS
+    @GetMapping("/vehicles")
+    Iterable<Vehicle> getAllVehicles() {
+        return vehicleRepository.findAll();
 
+    }
     /**
      * @param customerId
      * @return

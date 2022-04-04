@@ -47,6 +47,20 @@ public class Customer {
         this.name = name;
     }
 
+    public Customer(Integer idCustomer, String name, String city, String address, String postcode, String telephoneNumber, String email, String fax, Integer fixedDiscount, Set<FlexDiscount> flexDiscounts, Set<VariableDiscount> variableDiscounts) {
+        this.idCustomer = idCustomer;
+        this.name = name;
+        this.city = city;
+        this.address = address;
+        this.postcode = postcode;
+        this.telephoneNumber = telephoneNumber;
+        this.email = email;
+        this.fax = fax;
+        this.fixedDiscount = fixedDiscount;
+        this.flexDiscounts = flexDiscounts;
+        this.variableDiscounts = variableDiscounts;
+    }
+
     public Integer getIdCustomer() {
         return idCustomer;
     }

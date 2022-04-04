@@ -24,7 +24,7 @@ const App = () => {
     <Container className="d-flex min-vh-100 flex-column" style={{"maxWidth":'90%'}}>
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Jobs />} />
         <Route path="login" element={<Login />} />
         <Route path="inventory" element={<Inventory />} />
         <Route path="payments" element={<Payments />} />

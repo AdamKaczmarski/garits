@@ -1,18 +1,20 @@
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import JobsTable from "./JobsTable";
+import JobsTableBooked from "./Booked/JobsTableBooked";
+import JobsTableCompleted from "./Completed/JobsTableCompleted";
+import JobsTableActive from "./Active/JobsTableActive";
 
 const JobsTabs = () => {
   return (
     <Tabs defaultActiveKey="active" fill mountOnEnter={true}>
       <Tab eventKey="booked" title="Booked">
-        <JobsTable jobType="booked"/>
+        <JobsTableBooked jobType="booked"/>
       </Tab>
-      <Tab eventKey="active" title="Active">
-        <JobsTable jobType="active"/>
+      <Tab eventKey="active" title="In Progress">
+        <JobsTableActive jobType="active"/>
       </Tab>
       <Tab eventKey="completed" title="Completed">
-        <JobsTable jobType="completed"/>
+        <JobsTableCompleted jobType="completed"/>
       </Tab>
     </Tabs>
   );
