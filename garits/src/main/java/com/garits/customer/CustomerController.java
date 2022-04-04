@@ -57,9 +57,11 @@ public class CustomerController {
         newVd.add(vD);
         c.setVariableDiscounts(newVd);
         return customerRepository.save(c);
-*/
+*/                  System.out.println("Adding discount");
+
         if (customerRepository.checkDuplicateVarDiscount(vD.getServiceId(), vD.getCustomerId()) != null && customerRepository.checkDuplicateVarDiscount(vD.getServiceId(), vD.getCustomerId()) == 1) {
             if (vD.getDiscount() > 100 || vD.getDiscount() >= 0) {
+                System.out.println("Adding discount");
                 customerRepository.addVarDiscount(idCustomer, vD.getServiceId(), vD.getDiscount());
                 return ResponseEntity.status(HttpStatus.OK).body("Added the discount");
             } else {

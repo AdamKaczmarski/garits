@@ -80,12 +80,8 @@ CREATE TABLE `Vehicles` (
     `colour` varchar(15) NOT NULL,
     `last_mot` date NOT NULL,
     PRIMARY KEY (`id_vehicle`),
-    UNIQUE INDEX (`id_vehicle`)
-);
-
-CREATE TABLE `Jobs_Customers` (
-    `job_id` int NOT NULL,
-    `customer_id` int NOT NULL
+    UNIQUE INDEX (`id_vehicle`),
+    UNIQUE INDEX (`id_reg_no`)
 );
 
 CREATE TABLE `Users_Jobs` (
@@ -116,13 +112,16 @@ CREATE TABLE `Jobs_Parts` (
 
 CREATE TABLE `Customers_Vehicles` (
     `customer_id` int NOT NULL,
-    `vehicle_id` int NOT NULL
+    `reg_no_id` varchar(10) NOT NULL
 );
 
 CREATE TABLE `Parts_Payments` (
+	`id_parts_payments` int not null auto_increment,
     `part_id` int NOT NULL,
     `quantity_sold` int,
-    `payment_id` int NOT NULL
+    `payment_id` int NOT NULL,
+    primary key (`id_part_payments`),
+    unique index (`id_part_payments`)
 );
 
 CREATE TABLE `Payments_Customer` (
@@ -162,11 +161,20 @@ CREATE TABLE `Parts_Orders` (
 );
 
 CREATE TABLE `Customer_Variable_Discounts_Services` (
+	`id_var_discount` int not null auto_increment,
     `customer_id` int NOT NULL,
     `service_id` int NOT NULL,
-    `discount` int NOT NULL
+    `discount` int NOT NULL,
+    unique index (id_var_discount)
 );
-
+    create table customer_flex_discounts (
+       id_flex_discount integer not null auto_increment,
+        customer_id integer,
+        discount integer,
+        range_from integer,
+        primary key (id_flex_discount),
+        unique index (id_flex_discount)
+    );
 CREATE TABLE `Jobs_Payments` (
     `Job_ID` int NOT NULL,
     `Payment_ID` int NOT NULL
@@ -181,16 +189,6 @@ ALTER TABLE
     `Users_Roles`
 ADD
     CONSTRAINT `FKUsers_Role790442` FOREIGN KEY (`role_id`) REFERENCES `Roles` (`id_role`) ON UPDATE CASCADE;
-
-ALTER TABLE
-    `Jobs_Customers`
-ADD
-    CONSTRAINT `FKJobs_Custo162114` FOREIGN KEY (`job_id`) REFERENCES `Jobs` (`id_job`) ON UPDATE CASCADE;
-
-ALTER TABLE
-    `Jobs_Customers`
-ADD
-    CONSTRAINT `FKJobs_Custo598651` FOREIGN KEY (`customer_id`) REFERENCES `Customers` (`id_customer`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Users_Jobs`
@@ -230,7 +228,7 @@ ADD
 ALTER TABLE
     `Customers_Vehicles`
 ADD
-    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`vehicle_id`) REFERENCES `Vehicles` (`id_vehicle`) ON UPDATE CASCADE;
+    CONSTRAINT `FKCustomers_547421` FOREIGN KEY (`reg_no_id`) REFERENCES `Vehicles` (`id_reg_no`) ON UPDATE CASCADE;
 
 ALTER TABLE
     `Payments_Customer`

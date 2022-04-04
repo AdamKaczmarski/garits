@@ -22,9 +22,7 @@ public class VehicleController {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             return vehicleRepository.findAllCustomerVehicles(customerId);
 
-        } else {
-            throw new NotFound("Could not find customer: " + customerId);
-        }
+        } return null;
     }
 
     //POST MAPPINGS

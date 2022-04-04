@@ -1,5 +1,7 @@
 package com.garits.job;
 
+import com.garits.vehicle.Vehicle;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -12,8 +14,9 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_job")
     private Integer idJob;
-    @Column(name="reg_no_id")
-    private String regNoId;
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
     @Column(name="status")
     private String status;
     @Column(name="description_done")
@@ -39,12 +42,12 @@ public class Job {
         return idJob;
     }
 
-    public String getRegNoId() {
-        return regNoId;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setRegNoId(String regNoId) {
-        this.regNoId = regNoId;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public String getStatus() {

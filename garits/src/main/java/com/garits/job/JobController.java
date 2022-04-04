@@ -14,9 +14,17 @@ public class JobController {
     private JobRepository jobRepository;
 
     //GET MAPPINGS
-    @GetMapping("/jobs")
-    Iterable<Job> getAllJobs() {
-        return jobRepository.findAll();
+    @GetMapping("/jobs-active")
+    Iterable<Job> getAllActiveJobs() {
+        return jobRepository.findAllActive();
+    }
+    @GetMapping("/jobs-completed")
+    Iterable<Job> getAllCompletedJobs() {
+        return jobRepository.findAllCompleted();
+    }
+    @GetMapping("/jobs-booked")
+    Iterable<Job> getAllBookedJobs() {
+        return jobRepository.findAllBooked();
     }
 
     @GetMapping("/jobs/{idJob}")

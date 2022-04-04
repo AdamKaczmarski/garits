@@ -41,3 +41,9 @@ INSERT INTO payments(cash_or_card,amount,create_date,payment_date,payment_due) v
 insert into parts_payments (quantity_sold,part_id,payment_id) values (100,1,1);
 insert into payments_customer (payment_id,customer_id) values (1,1);
 select sum(p.price*po.quantity_ordered) from parts_orders po inner join parts p on p.id_part=po.part_id where po.order_id=1;
+
+select * from customers_vehicles;
+insert into customers_vehicles (customer_id,vehicle_id) values (1,1);
+insert into customer_variable_discounts_services (customer_id,service_id, discount) values (1,1,10);
+
+ALTER TABLE customer_variable_discounts_services MODIFY COLUMN id_var_discount INT auto_increment;
