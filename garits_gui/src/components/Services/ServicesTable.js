@@ -13,10 +13,6 @@ const ServicesTable = () => {
   const [services, setServices] = useState([]);
   const handleShow = () => setShow(!show);
   let servicesView=[];
-  if (services && services.lenght>0) {
-  servicesView = services.map((service) => (
-    <Service key={service.idService} service={service} services={services} setServices={setServices} obtainServices={obtainServices}/>
-  ));}
   let newService = {
     serviceName: "",
     servicePrice: 0,
@@ -65,6 +61,11 @@ const ServicesTable = () => {
   if (isLoading) {
     return <Spinner animation="border" variant="primary" />;
   }
+  if (services && services.length>0) {
+    servicesView = services.map((service) => (
+      <Service key={service.idService} service={service} services={services} setServices={setServices} obtainServices={obtainServices}/>
+    ));}
+  
   return (
     <>
       <Table striped hover className="mt-3">

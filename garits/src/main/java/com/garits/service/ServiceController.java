@@ -60,6 +60,7 @@ public class ServiceController {
         if (editedService.getServicePrice() >= 0.0) s.setServicePrice(editedService.getServicePrice());
         if (editedService.getApproxTimeMin() > 0) s.setApproxTimeMin(editedService.getApproxTimeMin());
         if (editedService.getShortDescription() != null) s.setShortDescription(editedService.getShortDescription());
+        serviceRepository.save(s);
         return ResponseEntity.status(HttpStatus.OK).body(s);
     }
 
