@@ -25,13 +25,26 @@ const JobsTableActive = () => {
       setIsLoading(false);
     }
   };
+  const deleteJob = async (idJob)=>{
+    try {
+      const response = await axios({
+        method:"DELETE",
+        url:`http://localhost:8080/jobs/${idJob}`
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      obtainActiveJobs();
+    }
+  }
   useEffect(() => {
     obtainActiveJobs();
   }, []);
   if (isLoading) {
     return <Spinner variant="primary" animation="border" />;
   }
-  let jobsView = jobs.map((job) => <Job job={job} key={job.idJob} jobType={job.status}/>);
+  let jobsView = jobs.map((job) => <Job job={job} key={job.idJob} jobType={job.status} deleteJob={deleteJob}/>);
   return (
     <>
       <Table striped hover className="mt-3">

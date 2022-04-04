@@ -7,7 +7,7 @@ const Job = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [showDetails, setShowDetails] = useState(false);
-  const handleShowDetails = () => setShowDetails(!show);
+  const handleShowDetails = () => setShowDetails(!showDetails);
   let bookingDate;
   if (props.job.bookingDate)
     bookingDate = new Date(props.job.bookingDate)
@@ -20,12 +20,11 @@ const Job = (props) => {
   if (props.job.createDate)
     createdDate = new Date(props.job.createDate).toISOString().substring(0, 10);
   let bay = null;
-  if (props.job.bay === "repair") {
+  if (props.job.bay && props.job.bay !== "MOT") {
     bay =
       props.job.bay.charAt(0).toUpperCase() +
       props.job.bay.slice(1).toLowerCase();
   } else bay = props.job.bay;
-  console.log(props.job.user);
   return (
     <>
       <tr>
@@ -83,7 +82,7 @@ const Job = (props) => {
               <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                href="#/action-3"
+                onClick={()=>props.deleteJob(props.job.idJob)}
               >
                 Delete
               </Dropdown.Item>
