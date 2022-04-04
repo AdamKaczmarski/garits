@@ -120,8 +120,8 @@ CREATE TABLE `Parts_Payments` (
     `part_id` int NOT NULL,
     `quantity_sold` int,
     `payment_id` int NOT NULL,
-    primary key (`id_part_payments`),
-    unique index (`id_part_payments`)
+    primary key (`id_parts_payments`),
+    unique index (`id_parts_payments`)
 );
 
 CREATE TABLE `Payments_Customer` (
