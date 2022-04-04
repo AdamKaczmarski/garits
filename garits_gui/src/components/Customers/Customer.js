@@ -8,6 +8,7 @@ import CustomerClass from "../../models/Customer";
 import axios from "axios";
 import AddFlexDiscount from "./AddFlexDiscount";
 import AddVarDiscount from "./AddVarDiscount";
+import CustomModal from "../CommonComponents/CustomModal";
 const Customer = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => setShowDetails(!showDetails);
@@ -113,10 +114,11 @@ const Customer = (props) => {
           Details
         </Button>
       </td>
-      <CustomerModal
+      <CustomModal
         title={props.customer.name}
         show={showDetails}
         onClose={handleShowDetails}
+        submitAction={null}
         form={
           <CustomerDetailsTabs
             customer={props.customer}

@@ -46,13 +46,13 @@ public class VehicleController {
     /**
      * Updates the Vehicle object given that there's one in the database with the specified idRegNo
      *
-     * @param idRegNo
+     * @param idVehicle
      * @param editedVehicle
      * @return
      */
-    @PatchMapping("/vehicles/{idRegNo}")
-    Vehicle updateVehicle(@PathVariable String idRegNo, @RequestBody Vehicle editedVehicle) {
-        Vehicle v = vehicleRepository.findVehicle(idRegNo);
+    @PatchMapping("/vehicles/{idVehicle}")
+    Vehicle updateVehicle(@PathVariable String idVehicle, @RequestBody Vehicle editedVehicle) {
+        Vehicle v = vehicleRepository.findVehicle(idVehicle);
         if (v != null) {
             if (editedVehicle.getManufacturer() != null) v.setManufacturer(editedVehicle.getManufacturer());
             if (editedVehicle.getModel() != null) v.setModel(editedVehicle.getModel());
@@ -63,7 +63,7 @@ public class VehicleController {
             if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
             return vehicleRepository.save(v);
         } else {
-            throw new NotFound("Could not find vehicle: "+idRegNo);
+            throw new NotFound("Could not find vehicle: "+editedVehicle.getIdRegNo());
         }
     }
 

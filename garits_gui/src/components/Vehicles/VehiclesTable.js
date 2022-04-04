@@ -5,17 +5,43 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
-import AddVehicleModal from "./AddVehicleModal";
+
 import Vehicle from "./Vehicle";
+import CustomModal from "../CommonComponents/CustomModal";
 
 const VehiclesTable = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicles, setVehicles] = useState([]);
-  let newVehicle={};
+  let newVehicle={
+    idRegNo: "",
+    manufacturer: "",
+    model: "",
+    engineSerialNumber: "",
+    chassisNumber: "",
+    colour: "",
+    lastMot: "",
+  };
+  const editVehicle=async(editedVehicle)=>{
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method:"PATCH",
+        url:`http://localhost:8080/vehicles/${editedVehicle.idVehicle}`,
+        data:editedVehicle
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      obtainVehicles();
+    }
+
+  };
   const addVehicle = async()=>{
     try {
+      setIsLoading(true);
       const response = await axios({
         method:"POST",
         url:`http://localhost:8080/vehicles/${props.customer_id}`,
@@ -63,7 +89,7 @@ const VehiclesTable = (props) => {
   let vehiclesView;
   if (vehicles && vehicles.length > 0) {
     vehiclesView = vehicles.map((vehicle) => (
-      <Vehicle key={vehicle.idVehicle} vehicle={vehicle} deleteVehicles={deleteVehicles}/>
+      <Vehicle key={vehicle.idVehicle} vehicle={vehicle} deleteVehicles={deleteVehicles} editVehicle={editVehicle}/>
     ));
   }
   return (
@@ -87,7 +113,7 @@ const VehiclesTable = (props) => {
         </thead>
         <tbody>{vehiclesView}</tbody>
       </Table>
-      <AddVehicleModal show={show} onClose={handleShow} addVehicle={addVehicle} title="Add Vehicle" submitAction={addVehicle} form={<AddVehicleForm />}/>
+      <CustomModal show={show} onClose={handleShow} addVehicle={addVehicle} title="Add Vehicle" submitAction={addVehicle} form={<AddVehicleForm newVehicle={newVehicle}/>}/>
     </>
   );
 };
