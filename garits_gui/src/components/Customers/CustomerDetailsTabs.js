@@ -5,7 +5,7 @@ import CustomerDetailsVehicles from "./CustomerDetailsVehicles";
 import ReportsTable from "./CustomerReports/ReportsTable";
 const CustomerDetailsTabs = (props) => {
   return (
-    <Tabs defaultActiveKey="info">
+    <Tabs defaultActiveKey="info" mountOnEnter={true}>
       <Tab eventKey="info" title="Info" /* onClick={props.setIsReportsTab(false)} */>
         <CustomerDetailsContent customer={props.customer} />
       </Tab>

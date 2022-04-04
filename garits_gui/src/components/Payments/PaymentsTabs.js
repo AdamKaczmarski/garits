@@ -5,7 +5,7 @@ import PaymentsRetailTable from "./Retail/PaymentsRetailTable";
 
 const PaymentsTabs = () => {
   return (
-    <Tabs defaultActiveKey="jobs" fill>
+    <Tabs defaultActiveKey="jobs" fill mountOnEnter={true}>
       <Tab eventKey="jobs" title="Jobs">
         <PaymentsJobsTable />
       </Tab>

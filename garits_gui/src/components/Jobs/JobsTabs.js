@@ -4,7 +4,7 @@ import JobsTable from "./JobsTable";
 
 const JobsTabs = () => {
   return (
-    <Tabs defaultActiveKey="active" fill>
+    <Tabs defaultActiveKey="active" fill mountOnEnter={true}>
       <Tab eventKey="booked" title="Booked">
         <JobsTable jobType="booked"/>
       </Tab>

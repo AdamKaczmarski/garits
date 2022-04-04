@@ -6,7 +6,7 @@ import OrdersTable from "./Orders/OrdersTable";
 
 const InventoryTabs = () => {
   return (
-    <Tabs defaultActiveKey="inventory" fill>
+    <Tabs defaultActiveKey="inventory" fill mountOnEnter={true}>
       <Tab eventKey="inventory" title="Inventory">
         <PartsTable />
       </Tab>
