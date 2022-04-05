@@ -77,9 +77,9 @@ const JobDetails = (props) => {
         <ListGroup.Item>
           <BoldSpan>Booking date</BoldSpan>: {bookingDate}
         </ListGroup.Item>
-        <ListGroup.Item>
+        {job.status==='completed'?(<> <ListGroup.Item>
           <BoldSpan>Fix date</BoldSpan>: {fixDate}
-        </ListGroup.Item>
+        </ListGroup.Item></>):null}
         <ListGroup.Item>
           <BoldSpan>Bay</BoldSpan>: {bay}
         </ListGroup.Item>
@@ -96,7 +96,6 @@ const JobDetails = (props) => {
         <ListGroup.Item>
           <BoldSpan>Time taken</BoldSpan>: {job.actTimeMin + " mins"}
         </ListGroup.Item></>):null}
-        {job.status==='active' || job.status==='completed'?(<>
         <ListGroup.Item>
           <Accordion>
             <Accordion.Item eventKey={0}>
@@ -109,7 +108,7 @@ const JobDetails = (props) => {
               <Accordion.Body>{parts}</Accordion.Body>
             </Accordion.Item></>):null}
           </Accordion>
-        </ListGroup.Item></>):null}
+        </ListGroup.Item>
       </ListGroup>
     </>
   );
