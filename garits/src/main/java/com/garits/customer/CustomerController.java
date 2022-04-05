@@ -12,6 +12,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.HashSet;
 import java.util.Set;
 
 @RestController
@@ -27,7 +28,15 @@ public class CustomerController {
     Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
-
+    @GetMapping("/customers/short")
+    Iterable<Customer> getShortInfoCustomers() {
+        Iterable<Customer> customers = customerRepository.findAll();
+        Set<Customer> result = new HashSet<>();
+        for (Customer c : customers) {
+            result.add(new Customer(c.getIdCustomer(),c.getName()));
+        }
+        return result;
+    }
     @GetMapping("/customers/{idCustomer}")
     Customer getOneCustomer(@PathVariable Integer idCustomer) {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));

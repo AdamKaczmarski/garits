@@ -52,7 +52,6 @@ const JobCompleted = (props) => {
 
             <Dropdown.Menu>
               <Dropdown.Item>Download report</Dropdown.Item>
-              <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                 onClick={() => props.deleteJob(props.job.idJob)}

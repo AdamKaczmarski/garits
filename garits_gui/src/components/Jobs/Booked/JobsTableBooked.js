@@ -12,6 +12,27 @@ const JobsTableBooked = () => {
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
+  let selectedServices = [];
+  let newJob = {
+    vehicle: { idVehicle: 0 },
+    bookingDate: null,
+    status: "booked",
+    services: selectedServices,
+  };
+  const addJob = async () => {
+    console.log(newJob);
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8080/jobs",
+        data: newJob,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } 
+  };
+
   const obtainBookedJobs = async () => {
     try {
       const response = await axios({
@@ -74,8 +95,8 @@ const JobsTableBooked = () => {
         title="Add job"
         show={show}
         onClose={handleShow}
-        submitAction={()=>{}}
-        form={<AddJob />}
+        submitAction={addJob}
+        form={<AddJob selectedServices={selectedServices} newJob={newJob} />}
       />
     </>
   );

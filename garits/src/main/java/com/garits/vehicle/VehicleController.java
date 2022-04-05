@@ -4,6 +4,9 @@ import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @RequestMapping(path = "/")
 public class VehicleController {
@@ -14,8 +17,21 @@ public class VehicleController {
     @GetMapping("/vehicles")
     Iterable<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
-
     }
+
+    @GetMapping("/vehicles/{customerId}/short")
+    Iterable<Vehicle> getShortInfoVehicles(@PathVariable Integer customerId) {
+        if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
+            Iterable<Vehicle> vehicles = vehicleRepository.findAllCustomerVehicles(customerId);
+            Set<Vehicle> result = new HashSet<>();
+            for (Vehicle v : vehicles) {
+                result.add(new Vehicle(v.getIdVehicle(), v.getIdRegNo()));
+            }
+            return result;
+        }
+        return null;
+    }
+
     /**
      * @param customerId
      * @return
@@ -26,7 +42,8 @@ public class VehicleController {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             return vehicleRepository.findAllCustomerVehicles(customerId);
 
-        } return null;
+        }
+        return null;
     }
 
     //POST MAPPINGS
@@ -67,7 +84,7 @@ public class VehicleController {
             if (editedVehicle.getLastMot() != null) v.setLastMot(editedVehicle.getLastMot());
             return vehicleRepository.save(v);
         } else {
-            throw new NotFound("Could not find vehicle: "+editedVehicle.getIdRegNo());
+            throw new NotFound("Could not find vehicle: " + editedVehicle.getIdRegNo());
         }
     }
 

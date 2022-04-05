@@ -70,16 +70,20 @@ const Job = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {props.jobType === "completed" ? (
-                <Dropdown.Item>Download report</Dropdown.Item>
-              ) : null}
-              {props.jobType === "active" ? (
+              {props.jobType === "active" ? (<>
                 <Dropdown.Item>Set completed</Dropdown.Item>
+                <Dropdown.Item>{props.job.parts &&props.job.parts.length>0?"Edit":"Set"} used parts</Dropdown.Item>
+                <Dropdown.Item>{props.job.descriptionDone &&props.job.descriptionDone.length>0?"Edit":"Set"} description done</Dropdown.Item>
+                <Dropdown.Item>Edit services</Dropdown.Item>
+                <Dropdown.Item>Change assignment</Dropdown.Item></>
               ) : null}
               {props.jobType === "booked" ? (
-                <Dropdown.Item>Assign mechanic</Dropdown.Item>
+                <>
+                  <Dropdown.Item>Assign mechanic</Dropdown.Item>
+                  <Dropdown.Item>Change description</Dropdown.Item>
+                  <Dropdown.Item>Change services</Dropdown.Item>
+                </>
               ) : null}
-              <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                 onClick={() => props.deleteJob(props.job.idJob)}

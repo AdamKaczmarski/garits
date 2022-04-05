@@ -79,7 +79,7 @@ const JobDetails = (props) => {
         </ListGroup.Item>
         {job.status==='completed'?(<> <ListGroup.Item>
           <BoldSpan>Fix date</BoldSpan>: {fixDate}
-        </ListGroup.Item></>):null}
+        </ListGroup.Item></>):null} 
         <ListGroup.Item>
           <BoldSpan>Bay</BoldSpan>: {bay}
         </ListGroup.Item>

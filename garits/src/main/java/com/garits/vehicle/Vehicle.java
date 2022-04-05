@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "vehicles")
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Vehicle {
     //FIELDS
     @Id
@@ -32,6 +33,15 @@ public class Vehicle {
     @ManyToMany
     @JoinTable(name = "customers_vehicles",joinColumns = @JoinColumn(name = "reg_no_id"),inverseJoinColumns = @JoinColumn(name = "customer_id"))
     private Set<Customer> customer;
+
+    public Vehicle() {
+    }
+
+    public Vehicle(Integer idVehicle, String idRegNo) {
+        this.idVehicle = idVehicle;
+        this.idRegNo = idRegNo;
+    }
+
     //GETTERS AND SETTERS
     public Integer getIdVehicle() {
         return idVehicle;

@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @RequestMapping(path = "/")
 public class ServiceController {
@@ -23,6 +26,15 @@ public class ServiceController {
     public @ResponseBody
     Iterable<Service> getAllServices() {
         return serviceRepository.findAll();
+    }
+    @GetMapping("/services/short")
+    Iterable<Service> getShortInfoServices() {
+        Iterable<Service> result = serviceRepository.findAll();
+        Set<Service> services = new HashSet<>();
+        for (Service s : result) {
+            services.add(new Service(s.getIdService(),s.getServiceName()));
+        }
+        return services;
     }
 
     /**

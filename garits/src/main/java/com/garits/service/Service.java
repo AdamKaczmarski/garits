@@ -1,10 +1,12 @@
 package com.garits.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "services")
-//Fields
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +20,19 @@ public class Service {
     private int approxTimeMin;
     @Column(name="short_description")
     private String shortDescription;
+
+    public Service() {
+    }
+
+    public Service(Integer idService) {
+        this.idService = idService;
+    }
+
+    public Service(Integer idService, String serviceName) {
+        this.idService = idService;
+        this.serviceName = serviceName;
+    }
+
     //Getters and Setters
     public Integer getIdService() {
         return idService;

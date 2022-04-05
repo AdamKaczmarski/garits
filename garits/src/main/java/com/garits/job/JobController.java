@@ -61,10 +61,11 @@ public class JobController {
     Job getOneJob(@PathVariable Integer idJob) {
         Job j =jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
-        User u = new User(j.getUser().iterator().next().getIdUser(),j.getUser().iterator().next().getFirstName(),j.getUser().iterator().next().getLastName());
-        j.getUser().clear();
-
-        j.getUser().add(u);
+        if (!j.getStatus().equals("booked")) {
+            User u = new User(j.getUser().iterator().next().getIdUser(), j.getUser().iterator().next().getFirstName(), j.getUser().iterator().next().getLastName());
+            j.getUser().clear();
+            j.getUser().add(u);
+        }
         for (Part p : j.getParts()) {
             p.setQuantityUsed(jobRepository.getQuantityOfPart(p.getIdPart(),j.getIdJob()));
         }
@@ -75,7 +76,10 @@ public class JobController {
     @PostMapping("/jobs")
     Job addJob(@RequestBody Job newJob) {
         newJob.setCreateDate(new Timestamp(System.currentTimeMillis()));
-        return jobRepository.save(newJob);
+        Job j =  jobRepository.save(newJob);
+        jobRepository.setDescriptionReq(j.getIdJob());
+        jobRepository.setEstTime(j.getIdJob());
+        return j;
     }
 
     //PUT MAPPINGS
