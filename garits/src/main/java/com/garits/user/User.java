@@ -1,11 +1,14 @@
 package com.garits.user;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class User {
     /**
      * NEED TO ADD ALL FIELDS FROM THE TABLE
@@ -29,6 +32,24 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    public User() {
+    }
+
+    public User(Integer idUser, String email, String password, String salt, String firstName, String lastName, Set<Role> roles) {
+        this.idUser = idUser;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = roles;
+    }
+
+    public User(Integer idUser, String firstName, String lastName) {
+        this.idUser = idUser;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Integer getIdUser() {
         return idUser;

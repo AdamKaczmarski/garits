@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
 
 import javax.transaction.Transactional;
+import java.util.Set;
 
 
 public interface CustomerRepository extends CrudRepository<Customer,Integer> {
@@ -32,4 +33,7 @@ public interface CustomerRepository extends CrudRepository<Customer,Integer> {
     void deleteFlexDiscount(@Param("idCustomer")Integer idCustomer,@Param("idFlexDiscount") Integer idFlexDiscount);
     @Query(value="SELECT 1 from customer_variable_discounts_services where service_id=?1 and customer_id=?2",nativeQuery = true)
     Integer checkDuplicateVarDiscount(Integer serviceId, Integer customerId);
+    @Query (value="select * from customers where id_customer in (select customer_id from customers_vehicles where reg_no_id=:idRegNo)", nativeQuery = true)
+    Set<Customer> findCustomerForVehicle(@Param("idRegNo") String idRegNo);
+
 }

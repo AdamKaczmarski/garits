@@ -28,7 +28,7 @@ const JobCompleted = (props) => {
   return (
     <>
       <tr>
-        <td>{props.job.customerName}</td>
+        <td>{props.job.vehicle.customer[0].name}</td>
         <td>{props.job.vehicle.idRegNo}</td>
         <td>
           {props.job.vehicle.manufacturer + " " + props.job.vehicle.model}
@@ -55,7 +55,7 @@ const JobCompleted = (props) => {
               <Dropdown.Item onClick={handleShow}>Edit</Dropdown.Item>
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                onClick={()=>props.deleteJob(props.job.idJob)}
+                onClick={() => props.deleteJob(props.job.idJob)}
               >
                 Delete
               </Dropdown.Item>

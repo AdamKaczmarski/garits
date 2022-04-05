@@ -31,6 +31,8 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Integer> {
 
     @Query(value = "SELECT * FROM vehicles where id_vehicle=:idVehicle", nativeQuery = true)
     Vehicle findVehicle(@Param("idVehicle") String idVehicle);
+
+
 }
 
 

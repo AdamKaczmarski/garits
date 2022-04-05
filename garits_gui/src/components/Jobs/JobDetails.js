@@ -9,7 +9,7 @@ const JobDetails = props => {
         try {
             const response = await axios({
                 method:"GET",
-                url:`http://localhost:8080/jobs/details/${props.idJob}`
+                url:`http://localhost:8080/jobs/${props.idJob}`
             });
             console.log(response);
             setJob(response.data);

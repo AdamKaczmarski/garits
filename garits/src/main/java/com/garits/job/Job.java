@@ -44,13 +44,12 @@ public class Job {
     @ManyToMany
     @JoinTable(name = "users_jobs",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="user_id"))
     private Set<User> user;
-    /* Those should be in jobs details
     @ManyToMany
     @JoinTable(name="jobs_services",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="service_id"))
     private Set<Service> services;
     @ManyToMany
     @JoinTable(name="jobs_parts",joinColumns=@JoinColumn(name="job_id"),inverseJoinColumns=@JoinColumn(name="part_id"))
-    public Set<Part> parts;*/
+    public Set<Part> parts;
     //GETTERS AND SETTER
 
     public Integer getIdJob() {
@@ -145,7 +144,6 @@ public class Job {
         this.user = user;
     }
 
-/*
     public Set<Service> getServices() {
         return services;
     }
@@ -153,5 +151,12 @@ public class Job {
     public void setServices(Set<Service> services) {
         this.services = services;
     }
-*/
+
+    public Set<Part> getParts() {
+        return parts;
+    }
+
+    public void setParts(Set<Part> parts) {
+        this.parts = parts;
+    }
 }

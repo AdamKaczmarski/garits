@@ -1,6 +1,9 @@
 package com.garits.job;
 
+import com.garits.customer.CustomerRepository;
 import com.garits.exceptions.NotFound;
+import com.garits.user.User;
+import com.garits.vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,24 +15,55 @@ import java.sql.Timestamp;
 public class JobController {
     @Autowired
     private JobRepository jobRepository;
-
+    @Autowired
+    private CustomerRepository customerRepository;
     //GET MAPPINGS
+    //Those 3 methods should return only data neeeded for the frontend without any details.
     @GetMapping("/jobs-active")
     Iterable<Job> getAllActiveJobs() {
-        return jobRepository.findAllActive();
+        Iterable<Job> result =  jobRepository.findAllActive();
+        for (Job j : result) {
+            j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
+            User u = new User(j.getUser().iterator().next().getIdUser(),j.getUser().iterator().next().getFirstName(),j.getUser().iterator().next().getLastName());
+            j.getUser().clear();
+            j.getUser().add(u);
+            j.setServices(null);
+            j.setParts(null);
+        }
+        return result;
     }
     @GetMapping("/jobs-completed")
     Iterable<Job> getAllCompletedJobs() {
-        return jobRepository.findAllCompleted();
+        Iterable<Job> result =  jobRepository.findAllCompleted();
+        for (Job j : result) {
+            j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
+            User u = new User(j.getUser().iterator().next().getIdUser(),j.getUser().iterator().next().getFirstName(),j.getUser().iterator().next().getLastName());
+            j.getUser().clear();
+            j.getUser().add(u);
+            j.setServices(null);
+            j.setParts(null);
+        }
+        return result;
     }
     @GetMapping("/jobs-booked")
     Iterable<Job> getAllBookedJobs() {
-        return jobRepository.findAllBooked();
+        Iterable<Job> result =  jobRepository.findAllBooked();
+        for (Job j : result) {
+            j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
+            j.setServices(null);
+            j.setParts(null);
+        }
+        return result;
     }
 
     @GetMapping("/jobs/{idJob}")
     Job getOneJob(@PathVariable Integer idJob) {
-        return jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
+        Job j =jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
+        j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
+        User u = new User(j.getUser().iterator().next().getIdUser(),j.getUser().iterator().next().getFirstName(),j.getUser().iterator().next().getLastName());
+        j.getUser().clear();
+        j.getUser().add(u);
+        return j;
     }
 
     //POST MAPPINGS
