@@ -30,7 +30,8 @@ public class Part {
     private int stockLevel;
     @Column(name="stock_level_threshold")
     private int stockLevelThreshold;
-
+    @Transient
+    private int quantityUsed;
     public Part(Integer idPart, String partName) {
         this.idPart = idPart;
         this.partName = partName;
@@ -134,5 +135,13 @@ public class Part {
 
     public void setStockLevelThreshold(int stockLevelThreshold) {
         this.stockLevelThreshold = stockLevelThreshold;
+    }
+
+    public int getQuantityUsed() {
+        return quantityUsed;
+    }
+
+    public void setQuantityUsed(int quantityUsed) {
+        this.quantityUsed = quantityUsed;
     }
 }

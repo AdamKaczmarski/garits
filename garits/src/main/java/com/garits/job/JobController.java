@@ -2,6 +2,7 @@ package com.garits.job;
 
 import com.garits.customer.CustomerRepository;
 import com.garits.exceptions.NotFound;
+import com.garits.part.Part;
 import com.garits.user.User;
 import com.garits.vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,11 @@ public class JobController {
         j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
         User u = new User(j.getUser().iterator().next().getIdUser(),j.getUser().iterator().next().getFirstName(),j.getUser().iterator().next().getLastName());
         j.getUser().clear();
+
         j.getUser().add(u);
+        for (Part p : j.getParts()) {
+            p.setQuantityUsed(jobRepository.getQuantityOfPart(p.getIdPart(),j.getIdJob()));
+        }
         return j;
     }
 

@@ -1,8 +1,6 @@
 import ListGroup from "react-bootstrap/ListGroup";
 import Accordion from "react-bootstrap/Accordion";
-const BoldSpan = (props) => {
-  return <span style={{ fontWeight: "bold" }}>{props.children}</span>;
-};
+import BoldSpan from "../CommonComponents/BoldSpan";
 const CustomerDetailsContent = (props) => {
   let flexDiscounts, serviceDiscounts;
   if (props.customer.flexDiscounts && props.customer.flexDiscounts.length > 0) {
