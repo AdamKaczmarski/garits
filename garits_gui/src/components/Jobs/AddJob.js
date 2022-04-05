@@ -10,7 +10,7 @@ const AddJob = (props) => {
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [servicesView, setServicesView] = useState([]);
-  const selectedCustomer = useRef();
+  const [selectedCustomer,setSelectedCustomer] = useState(null);
   const obtainCustomers = useCallback(async () => {
     try {
       const response = await axios({
@@ -19,10 +19,11 @@ const AddJob = (props) => {
       });
       console.log(response);
       setCustomers(response.data);
-      selectedCustomer.current = response.data[0];
+      setSelectedCustomer(response.data[0]);
+      obtainVehicles(response.data[0].idCustomer);
     } catch (err) {
       console.log(err);
-    }
+    } 
   }, []);
   const obtainServices = useCallback(async () => {
     try {
@@ -36,11 +37,11 @@ const AddJob = (props) => {
       console.log(err);
     }
   }, []);
-  const obtainVehicles = useCallback(async () => {
+  const obtainVehicles = useCallback(async (id) => {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://localhost:8080/vehicles/${selectedCustomer.current}/short`,
+        url: `http://localhost:8080/vehicles/${id}/short`,
       });
       console.log(response);
       setVehicles(response.data);
@@ -109,8 +110,8 @@ const AddJob = (props) => {
     }
   };
   const customerHandler = (ev) => {
-    selectedCustomer.current = ev.target.value;
-    obtainVehicles();
+    setSelectedCustomer(+ev.target.value);
+    obtainVehicles(+ev.target.value);
   };
   const vehicleHandler = (ev) => {
     props.newJob.vehicle.idVehicle = +ev.target.value;
