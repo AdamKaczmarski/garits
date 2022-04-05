@@ -22,7 +22,7 @@ public interface JobRepository extends CrudRepository<Job,Integer> {
     Integer getQuantityOfPart(@Param("idPart") Integer idPart,@Param("idJob") Integer idJob);
     @Transactional
     @Modifying
-    @Query(value="update jobs set description_required = (select group_concat(short_description SEPARATOR ';; ') from services where id_service IN (select service_id from jobs_services where job_id=:idJob))", nativeQuery = true)
+    @Query(value="update jobs set description_required = (select group_concat(short_description SEPARATOR '; ') from services where id_service IN (select service_id from jobs_services where job_id=:idJob))", nativeQuery = true)
     void setDescriptionReq(@Param("idJob")Integer idJob);
     @Transactional
     @Modifying
