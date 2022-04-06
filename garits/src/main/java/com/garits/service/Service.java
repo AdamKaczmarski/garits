@@ -24,6 +24,14 @@ public class Service {
     public Service() {
     }
 
+    public Service(Integer idService, String serviceName, double servicePrice, int approxTimeMin, String shortDescription) {
+        this.idService = idService;
+        this.serviceName = serviceName;
+        this.servicePrice = servicePrice;
+        this.approxTimeMin = approxTimeMin;
+        this.shortDescription = shortDescription;
+    }
+
     public Service(Integer idService) {
         this.idService = idService;
     }

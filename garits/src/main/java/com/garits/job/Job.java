@@ -52,6 +52,9 @@ public class Job {
     public Set<Part> parts;
     //GETTERS AND SETTER
 
+    public Job() {
+    }
+
     public Integer getIdJob() {
         return idJob;
     }

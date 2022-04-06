@@ -73,6 +73,7 @@ const JobsTableActive = () => {
       jobType={job.status}
       deleteJob={deleteJob}
       addjob={addJob}
+      obtainJobs={obtainActiveJobs}
     />
   ));
   return (

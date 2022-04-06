@@ -27,6 +27,19 @@ public class Payment {
     private Customer customer;
     //Getters and Setters
 
+    public Payment() {
+    }
+
+    public Payment(Integer idPayment, String cashOrCard, double amount, Date createDate, Date paymentDate, Date paymentDue, Customer customer) {
+        this.idPayment = idPayment;
+        this.cashOrCard = cashOrCard;
+        this.amount = amount;
+        this.createDate = createDate;
+        this.paymentDate = paymentDate;
+        this.paymentDue = paymentDue;
+        this.customer = customer;
+    }
+
     public Integer getIdPayment() {
         return idPayment;
     }
