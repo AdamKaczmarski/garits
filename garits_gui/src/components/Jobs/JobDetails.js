@@ -77,6 +77,10 @@ const JobDetails = (props) => {
         <ListGroup.Item>
           <BoldSpan>Booking date</BoldSpan>: {bookingDate}
         </ListGroup.Item>
+        {job.status==='completed' || job.status==='active' ?         <ListGroup.Item>
+          <BoldSpan>Assigned mechaninc</BoldSpan>: {job.user[0].firstName + " " + job.user[0].lastName}
+        </ListGroup.Item>
+ :null}
         {job.status==='completed'?(<> <ListGroup.Item>
           <BoldSpan>Fix date</BoldSpan>: {fixDate}
         </ListGroup.Item></>):null} 

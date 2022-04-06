@@ -25,6 +25,7 @@ const Job = (props) => {
       props.job.bay.charAt(0).toUpperCase() +
       props.job.bay.slice(1).toLowerCase();
   } else bay = props.job.bay;
+  console.log(props.job.user.length);
   return (
     <>
       <tr>
@@ -47,7 +48,7 @@ const Job = (props) => {
         {props.jobType === "active" || props.jobType === "completed" ? (
           <td>
             {" "}
-            {props.job.user.length > 0
+            {props.job.user.length >0
               ? props.job.user[0].firstName + " " + props.job.user[0].lastName
               : null}
           </td>
