@@ -90,8 +90,9 @@ const Job = (props) => {
         break;
       }
       case 3: {
-        formData = {};
+        formData = {descriptionRequired:props.job.descriptionRequired};
         submitAction.current = async () => {
+          const editedJob= {...props.job,descriptionRequired:formData.descriptionRequired};
           try {
             const response = await axios({});
             console.log(response);
@@ -107,8 +108,9 @@ const Job = (props) => {
         break;
       }
       case 4: {
-        formData = {};
+        formData = {parts:props.job.parts};
         submitAction.current = async () => {
+          const editedJob= {...props.job,parts:formData.parts};
           try {
             const response = await axios({});
             console.log(response);
@@ -124,8 +126,9 @@ const Job = (props) => {
         break;
       }
       case 5: {
-        formData = {};
+        formData = {services:props.job.services};
         submitAction.current = async () => {
+          const editedJob= {...props.job,services:formData.services};
           try {
             const response = await axios({});
             console.log(response);
