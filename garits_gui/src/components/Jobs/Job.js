@@ -74,7 +74,6 @@ const Job = (props) => {
               {props.jobType === "active" ? (<>
                 <Dropdown.Item>Set completed</Dropdown.Item>
                 <Dropdown.Item>{props.job.parts &&props.job.parts.length>0?"Edit":"Set"} used parts</Dropdown.Item>
-                <Dropdown.Item>{props.job.descriptionDone &&props.job.descriptionDone.length>0?"Edit":"Set"} description done</Dropdown.Item>
                 <Dropdown.Item>Edit services</Dropdown.Item>
                 <Dropdown.Item>Change assignment</Dropdown.Item></>
               ) : null}
