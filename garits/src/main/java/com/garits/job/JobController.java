@@ -83,7 +83,7 @@ public class JobController {
     }
 
     //PUT MAPPINGS
-    @PutMapping("/jobs/{idJob}")
+    @PatchMapping("/jobs/{idJob}")
     Job editJob(@PathVariable Integer idJob, @RequestBody Job editedJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         if (editedJob.getStatus() != null) j.setStatus(editedJob.getStatus());

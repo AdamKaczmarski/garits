@@ -22,6 +22,18 @@ public class Order {
     @Column(name="description")
     private String description;
 
+    public Order() {
+    }
+
+    public Order(Integer idOrder, String status, Date orderDate, Date orderArrival, double orderAmount, String description) {
+        this.idOrder = idOrder;
+        this.status = status;
+        this.orderDate = orderDate;
+        this.orderArrival = orderArrival;
+        this.orderAmount = orderAmount;
+        this.description = description;
+    }
+
     //Getters and Setters
     public Integer getIdOrder() {
         return idOrder;

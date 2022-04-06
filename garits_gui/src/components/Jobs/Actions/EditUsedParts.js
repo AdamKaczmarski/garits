@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
-const EditUserParts = (props) => {
+const EditUsedParts = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [items,setItems] = useState([]);
   const obtainItems = useCallback(async () => {
@@ -24,4 +24,4 @@ const EditUserParts = (props) => {
   return <Form></Form>;
 };
 
-export default EditUserParts;
+export default EditUsedParts;
