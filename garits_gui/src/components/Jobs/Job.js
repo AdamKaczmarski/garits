@@ -37,12 +37,20 @@ const Job = (props) => {
   const formHandler = (id) => {
     switch (id) {
       case 1: {
-        formData = { idUser: 0, bay: "" };
+        formData = {
+          user: [{ idUser: 0 }],
+          bay: "",
+          status: props.job.status === "active" ? "booked" : "active",
+        };
         submitAction.current = async () => {
           try {
-            const editedJob = { ...props.job, bay: formData.bay };
-            editedJob.user[0].idUser = formData.idUser;
-            const response = axios({
+            const editedJob = {
+              ...props.job,
+              bay: formData.bay,
+              status: formData.status,
+              user: formData.user,
+            };
+            const response = await axios({
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
@@ -52,35 +60,100 @@ const Job = (props) => {
             console.log(err);
           } finally {
             props.obtainJobs();
+            setShow(false);
           }
         };
 
         setForm(
           <UserAssignment
-            user={props.job.user}
-            bay={props.job.bay}
+            user={props.job.status === "active" ? props.job.user : null}
+            bay={props.job.status === "active" ? props.job.bay : null}
             formData={formData}
           />
         );
         break;
       }
       case 2: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
         setForm(<CompleteJob />);
         break;
       }
       case 3: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
         setForm(<EditDescriptionRequired />);
         break;
       }
       case 4: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
         setForm(<EditUsedParts idJob={props.job.idJob} />);
         break;
       }
       case 5: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
         setForm(<EditServicesForJob />);
         break;
       }
       default: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
         setForm(<UserAssignment />);
         break;
       }

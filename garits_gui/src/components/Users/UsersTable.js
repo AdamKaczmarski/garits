@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -12,12 +12,9 @@ const UserTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   //const users = USERS.map((user) => <User key={user.id} user={user} />);
   let userView;
-  useEffect(() => {
-    obtainUsers();
-  }, []);
-
   const obtainUsers = async () => {
     try {
       const response = await axios({
@@ -27,15 +24,23 @@ const UserTable = () => {
       setUsers(response.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    obtainUsers();
+  }, []);
+
   if (users && users.length > 0) {
     userView = users.map((user) => <User key={user.idUser} user={user} />);
   }
-
+  if (isLoading){
+    return <Spinner animation="border" variant="primary" />
+  }
   return (
     <>
-      <Suspense fallback={<Spinner animation="border" variant="primary" />}>
         <Table striped hover className="mt-3">
           <thead>
             <tr>
@@ -56,8 +61,7 @@ const UserTable = () => {
           </thead>
           <tbody>{userView}</tbody>
         </Table>
-        <AddUserModal show={show} onClose={handleShow} />
-      </Suspense>
+        <AddUserModal show={show} onClose={handleShow} obtainUsers={obtainUsers} />
     </>
   );
 };

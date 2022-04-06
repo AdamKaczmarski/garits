@@ -27,7 +27,9 @@ const AddUserModal = (props) => {
       console.log(err);
     } finally {
       // I don't like this method to refresh the list of users but for this project's needs I think it will be fine as there's much more work to do.
-      window.location.reload();
+      //window.location.reload();
+      props.obtainUsers();
+      props.onClose();
     }
   };
   return (

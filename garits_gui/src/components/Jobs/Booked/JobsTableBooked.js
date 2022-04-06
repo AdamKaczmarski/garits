@@ -67,7 +67,7 @@ const JobsTableBooked = () => {
   if (isLoading) {
     return <Spinner variant="primary" animation="border" />;
   }
-  let jobsView = jobs.map((job) => <Job job={job} key={job.idJob} jobType={job.status} deleteJob={deleteJob}/>);
+  let jobsView = jobs.map((job) => <Job job={job} key={job.idJob} jobType={job.status} deleteJob={deleteJob} obtainJobs={obtainBookedJobs}/>);
 
   return (
     <>

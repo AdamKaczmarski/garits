@@ -87,15 +87,16 @@ public class JobController {
     Job editJob(@PathVariable Integer idJob, @RequestBody Job editedJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         if (editedJob.getStatus() != null) j.setStatus(editedJob.getStatus());
-        if (!editedJob.getDescriptionDone().equals(j.getDescriptionDone()))
+        if (editedJob.getDescriptionDone()!=null &&!editedJob.getDescriptionDone().equals(j.getDescriptionDone()))
             j.setDescriptionDone(editedJob.getDescriptionDone());
-        if (!editedJob.getDescriptionRequired().equals(j.getDescriptionRequired()))
+        if (editedJob.getDescriptionRequired()!=null&&!editedJob.getDescriptionRequired().equals(j.getDescriptionRequired()))
             j.setDescriptionRequired(editedJob.getDescriptionRequired());
         if (editedJob.getEstTimeMin() > 0) j.setEstTimeMin(editedJob.getEstTimeMin());
-        if (editedJob.getActTimeMin() >= 0) j.setActTimeMin(editedJob.getActTimeMin());
+        if (editedJob.getActTimeMin()!=null&&editedJob.getActTimeMin() >= 0) j.setActTimeMin(editedJob.getActTimeMin());
         if (editedJob.getBookingDate() != null) j.setBookingDate(editedJob.getBookingDate());
         if (editedJob.getFixDate() != null) j.setFixDate(editedJob.getFixDate());
         if (!editedJob.getBay().equals(j.getBay())) j.setBay(editedJob.getBay());
+        if (editedJob.getUser() != null) j.setUser(editedJob.getUser());
         return jobRepository.save(j);
     }
 

@@ -25,15 +25,21 @@ const UserAssignment = (props) => {
   let mechanicsView;
   if (mechanics && mechanics.length > 0) {
     mechanicsView = mechanics.map((mechanic) => {
-      if (mechanic.idUser !== props.user[0].idUser) {
+      if (props.user && mechanic.idUser !== props.user[0].idUser) {
         return (
           <option key={mechanic.idUser} value={mechanic.idUser}>
             {mechanic.firstName + " " + mechanic.lastName}
           </option>
         );
+      } else {
+        return (
+            <option key={mechanic.idUser} value={mechanic.idUser}>
+              {mechanic.firstName + " " + mechanic.lastName}
+            </option>
+          );
       }
     });
-    if (props.user[0].idUser) {
+    if (props.user) {
       mechanicsView.unshift(
         <option key={props.user[0].idUser} value={props.user[0].idUser}>
           {props.user[0].firstName + " " + props.user[0].lastName}
@@ -41,18 +47,21 @@ const UserAssignment = (props) => {
       );
     }
   }
-  const mechanicHandler=ev=>{props.formData.idUser=+ev.target.value}
-  const bayHandler=ev=>{props.formData.bay=ev.target.value}
+  const mechanicHandler = (ev) => {
+    props.formData.user[0].idUser = +ev.target.value;
+  };
+  const bayHandler = (ev) => {
+    props.formData.bay = ev.target.value;
+  };
 
-  if (props.user.length > 0) {
-      let bay;
+  if (props.user) {
+    let bay;
     if (props.bay && props.bay !== "MOT") {
-        bay =
-          props.bay.charAt(0).toUpperCase() +
-          props.bay.slice(1).toLowerCase();
-      } else bay = props.bay;
-      props.formData.idUser=props.user[0].idUser;
-      props.formData.bay=bay;
+      bay =
+        props.bay.charAt(0).toUpperCase() + props.bay.slice(1).toLowerCase();
+    } else bay = props.bay;
+    props.formData.idUser = props.user[0].idUser;
+    props.formData.bay = bay;
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -71,6 +80,7 @@ const UserAssignment = (props) => {
       </Form>
     );
   } else {
+    console.log(props.formData)
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -81,12 +91,9 @@ const UserAssignment = (props) => {
           <Form.Label>Bay</Form.Label>
           <Form.Select onChange={bayHandler}>
             <option value="regular">Regular</option>
-            <option value="MOT">
-              MOT
-            </option>
+            <option value="MOT">MOT</option>
           </Form.Select>
         </Form.Group>
-
       </Form>
     );
   }
