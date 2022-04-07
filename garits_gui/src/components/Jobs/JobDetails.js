@@ -32,9 +32,7 @@ const JobDetails = (props) => {
   } else bay = job.bay;
   let bookingDate;
   if (job.bookingDate)
-    bookingDate = new Date(job.bookingDate)
-      .toISOString()
-      .substring(0, 10);
+    bookingDate = new Date(job.bookingDate).toISOString().substring(0, 10);
   let fixDate;
   if (job.fixDate)
     fixDate = new Date(job.fixDate).toISOString().substring(0, 10);
@@ -42,16 +40,20 @@ const JobDetails = (props) => {
   if (job.createDate)
     createdDate = new Date(job.createDate).toISOString().substring(0, 10);
   let services;
-  if (job.services && job.services.length>0){
-      services=job.services.map(service=><ListGroup.Item key={service.idService}>
-          <span>{service.serviceName}</span>
-      </ListGroup.Item>);
+  if (job.services && job.services.length > 0) {
+    services = job.services.map((service) => (
+      <ListGroup.Item key={service.idService}>
+        <span>{service.serviceName}</span>
+      </ListGroup.Item>
+    ));
   }
   let parts;
-  if (job.parts && job.parts.length>0){
-      parts = job.parts.map(part=><ListGroup.Item key={part.idPart}>
-         <span>{part.quantityUsed+" x "+part.partName}</span> 
-      </ListGroup.Item>)
+  if (job.parts && job.parts.length > 0) {
+    parts = job.parts.map((part) => (
+      <ListGroup.Item key={part.idPart}>
+        <span>{part.quantityUsed + " x " + part.partName}</span>
+      </ListGroup.Item>
+    ));
   }
 
   return (
@@ -77,13 +79,20 @@ const JobDetails = (props) => {
         <ListGroup.Item>
           <BoldSpan>Booking date</BoldSpan>: {bookingDate}
         </ListGroup.Item>
-        {job.status==='completed' || job.status==='active' ?         <ListGroup.Item>
-          <BoldSpan>Assigned mechaninc</BoldSpan>: {job.user[0].firstName + " " + job.user[0].lastName}
-        </ListGroup.Item>
- :null}
-        {job.status==='completed'?(<> <ListGroup.Item>
-          <BoldSpan>Fix date</BoldSpan>: {fixDate}
-        </ListGroup.Item></>):null} 
+        {job.status === "completed" || job.status === "active" ? (
+          <ListGroup.Item>
+            <BoldSpan>Assigned mechaninc</BoldSpan>:{" "}
+            {job.user[0].firstName + " " + job.user[0].lastName}
+          </ListGroup.Item>
+        ) : null}
+        {job.status === "completed" ? (
+          <>
+            {" "}
+            <ListGroup.Item>
+              <BoldSpan>Fix date</BoldSpan>: {fixDate}
+            </ListGroup.Item>
+          </>
+        ) : null}
         <ListGroup.Item>
           <BoldSpan>Bay</BoldSpan>: {bay}
         </ListGroup.Item>
@@ -93,24 +102,30 @@ const JobDetails = (props) => {
         <ListGroup.Item>
           <BoldSpan>Estimated time</BoldSpan>: {job.estTimeMin + " mins"}
         </ListGroup.Item>
-        {job.status==='completed'?(<>
-        <ListGroup.Item>
-          <BoldSpan>Description Done</BoldSpan>: {job.descriptionDone}
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <BoldSpan>Time taken</BoldSpan>: {job.actTimeMin + " mins"}
-        </ListGroup.Item></>):null}
+        {job.status === "completed" ? (
+          <>
+            <ListGroup.Item>
+              <BoldSpan>Description Done</BoldSpan>: {job.descriptionDone}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <BoldSpan>Time taken</BoldSpan>: {job.actTimeMin + " mins"}
+            </ListGroup.Item>
+          </>
+        ) : null}
         <ListGroup.Item>
           <Accordion>
             <Accordion.Item eventKey={0}>
               <Accordion.Header>Services included</Accordion.Header>
               <Accordion.Body>{services}</Accordion.Body>
             </Accordion.Item>
-            {job.status==='completed'?(<>
-            <Accordion.Item eventKey={1}>
-              <Accordion.Header>Parts used</Accordion.Header>
-              <Accordion.Body>{parts}</Accordion.Body>
-            </Accordion.Item></>):null}
+            {job.status === "completed" ? (
+              <>
+                <Accordion.Item eventKey={1}>
+                  <Accordion.Header>Parts used</Accordion.Header>
+                  <Accordion.Body>{parts}</Accordion.Body>
+                </Accordion.Item>
+              </>
+            ) : null}
           </Accordion>
         </ListGroup.Item>
       </ListGroup>

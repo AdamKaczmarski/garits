@@ -6,7 +6,6 @@ import JobDetails from "./JobDetails";
 import UserAssignment from "./Actions/UserAssignment";
 import CompleteJob from "./Actions/CompleteJob";
 import EditDescriptionRequired from "./Actions/EditDescriptionRequired";
-import EditUsedParts from "./Actions/EditUsedParts";
 import EditServicesForJob from "./Actions/EditServicesForJob";
 import axios from "axios";
 const Job = (props) => {
@@ -43,6 +42,7 @@ const Job = (props) => {
           status: props.job.status === "active" ? "booked" : "active",
         };
         submitAction.current = async () => {
+          console.log(formData);
           try {
             const editedJob = {
               ...props.job,
@@ -74,11 +74,38 @@ const Job = (props) => {
         break;
       }
       case 2: {
-        formData = {};
+        formData = { parts: [], descriptionDone: "", actTimeMin: 0 };
         submitAction.current = async () => {
+          console.log(formData);
           try {
-            const response = await axios({});
-            console.log(response);
+            formData.parts = formData.parts.filter(
+              (p) => p.idPart !== 0 && p.quantityUsed > 0
+            );
+            console.log(formData.parts);
+            const editedJob = {
+              ...props.job,
+              parts: formData.parts,
+              descriptionDone: formData.descriptionDone,
+              actTimeMin: formData.actTimeMin,
+              status: "completed",
+              fixDate: new Date().toISOString().substring(0, 10),
+            };
+            console.log(editedJob.parts);
+            const response = await axios({
+              method: "PATCH",
+              url: `http://localhost:8080/jobs/${props.job.idJob}`,
+              data: editedJob,
+            });
+            editedJob.parts.forEach(async (p) => {
+              try {
+                await axios({
+                  method: "PATCH",
+                  url: `http://localhost:8080/jobs/${props.job.idJob}/${p.idPart}/${p.quantityUsed}`,
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            });
           } catch (err) {
             console.log(err);
           } finally {
@@ -86,13 +113,21 @@ const Job = (props) => {
             setShow(false);
           }
         };
-        setForm(<CompleteJob />);
+        setForm(
+          <CompleteJob
+            formData={formData}
+            descriptionRequired={props.job.descriptionRequired}
+          />
+        );
         break;
       }
       case 3: {
-        formData = {descriptionRequired:props.job.descriptionRequired};
+        formData = { descriptionRequired: props.job.descriptionRequired };
         submitAction.current = async () => {
-          const editedJob= {...props.job,descriptionRequired:formData.descriptionRequired};
+          const editedJob = {
+            ...props.job,
+            descriptionRequired: formData.descriptionRequired,
+          };
           try {
             const response = await axios({});
             console.log(response);
@@ -107,28 +142,10 @@ const Job = (props) => {
         setForm(<EditDescriptionRequired />);
         break;
       }
-      case 4: {
-        formData = {parts:props.job.parts};
-        submitAction.current = async () => {
-          const editedJob= {...props.job,parts:formData.parts};
-          try {
-            const response = await axios({});
-            console.log(response);
-          } catch (err) {
-            console.log(err);
-          } finally {
-            props.obtainJobs();
-            setShow(false);
-          }
-        };
-
-        setForm(<EditUsedParts idJob={props.job.idJob} />);
-        break;
-      }
       case 5: {
-        formData = {services:props.job.services};
+        formData = { services: props.job.services };
         submitAction.current = async () => {
-          const editedJob= {...props.job,services:formData.services};
+          const editedJob = { ...props.job, services: formData.services };
           try {
             const response = await axios({});
             console.log(response);
@@ -212,12 +229,6 @@ const Job = (props) => {
                 <>
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(4)}>
-                    {props.job.parts && props.job.parts.length > 0
-                      ? "Edit"
-                      : "Set"}{" "}
-                    used parts
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => formHandler(5)}>
                     Edit services

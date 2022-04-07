@@ -1,6 +1,8 @@
 package com.garits.part;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 
@@ -31,7 +33,10 @@ public class Part {
     @Column(name="stock_level_threshold")
     private int stockLevelThreshold;
     @Transient
-    private int quantityUsed;
+    @JsonSerialize
+    @JsonDeserialize()
+    private Integer quantityUsed;
+
     public Part(Integer idPart, String partName) {
         this.idPart = idPart;
         this.partName = partName;
@@ -39,6 +44,17 @@ public class Part {
 
     public Part() {
 
+    }
+
+    public Part(Integer idPart, String partName, Integer quantityUsed) {
+        this.idPart = idPart;
+        this.partName = partName;
+        this.quantityUsed = quantityUsed;
+    }
+
+    public Part(Integer idPart, Integer quantityUsed) {
+        this.idPart = idPart;
+        this.quantityUsed = quantityUsed;
     }
 
     public Part(Integer idPart, String partName, double price, String code) {
@@ -136,12 +152,10 @@ public class Part {
     public void setStockLevelThreshold(int stockLevelThreshold) {
         this.stockLevelThreshold = stockLevelThreshold;
     }
-
-    public int getQuantityUsed() {
+    public Integer getQuantityUsed() {
         return quantityUsed;
     }
-
-    public void setQuantityUsed(int quantityUsed) {
+    public void setQuantityUsed(Integer quantityUsed) {
         this.quantityUsed = quantityUsed;
     }
 }

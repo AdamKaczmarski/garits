@@ -3,12 +3,20 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 const SelectItem = (props) => {
-    console.log(props)
+  console.log(props);
   const itemHandler = (ev) => {
-    props.item.partId = ev.target.value;
+    if (props.item.partId) {
+      props.item.partId = +ev.target.value;
+    } else {
+      props.item.idPart = +ev.target.value;
+    }
   };
   const quantityHandler = (ev) => {
-    props.item.quantity = ev.target.value;
+    if (props.item.quantity) {
+      props.item.quantity = +ev.target.value;
+    } else {
+      props.item.quantityUsed = +ev.target.value;
+    }
   };
   return (
     <Row>

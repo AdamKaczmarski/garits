@@ -28,5 +28,9 @@ public interface JobRepository extends CrudRepository<Job,Integer> {
     @Modifying
     @Query(value="update jobs set est_time_min = (select sum(approx_time_min) from services where id_service IN (select service_id from jobs_services where job_id=:idJob))", nativeQuery = true)
     void setEstTime(Integer idJob);
+    @Transactional
+    @Modifying
+    @Query(value="UPDATE jobs_parts set quantity_used = :quantity where part_id = :idPart and job_id = :idJob", nativeQuery = true)
+    void setQuantityOfPart(@Param("idPart")Integer idPart,@Param("idJob") Integer idJob,@Param("quantity") Integer quantityUsed);
     //@Query(value="INSERT INTO jobs (vehicle_id,status,created_date,description_required,est_time_min)")
 }

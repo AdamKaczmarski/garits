@@ -20,7 +20,6 @@ const JobsTableBooked = () => {
     services: selectedServices,
   };
   const addJob = async () => {
-    console.log(newJob);
     try {
       const response = await axios({
         method: "POST",
@@ -30,7 +29,10 @@ const JobsTableBooked = () => {
       console.log(response);
     } catch (err) {
       console.log(err);
-    } 
+    } finally {
+      handleShow();
+      obtainBookedJobs();
+    }
   };
 
   const obtainBookedJobs = async () => {
@@ -57,6 +59,7 @@ const JobsTableBooked = () => {
     } catch (err) {
       console.log(err);
     } finally {
+      handleShow();
       obtainBookedJobs();
     }
   }

@@ -17,6 +17,7 @@ const JobsTableActive = () => {
     bookingDate: null,
     status: "booked",
     services: selectedServices,
+    bay:""
   };
   const addJob = async () => {
     console.log(newJob);
@@ -26,7 +27,7 @@ const JobsTableActive = () => {
         url: "http://localhost:8080/jobs",
         data: newJob,
       });
-      console.log(response);
+      handleShow();
     } catch (err) {
       console.log(err);
     } finally {

@@ -39,7 +39,10 @@ const UserAssignment = (props) => {
           );
       }
     });
+    props.formData.user[0].idUser = mechanics[0].idUser;
+
     if (props.user) {
+      props.formData.user[0].idUser = props.user;
       mechanicsView.unshift(
         <option key={props.user[0].idUser} value={props.user[0].idUser}>
           {props.user[0].firstName + " " + props.user[0].lastName}
