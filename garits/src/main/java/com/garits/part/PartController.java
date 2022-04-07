@@ -46,7 +46,7 @@ public class PartController {
     Iterable<Part> parts = partRepository.findAll();
     Set<Part> partNames = new HashSet<>();
     for (Part p: parts){
-        Part p2 = new Part(p.getIdPart(),p.getPartName());
+        Part p2 = new Part(p.getIdPart(),p.getPartName(),p.getStockLevel());
         partNames.add(p2);
     }
     return ResponseEntity.ok(partNames);
