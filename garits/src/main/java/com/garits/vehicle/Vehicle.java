@@ -42,6 +42,29 @@ public class Vehicle {
         this.idRegNo = idRegNo;
     }
 
+    public Vehicle(Integer idVehicle, String idRegNo, String manufacturer, String model, String engineSerialNumber, String chassisNumber, String colour, Date lastMot) {
+        this.idVehicle = idVehicle;
+        this.idRegNo = idRegNo;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.engineSerialNumber = engineSerialNumber;
+        this.chassisNumber = chassisNumber;
+        this.colour = colour;
+        this.lastMot = lastMot;
+    }
+
+    public Vehicle(Integer idVehicle, String idRegNo, String manufacturer, String model, String engineSerialNumber, String chassisNumber, String colour, Date lastMot, Set<Customer> customer) {
+        this.idVehicle = idVehicle;
+        this.idRegNo = idRegNo;
+        this.manufacturer = manufacturer;
+        this.model = model;
+        this.engineSerialNumber = engineSerialNumber;
+        this.chassisNumber = chassisNumber;
+        this.colour = colour;
+        this.lastMot = lastMot;
+        this.customer = customer;
+    }
+
     //GETTERS AND SETTERS
     public Integer getIdVehicle() {
         return idVehicle;

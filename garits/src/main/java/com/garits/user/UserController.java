@@ -22,6 +22,10 @@ public class UserController {
     Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
+    @GetMapping("/users/mechanics")
+    Iterable<User> getAllMechanics() {
+        return userRepository.findAllMechanics();
+    }
 
     /**
      * Get single user

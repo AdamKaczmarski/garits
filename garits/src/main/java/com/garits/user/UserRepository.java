@@ -22,4 +22,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Transactional
     @Query(value="UPDATE users_roles set role_id =(SELECT id_role FROM roles where role_name=?2) where user_id=?1",nativeQuery = true)
     void changeUserRole(Integer userId, String role);
+    @Query(value="SELECT * from users where id_user IN (SELECT user_id FROM users_roles WHERE role_id=(SELECT id_role FROM roles where role_name='MECHANIC'))",nativeQuery = true)
+    Iterable<User> findAllMechanics();
 }
