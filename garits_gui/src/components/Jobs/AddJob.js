@@ -4,13 +4,16 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import AddService from "./AddService";
+import BoldSpan from "../CommonComponents/BoldSpan";
 const AddJob = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [customers, setCustomers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [servicesView, setServicesView] = useState([]);
-  const [selectedCustomer,setSelectedCustomer] = useState(null);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [total, setTotal] = useState(0.0);
+  const servicesIDs = useRef([]);
   const obtainCustomers = useCallback(async () => {
     try {
       const response = await axios({
@@ -23,7 +26,7 @@ const AddJob = (props) => {
       obtainVehicles(response.data[0].idCustomer);
     } catch (err) {
       console.log(err);
-    } 
+    }
   }, []);
   const obtainServices = useCallback(async () => {
     try {
@@ -37,18 +40,21 @@ const AddJob = (props) => {
       console.log(err);
     }
   }, []);
-  const obtainVehicles = useCallback(async (id) => {
-    try {
-      const response = await axios({
-        method: "GET",
-        url: `http://localhost:8080/vehicles/${id}/short`,
-      });
-      console.log(response);
-      setVehicles(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }, [selectedCustomer]);
+  const obtainVehicles = useCallback(
+    async (id) => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://localhost:8080/vehicles/${id}/short`,
+        });
+        console.log(response);
+        setVehicles(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [selectedCustomer]
+  );
   const obtainData = useCallback(async () => {
     try {
       await obtainCustomers();
@@ -94,15 +100,38 @@ const AddJob = (props) => {
       </option>
     ));
   }
+  const obtainPrice = async () => {
+    let sum=0;
+    servicesIDs.current.forEach(async id=>{
+      let tmp=id.idService;
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://localhost:8080/services/${tmp}/price`,
+          
+        });
+        sum+=parseFloat(response.data);
+        console.log(sum)
+      } catch (er) {
+        console.log(er);
+      } finally {
+        setTotal(sum);
+
+      }
+    })
+  };
   const addService = () => {
     if (servicesView.length < services.length) {
-      props.selectedServices.push({ idService: 1 });
+      props.selectedServices.push({  idService: 1 });
+      servicesIDs.current.push({idService:1});
       setServicesView([
         ...servicesView,
         <AddService
           key={Math.random()}
           servicesOptions={servicesOptions}
           service={props.selectedServices[props.selectedServices.length - 1]}
+          id={servicesIDs.current[servicesIDs.current.length - 1]}
+          obtainPrice={obtainPrice}
         />,
       ]);
     } else {
@@ -144,6 +173,7 @@ const AddJob = (props) => {
           defaultValue={new Date().toISOString().substring(0, 10)}
         />
       </Form.Group>
+      <BoldSpan>Total: £{total}</BoldSpan>
     </Form>
   );
 };

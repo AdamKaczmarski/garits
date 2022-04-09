@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -32,7 +33,7 @@ public class ServiceController {
         Iterable<Service> result = serviceRepository.findAll();
         Set<Service> services = new HashSet<>();
         for (Service s : result) {
-            services.add(new Service(s.getIdService(),s.getServiceName()));
+            services.add(new Service(s.getIdService(),s.getServiceName(),s.getServicePrice()));
         }
         return services;
     }
@@ -47,6 +48,11 @@ public class ServiceController {
     Service one(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
+    @GetMapping("/services/{id}/price")
+    double getPrice(@PathVariable Integer id) {
+        return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
+    }
+
     //POST MAPPINGS
 
     /**

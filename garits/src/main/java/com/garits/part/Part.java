@@ -34,7 +34,7 @@ public class Part {
     private int stockLevelThreshold;
     @Transient
     @JsonSerialize
-    @JsonDeserialize()
+    @JsonDeserialize
     private Integer quantityUsed;
 
     public Part(Integer idPart, String partName) {
