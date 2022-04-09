@@ -30,7 +30,7 @@ const JobsTableCompleted = (props) => {
       console.log(response);
     } catch (err) {
       console.log(err);
-    } 
+    }
   };
 
   const obtainCompletedJobs = async () => {
@@ -47,11 +47,11 @@ const JobsTableCompleted = (props) => {
       setIsLoading(false);
     }
   };
-  const deleteJob = async (idJob)=>{
+  const deleteJob = async (idJob) => {
     try {
       const response = await axios({
-        method:"DELETE",
-        url:`http://localhost:8080/jobs/${idJob}`
+        method: "DELETE",
+        url: `http://localhost:8080/jobs/${idJob}`,
       });
       console.log(response);
     } catch (err) {
@@ -59,7 +59,7 @@ const JobsTableCompleted = (props) => {
     } finally {
       obtainCompletedJobs();
     }
-  }
+  };
 
   useEffect(() => {
     obtainCompletedJobs();
@@ -67,12 +67,21 @@ const JobsTableCompleted = (props) => {
   if (isLoading) {
     return <Spinner variant="primary" animation="border" />;
   }
-  let jobsView = jobs.map((job) => <JobCompleted job={job} key={job.idJob} jobType={job.status} deleteJob={deleteJob}/>);
+  let jobsView = jobs.map((job) => (
+    <JobCompleted
+      job={job}
+      key={job.idJob}
+      jobType={job.status}
+      deleteJob={deleteJob}
+    />
+  ));
   return (
     <>
       <Table striped hover className="mt-3">
         <thead>
           <tr>
+            <th>Job ID</th>
+
             <th>Customer</th>
             <th>Car Reg. No.</th>
             <th>Car</th>

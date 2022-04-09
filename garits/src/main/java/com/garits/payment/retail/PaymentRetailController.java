@@ -1,15 +1,19 @@
-package com.garits.payment;
+package com.garits.payment.retail;
 
 import com.garits.customer.Customer;
 import com.garits.exceptions.NotFound;
+import com.garits.order.PartOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/")
-public class PaymentController {
+public class PaymentRetailController {
     @Autowired
-    private PaymentRepository paymentRepository;
+    private PaymentRetailRepository paymentRepository;
 
     //GET MAPPINGS
 
@@ -20,23 +24,14 @@ public class PaymentController {
      */
     @GetMapping("/payments-retails")
     public @ResponseBody
-    Iterable<Payment> getAllRetailPayments() {
-        Iterable<Payment> result = paymentRepository.findAllRetailPayments();
-        for (Payment payment : result) {
+    Iterable<PaymentRetail> getAllRetailPayments() {
+        Iterable<PaymentRetail> result = paymentRepository.findAllRetailPayments();
+/*        for (PaymentRetail payment : result) {
             payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(), payment.getCustomer().getName()));
-        }
+        }*/
         return result;
     }
 
-    @GetMapping("/payments-jobs")
-    public @ResponseBody
-    Iterable<Payment> getAllJobPayments() {
-        Iterable<Payment> result = paymentRepository.findAllJobPayments();
-        for (Payment payment : result) {
-            payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(), payment.getCustomer().getName()));
-        }
-        return result;
-    }
 
     /**
      * Get single payment
@@ -45,7 +40,7 @@ public class PaymentController {
      * @return Payment object
      */
     @GetMapping("/payments-retail/{id}")
-    Payment one(@PathVariable Integer id) {
+    PaymentRetail one(@PathVariable Integer id) {
         return paymentRepository.findById(id).orElseThrow(() -> new NotFound("Could not find payment" + id));
     }
     //POST MAPPINGS
@@ -58,14 +53,19 @@ public class PaymentController {
      */
 
     @PostMapping("/payments-retails")
-    Payment newRetailPayment(@RequestBody Payment newPayment) {
+    PaymentRetail newRetailPayment(@RequestBody PaymentRetail newPayment) {
         return paymentRepository.save(newPayment);
     }
 
-    @PostMapping("/payments-jobs")
-    Payment newJobPayment(@RequestBody Payment newPayment) {
-        return paymentRepository.save(newPayment);
+    @PostMapping("/payments-retail/{idPayment}/items")
+    ResponseEntity<String> addItemsToOrder(@PathVariable Integer idPayment, @RequestBody List<PartOrder> pos){
+        for (PartOrder x: pos){
+            paymentRepository.addPartToPayment(x.getPartId(),idPayment,x.getQuantity());
+        }
+        paymentRepository.setPaymentTotalAmount(idPayment);
+        return ResponseEntity.ok("ok");
     }
+
 
     //DELETE MAPPINGS
 
@@ -79,9 +79,4 @@ public class PaymentController {
         paymentRepository.deleteById(id);
     }
 
-    @DeleteMapping("/payments-jobs/{id}")
-    void deleteJobPayment(@PathVariable Integer id) {
-        paymentRepository.deleteById(id);
-
-    }
 }

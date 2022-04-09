@@ -5,7 +5,7 @@ const AddService = (props) => {
 
    useEffect(() => {
     props.obtainPrice();
-  }, []); 
+  }, [props]); 
   const serviceHandler = (ev) => {
       const selectedId=+ev.target.value;
     props.service.idService = +ev.target.value;

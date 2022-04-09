@@ -18,6 +18,7 @@ const JobsTable = (props) => {
       <Table striped hover className="mt-3">
         <thead>
           <tr>
+            <th>Job ID</th>
             <th>Customer</th>
             <th>Car Reg. No.</th>
             <th>Car</th>

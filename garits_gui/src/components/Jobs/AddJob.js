@@ -11,35 +11,10 @@ const AddJob = (props) => {
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [servicesView, setServicesView] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  //const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [total, setTotal] = useState(0.0);
   const servicesIDs = useRef([]);
-  const obtainCustomers = useCallback(async () => {
-    try {
-      const response = await axios({
-        method: "GET",
-        url: "http://localhost:8080/customers/short",
-      });
-      console.log(response);
-      setCustomers(response.data);
-      setSelectedCustomer(response.data[0]);
-      obtainVehicles(response.data[0].idCustomer);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-  const obtainServices = useCallback(async () => {
-    try {
-      const response = await axios({
-        method: "GET",
-        url: "http://localhost:8080/services/short",
-      });
-      console.log(response);
-      setServices(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+
   const obtainVehicles = useCallback(
     async (id) => {
       try {
@@ -53,8 +28,35 @@ const AddJob = (props) => {
         console.log(err);
       }
     },
-    [selectedCustomer]
+    []
   );
+
+  const obtainCustomers = useCallback(async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/customers/short",
+      });
+      console.log(response);
+      setCustomers(response.data);
+      //setSelectedCustomer(response.data[0]);
+      obtainVehicles(response.data[0].idCustomer);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [obtainVehicles]);
+  const obtainServices = useCallback(async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/services/short",
+      });
+      console.log(response);
+      setServices(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
   const obtainData = useCallback(async () => {
     try {
       await obtainCustomers();
@@ -139,7 +141,7 @@ const AddJob = (props) => {
     }
   };
   const customerHandler = (ev) => {
-    setSelectedCustomer(+ev.target.value);
+    //setSelectedCustomer(+ev.target.value);
     obtainVehicles(+ev.target.value);
   };
   const vehicleHandler = (ev) => {

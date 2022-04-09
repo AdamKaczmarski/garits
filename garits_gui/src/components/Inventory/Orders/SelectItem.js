@@ -5,14 +5,14 @@ import Row from "react-bootstrap/Row";
 const SelectItem = (props) => {
   console.log(props);
   const itemHandler = (ev) => {
-    if (props.item.partId) {
+    if (props.item.partId>=0) {
       props.item.partId = +ev.target.value;
     } else {
       props.item.idPart = +ev.target.value;
     }
   };
   const quantityHandler = (ev) => {
-    if (props.item.quantity) {
+    if (props.item.quantity>=0) {
       props.item.quantity = +ev.target.value;
     } else {
       props.item.quantityUsed = +ev.target.value;

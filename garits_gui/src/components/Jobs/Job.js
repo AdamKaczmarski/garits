@@ -6,7 +6,6 @@ import JobDetails from "./JobDetails";
 import UserAssignment from "./Actions/UserAssignment";
 import CompleteJob from "./Actions/CompleteJob";
 import EditDescriptionRequired from "./Actions/EditDescriptionRequired";
-import EditServicesForJob from "./Actions/EditServicesForJob";
 import axios from "axios";
 const Job = (props) => {
   const [show, setShow] = useState(false);
@@ -91,7 +90,7 @@ const Job = (props) => {
               fixDate: new Date().toISOString().substring(0, 10),
             };
             console.log(editedJob.parts);
-            const response = await axios({
+            await axios({
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
@@ -171,6 +170,7 @@ const Job = (props) => {
   return (
     <>
       <tr>
+        <td>{props.job.idJob}</td>
         <td>{props.job.vehicle.customer[0].name}</td>
         <td>{props.job.vehicle.idRegNo}</td>
         <td>

@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form";
 
-import { CUSTOMERS } from "../../dummy-data/customers";
+import { CUSTOMERS } from "../../../dummy-data/customers";
 
 const AddJobPaymentForm = (props) => {
   const customerNames = CUSTOMERS.map((customer) => (

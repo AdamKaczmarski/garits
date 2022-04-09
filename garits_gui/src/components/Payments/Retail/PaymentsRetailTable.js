@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import PaymentRetail from "./PaymentRetail";
 import AddRetailPaymentForm from "./AddRetailPaymentForm";
 import PaymentModal from "../PaymentModal";
-import { Spinner } from "react-bootstrap";
+import  Spinner  from "react-bootstrap/Spinner";
 
 const PaymentsRetailTable = () => {
   const [show, setShow] = useState(false);
@@ -21,7 +21,7 @@ const PaymentsRetailTable = () => {
     paymentDate: new Date().toISOString().substring(0, 10),
     customer: { idCustomer: 0 },
   };
-  let newPaymentItems =[]
+  let newPaymentItems = [];
   const obtainPaymentsRetail = async () => {
     try {
       const response = await axios({
@@ -49,6 +49,40 @@ const PaymentsRetailTable = () => {
       obtainPaymentsRetail();
     }
   };
+  const addItemsToPayment=async(idPayment)=>{
+    try {
+      setIsLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: `http://localhost:8080/payments-retail/${idPayment}/items`,
+        data: newPaymentItems,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleShow();
+      obtainPaymentsRetail();
+    }
+
+  };
+  const addPaymentRetail=async()=>{
+    try{
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8080/payments-retails",
+        data: newPayment,
+      });
+      console.log(response);
+      const idPayment = response.data.idPayment;
+      addItemsToPayment(idPayment);
+    }
+    catch (err){
+      console.log(err)
+    } finally {
+      handleShow();
+    }
+  }
   useEffect(() => {
     obtainPaymentsRetail();
   }, []);
@@ -57,7 +91,6 @@ const PaymentsRetailTable = () => {
     return <Spinner variant="primary" />;
   }
   if (paymentsRetail && paymentsRetail.length > 0) {
-    console.log("MAPPING");
     paymentsRetailView = paymentsRetail.map((paymentRetail) => (
       <PaymentRetail
         key={paymentRetail.idPayment}
@@ -74,7 +107,6 @@ const PaymentsRetailTable = () => {
           <tr>
             <th>Sale ID</th>
             <th>Sale Date</th>
-            <th>Customer</th>
             <th>Payment Type</th>
             <th>Total amount</th>
             <th>
@@ -93,7 +125,13 @@ const PaymentsRetailTable = () => {
         show={show}
         onClose={handleShow}
         title="Add payment"
-        form={<AddRetailPaymentForm paymentRetailItems={newPaymentItems} newPayment={newPayment}/>}
+        form={
+          <AddRetailPaymentForm
+            paymentRetailItems={newPaymentItems}
+            newPayment={newPayment}
+          />
+        }
+        submitAction={addPaymentRetail}
       />
     </>
   );

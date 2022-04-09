@@ -1,15 +1,23 @@
 package com.garits.job;
 
+import com.garits.customer.Customer;
 import com.garits.customer.CustomerRepository;
+import com.garits.customer.discounts.FlexDiscount;
+import com.garits.customer.discounts.VariableDiscount;
 import com.garits.exceptions.NotFound;
 import com.garits.part.Part;
+import com.garits.payment.job.PaymentJob;
+import com.garits.payment.job.PaymentJobRepository;
+import com.garits.service.Service;
+import com.garits.service.ServiceRepository;
 import com.garits.user.User;
-import com.garits.vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/")
@@ -18,7 +26,10 @@ public class JobController {
     private JobRepository jobRepository;
     @Autowired
     private CustomerRepository customerRepository;
-
+    @Autowired
+    private PaymentJobRepository paymentRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
     //GET MAPPINGS
     //Those 3 methods should return only data neeeded for the frontend without any details.
     @GetMapping("/jobs-active")
@@ -87,6 +98,41 @@ public class JobController {
         Job j = jobRepository.save(newJob);
         jobRepository.setDescriptionReq(j.getIdJob());
         jobRepository.setEstTime(j.getIdJob());
+        Optional<Customer> customer  = customerRepository.findById(jobRepository.getCustomerIdByVehicle(j.getVehicle().getIdVehicle()));
+        Set<VariableDiscount> variableDiscounts = customer.get().getVariableDiscounts();
+
+        double total=0;
+        for (Service s : j.getServices()) {
+            Optional<Service> tmp = serviceRepository.findById(s.getIdService());
+            if (tmp.isPresent()) {
+                if (variableDiscounts.size() <= 0) {
+                    total += tmp.get().getServicePrice();
+                }
+                for (VariableDiscount vd : variableDiscounts) {
+                    if (vd.getServiceId() == tmp.get().getIdService()) {
+                        total+=tmp.get().getServicePrice() * (100 - vd.getDiscount());
+                        total=total/100;
+                    } else {
+                        total += tmp.get().getServicePrice();
+                    }
+                }
+            }
+
+        }
+        Set<FlexDiscount> flexDiscounts = customer.get().getFlexDiscounts();
+        double total2 = total;
+        for (FlexDiscount fd : flexDiscounts) {
+            if (total > fd.getRangeFrom()) {
+                total2=total;
+                total2 = total * (100 - fd.getDiscount());
+                total2=total2/100;
+            }
+        }
+        total=total2;
+        PaymentJob p = paymentRepository.save(new PaymentJob(null,total, new Date(System.currentTimeMillis()),null,null,customer.get()));
+        jobRepository.linkJobToPayment(j.getIdJob(), p.getIdPayment());
+        //Integer idPayment = paymentRepository.findById()
+         //   jobRepository.linkCustomerToPayment(idCustomer, j.getIdJob());
         return j;
     }
 

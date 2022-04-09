@@ -32,5 +32,15 @@ public interface JobRepository extends CrudRepository<Job,Integer> {
     @Modifying
     @Query(value="UPDATE jobs_parts set quantity_used = :quantity where part_id = :idPart and job_id = :idJob", nativeQuery = true)
     void setQuantityOfPart(@Param("idPart")Integer idPart,@Param("idJob") Integer idJob,@Param("quantity") Integer quantityUsed);
+    @Transactional
+    @Modifying
+    @Query(value="INSERT INTO payments (cash_or_card,amount,create_date,payment_date,payment_due) VALUES (:cashOrCard,:amount,CURDATE(),:paymentDate,:paymentDueDate)",nativeQuery = true)
+    void addPayment(@Param("cashOrCard") String cashOrCard,@Param("amount") Double amount,@Param("paymentDate") String paymentDate,@Param("paymentDueDate") String paymentDueDate);
+    @Transactional
+    @Modifying
+    @Query(value="INSERT INTO jobs_payments(job_id,payment_id) VALUES (:jobId,:paymentId)",nativeQuery = true)
+    void linkJobToPayment(@Param("jobId") Integer jobId, @Param("paymentId") Integer paymentId);
+    @Query(value="select customer_id from customers_vehicles where reg_no_id = (select id_reg_no from vehicles where id_vehicle=:vehicleId)",nativeQuery = true)
+    Integer getCustomerIdByVehicle(@Param("vehicleId") Integer vehicleId);
     //@Query(value="INSERT INTO jobs (vehicle_id,status,created_date,description_required,est_time_min)")
 }

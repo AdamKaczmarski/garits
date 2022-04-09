@@ -28,6 +28,7 @@ const JobCompleted = (props) => {
   return (
     <>
       <tr>
+      <td>{props.job.idJob}</td>
         <td>{props.job.vehicle.customer[0].name}</td>
         <td>{props.job.vehicle.idRegNo}</td>
         <td>

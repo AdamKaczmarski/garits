@@ -49,11 +49,11 @@ const JobsTableBooked = () => {
       setIsLoading(false);
     }
   };
-  const deleteJob = async (idJob)=>{
+  const deleteJob = async (idJob) => {
     try {
       const response = await axios({
-        method:"DELETE",
-        url:`http://localhost:8080/jobs/${idJob}`
+        method: "DELETE",
+        url: `http://localhost:8080/jobs/${idJob}`,
       });
       console.log(response);
     } catch (err) {
@@ -62,7 +62,7 @@ const JobsTableBooked = () => {
       handleShow();
       obtainBookedJobs();
     }
-  }
+  };
 
   useEffect(() => {
     obtainBookedJobs();
@@ -70,13 +70,23 @@ const JobsTableBooked = () => {
   if (isLoading) {
     return <Spinner variant="primary" animation="border" />;
   }
-  let jobsView = jobs.map((job) => <Job job={job} key={job.idJob} jobType={job.status} deleteJob={deleteJob} obtainJobs={obtainBookedJobs}/>);
+  let jobsView = jobs.map((job) => (
+    <Job
+      job={job}
+      key={job.idJob}
+      jobType={job.status}
+      deleteJob={deleteJob}
+      obtainJobs={obtainBookedJobs}
+    />
+  ));
 
   return (
     <>
       <Table striped hover className="mt-3">
         <thead>
           <tr>
+            <th>Job ID</th>
+
             <th>Customer</th>
             <th>Car Reg. No.</th>
             <th>Car</th>

@@ -6,18 +6,23 @@ import PaymentRetailDetails from "./PaymentRetailDetails";
 const PaymentRetail = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => setShowDetails(!showDetails);
-  const type =
-    props.paymentRetail.cashOrCard.charAt(0).toUpperCase() +
-    props.paymentRetail.cashOrCard.slice(1).toLowerCase();
-  const formattedDateArrival = new Date(props.paymentRetail.paymentDate)
-    .toISOString()
-    .substring(0, 10);
+  let type = null;
+  if (props.paymentRetail.cashOrCard) {
+    type =
+      props.paymentRetail.cashOrCard.charAt(0).toUpperCase() +
+      props.paymentRetail.cashOrCard.slice(1).toLowerCase();
+  }
+  let formattedDateArrival;
+  if (props.paymentRetail.paymentDate) {
+    formattedDateArrival = new Date(props.paymentRetail.paymentDate)
+      .toISOString()
+      .substring(0, 10);
+  }
   return (
     <>
       <tr>
         <td>{props.paymentRetail.idPayment}</td>
         <td>{formattedDateArrival}</td>
-        <td>{props.paymentRetail.customer.name}</td>
         <td>{type}</td>
         <td>
           {(Math.round(props.paymentRetail.amount * 100) / 100).toFixed(2) +

@@ -17,7 +17,7 @@ const JobsTableActive = () => {
     bookingDate: null,
     status: "booked",
     services: selectedServices,
-    bay:""
+    bay: "",
   };
   const addJob = async () => {
     console.log(newJob);
@@ -82,6 +82,8 @@ const JobsTableActive = () => {
       <Table striped hover className="mt-3">
         <thead>
           <tr>
+            <th>Job ID</th>
+
             <th>Customer</th>
             <th>Car Reg. No.</th>
             <th>Car</th>
