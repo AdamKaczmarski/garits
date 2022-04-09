@@ -131,7 +131,7 @@ CREATE TABLE `Payments_Customer` (
 
 CREATE TABLE `Payments` (
     `id_payment` int NOT NULL AUTO_INCREMENT,
-    `cash_or_card` varchar(4),
+    `cash_or_card` varchar(15),
     `amount` decimal(8, 2) NOT NULL,
     `create_date` timestamp NOT NULL,
     `payment_date` date NULL,

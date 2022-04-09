@@ -38,8 +38,10 @@ const Job = (props) => {
         formData = {
           user: [{ idUser: 0 }],
           bay: "",
-          status: props.job.status === "active" ? "booked" : "active",
+          status: props.job.status === "active" ? "active" : "booked",
         };
+        console.log(props.job.status)
+        console.log(props.job.status === "active" ? "active" : "booked")
         submitAction.current = async () => {
           console.log(formData);
           try {
@@ -58,8 +60,12 @@ const Job = (props) => {
           } catch (err) {
             console.log(err);
           } finally {
-            props.obtainJobs();
-            setShow(false);
+            if (props.job.bay === "" || !props.job.bay) {
+              window.location.reload();
+            } else {
+              props.obtainJobs();
+              setShow(false);
+            }
           }
         };
 
@@ -73,7 +79,11 @@ const Job = (props) => {
         break;
       }
       case 2: {
-        formData = { parts: [], descriptionDone: "", actTimeMin: 0 };
+        formData = {
+          parts: [],
+          descriptionDone: props.job.descriptionRequired,
+          actTimeMin: props.job.estTimeMin,
+        };
         submitAction.current = async () => {
           console.log(formData);
           try {
@@ -116,6 +126,7 @@ const Job = (props) => {
           <CompleteJob
             formData={formData}
             descriptionRequired={props.job.descriptionRequired}
+            estTimeMin={props.job.estTimeMin}
           />
         );
         break;
@@ -126,11 +137,10 @@ const Job = (props) => {
           const editedJob = {
             ...props.job,
             descriptionRequired: formData.descriptionRequired,
-            
           };
           try {
             const response = await axios({
-              method:"PATCH",
+              method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
             });
@@ -143,7 +153,7 @@ const Job = (props) => {
           }
         };
 
-        setForm(<EditDescriptionRequired formData={formData}/>);
+        setForm(<EditDescriptionRequired formData={formData} />);
         break;
       }
 
@@ -218,7 +228,7 @@ const Job = (props) => {
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
                   </Dropdown.Item>
-                  
+
                   <Dropdown.Item onClick={() => formHandler(1)}>
                     Change assignment
                   </Dropdown.Item>
@@ -232,7 +242,6 @@ const Job = (props) => {
                   <Dropdown.Item onClick={() => formHandler(3)}>
                     Change description
                   </Dropdown.Item>
-                  
                 </>
               ) : null}
               <Dropdown.Item

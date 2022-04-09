@@ -28,6 +28,7 @@ public class PaymentJob {
     @JoinTable(name="payments_customer",joinColumns = @JoinColumn(name="payment_id"),inverseJoinColumns = @JoinColumn(name="customer_id"))
     private Customer customer;
     @Transient
+    @JsonInclude
     private Integer jobId;
     //Getters and Setters
 
@@ -41,6 +42,12 @@ public class PaymentJob {
         this.paymentDate = paymentDate;
         this.paymentDue = paymentDue;
         this.customer = customer;
+    }
+
+    public PaymentJob(Integer idPayment, String cashOrCard, Date paymentDate) {
+        this.idPayment = idPayment;
+        this.cashOrCard = cashOrCard;
+        this.paymentDate = paymentDate;
     }
 
     public PaymentJob(String cashOrCard, double amount, Date createDate, Date paymentDate, Date paymentDue) {

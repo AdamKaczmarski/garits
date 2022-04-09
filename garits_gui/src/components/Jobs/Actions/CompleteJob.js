@@ -77,8 +77,8 @@ const CompleteJob = (props) => {
         <Form.Control as="textarea" rows="3" onChange={handleDescription} defaultValue={props.descriptionRequired}/>
       </Form.Group>
       <Form.Group controlId="timeTaken">
-        <Form.Label>Time taken</Form.Label>
-        <Form.Control type="number" placeholder="Time taken" min={0} onChange={timeHandler}/>
+        <Form.Label>Time taken (minutes)</Form.Label>
+        <Form.Control type="number" placeholder="Time taken" min={0} onChange={timeHandler} defaultValue={props.estTimeMin}/>
       </Form.Group>
       <Form.Group controlId="Items">
         <Form.Label>Parts used</Form.Label> 

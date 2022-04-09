@@ -25,18 +25,19 @@ const UserAssignment = (props) => {
   let mechanicsView;
   if (mechanics && mechanics.length > 0) {
     mechanicsView = mechanics.map((mechanic) => {
-      if (props.user && mechanic.idUser !== props.user[0].idUser) {
+      if (props.user) {
+        if (mechanic.idUser !== props.user[0].idUser)
+          return (
+            <option key={mechanic.idUser} value={mechanic.idUser}>
+              {mechanic.firstName + " " + mechanic.lastName}
+            </option>
+          );
+      } else {
         return (
           <option key={mechanic.idUser} value={mechanic.idUser}>
             {mechanic.firstName + " " + mechanic.lastName}
           </option>
         );
-      } else {
-        return (
-            <option key={mechanic.idUser} value={mechanic.idUser}>
-              {mechanic.firstName + " " + mechanic.lastName}
-            </option>
-          );
       }
     });
     props.formData.user[0].idUser = mechanics[0].idUser;
@@ -62,9 +63,11 @@ const UserAssignment = (props) => {
     if (props.bay && props.bay !== "MOT") {
       bay =
         props.bay.charAt(0).toUpperCase() + props.bay.slice(1).toLowerCase();
-    } else bay = props.bay;
-    props.formData.idUser = props.user[0].idUser;
+    } else {
+      bay = props.bay;
+    }
     props.formData.bay = bay;
+    props.formData.idUser = props.user[0].idUser;
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -83,7 +86,8 @@ const UserAssignment = (props) => {
       </Form>
     );
   } else {
-    console.log(props.formData)
+    console.log(props.formData);
+    props.formData.bay = "regular";
     return (
       <Form>
         <Form.Group controlId="assignee">

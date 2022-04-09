@@ -1,44 +1,61 @@
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import PaymentModal from "../PaymentModal";
-import SetPayDate from "../SetPayDate";
-
+import SetPayDate from "./SetPayDate";
+import axios from "axios";
 const PaymentJob = (props) => {
-  console.log(props);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  let isLate =false;
+  let isLate = false;
   let paymentDate, paymentDue;
-  const createDate = new Date(props.paymentRetail.createDate)
+  let finishPayment= {
+    idPayment: props.paymentJob.idPayment,
+    paymentDate:"",
+    cashOrCard:""
+  }
+  const createDate = new Date(props.paymentJob.createDate)
     .toISOString()
     .substring(0, 10);
-  if (props.paymentRetail.paymentDate)
-    paymentDate = new Date(props.paymentRetail.paymentDate)
+  if (props.paymentJob.paymentDate)
+    paymentDate = new Date(props.paymentJob.paymentDate)
       .toISOString()
       .substring(0, 10);
-  if (props.paymentRetail.paymentDue){
-    paymentDue = new Date(props.paymentRetail.paymentDue)
+  if (props.paymentJob.paymentDue) {
+    paymentDue = new Date(props.paymentJob.paymentDue)
       .toISOString()
       .substring(0, 10);
-      isLate = new Date() > new Date(props.paymentRetail.paymentDue);
-  } 
+    isLate = new Date() > new Date(props.paymentJob.paymentDue) && !props.paymentJob.paymentDate;
+  }
   let type = null;
-  if (props.paymentRetail.cashOrCard) {
+  if (props.paymentJob.cashOrCard) {
     type =
-      props.paymentRetail.cashOrCard.charAt(0).toUpperCase() +
-      props.paymentRetail.cashOrCard.slice(1).toLowerCase();
+      props.paymentJob.cashOrCard.charAt(0).toUpperCase() +
+      props.paymentJob.cashOrCard.slice(1).toLowerCase();
+  }
+  const completePayment=async()=>{
+    try {
+      await axios({
+        method:"PATCH",
+        url:`http://localhost:8080/payments-jobs/${props.paymentJob.idPayment}/complete`,
+        data:finishPayment
+      })
+    } catch(err){
+      console.log(err);
+    } finally {
+      props.obtainPaymentsJobs();
+    }
   }
   return (
     <>
       <tr style={isLate ? { backgroundColor: "rgba(242, 97, 99,0.2)" } : null}>
-        <td>{props.paymentRetail.idPayment}</td>
-        <td>{props.paymentRetail.customer.name}</td>
+        <td>{props.paymentJob.idPayment}</td>
+        <td>{props.paymentJob.customer.name}</td>
         <td>{type}</td>
         <td>
-          {(Math.round(props.paymentRetail.amount * 100) / 100).toFixed(2) +
+          {(Math.round(props.paymentJob.amount * 100) / 100).toFixed(2) +
             " GBP"}
         </td>
-        <td>{"JOB ID"}</td>
+        <td>{props.paymentJob.jobId}</td>
         <td>{createDate}</td>
         <td>{paymentDate}</td>
         <td>{isLate ? paymentDue : paymentDue}</td>
@@ -48,14 +65,11 @@ const PaymentJob = (props) => {
 
             <Dropdown.Menu>
               <Dropdown.Item>Download invoice</Dropdown.Item>
-              {props.paymentRetail.payment_date === null ? (
+              {props.paymentJob.paymentDate ? null : (
                 <Dropdown.Item onClick={handleShow}>
-                  Set payment date
+                  Set payment as done
                 </Dropdown.Item>
-              ) : null}
-              <Dropdown.Item>
-                Download invoice
-              </Dropdown.Item>
+              )}
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                 href="#/action-3"
@@ -67,14 +81,15 @@ const PaymentJob = (props) => {
         </td>
         <td></td>
       </tr>
-      {props.paymentRetail.paymentDate === null ? (
+      {props.paymentJob.paymentDate ? null : (
         <PaymentModal
           show={show}
           onClose={handleShow}
           title="Set payment date"
-          form={<SetPayDate id={props.paymentRetail.idPayment} />}
+          form={<SetPayDate id={props.paymentJob.idPayment} finishPayment={finishPayment}/>}
+          submitAction={completePayment}
         />
-      ) : null}
+      )}
     </>
   );
 };

@@ -59,7 +59,6 @@ const JobsTableBooked = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      handleShow();
       obtainBookedJobs();
     }
   };

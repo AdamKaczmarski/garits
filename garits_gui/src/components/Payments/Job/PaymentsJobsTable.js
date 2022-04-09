@@ -52,8 +52,9 @@ const PaymentsTable = () => {
     paymentsJobsView = paymentsJob.map((paymentJob) => (
       <PaymentJob
         key={paymentJob.idPayment}
-        paymentRetail={paymentJob}
-        deletePaymentRetail={deletePaymentJob}
+        paymentJob={paymentJob}
+        deletePaymentJob={deletePaymentJob}
+        obtainPaymentsJobs={obtainPaymentsJobs}
       />
     ));
   }
@@ -75,16 +76,16 @@ const PaymentsTable = () => {
             <th
             >
               <span>Actions</span></th><th>
-              <Button variant="outline-primary" onClick={handleShow}>
+              {/* <Button variant="outline-primary" onClick={handleShow}>
                 +
-              </Button>
+              </Button> */}
             </th>
           </tr>
         </thead>
         <tbody>{paymentsJobsView}</tbody>
       </Table>
-      <PaymentModal show={show} onClose={handleShow} title="Add job payment" form={<AddJobPaymentForm />} />
-    </>
+{/*       <PaymentModal show={show} onClose={handleShow} title="Add job payment" form={<AddJobPaymentForm />} />
+ */}    </>
   );
 };
 

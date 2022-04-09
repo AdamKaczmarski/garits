@@ -21,6 +21,7 @@ public class PaymentJobController {
         Iterable<PaymentJob> result = paymentRepository.findAllJobPayments();
         for (PaymentJob payment : result) {
             payment.setCustomer(new Customer(payment.getCustomer().getIdCustomer(), payment.getCustomer().getName()));
+            payment.setJobId(paymentRepository.findJobId(payment.getIdPayment()));
         }
         return result;
     }
@@ -40,7 +41,10 @@ public class PaymentJobController {
     PaymentJob newJobPayment(@RequestBody PaymentJob newPayment) {
         return paymentRepository.save(newPayment);
     }
-
+    @PatchMapping("/payments-jobs/{id}/complete")
+    void completeJobPayment(@PathVariable Integer id,@RequestBody PaymentJob completedPayment) {
+        paymentRepository.finishPayment(id,completedPayment.getPaymentDate(),completedPayment.getCashOrCard());
+    }
     //DELETE MAPPINGS
 
     /**

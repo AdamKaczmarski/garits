@@ -49,4 +49,6 @@ insert into jobs (vehicle_id, status, est_time_min,description_required) values 
 insert into jobs (vehicle_id, status, est_time_min,description_required,bay) values (1,'active',100,'NEED','regular');
 
 select * from jobs_services where job_id=62;
-select * from payments;
+select * from customer_flex_discounts;
+
+SELECT p.* FROM payments p LEFT JOIN payments_customer pc on pc.payment_id=p.id_payment WHERE pc.payment_id IS NULL

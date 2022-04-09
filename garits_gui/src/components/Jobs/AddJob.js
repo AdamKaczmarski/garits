@@ -169,10 +169,11 @@ const AddJob = (props) => {
         Add service
       </Button>
       <Form.Group controlId="booking_date">
-        <Form.Label onChange={dateHandler}>Booking date</Form.Label>
+        <Form.Label>Booking date</Form.Label>
         <Form.Control
           type="date"
           defaultValue={new Date().toISOString().substring(0, 10)}
+          onChange={dateHandler}
         />
       </Form.Group>
       <BoldSpan>Total: £{total}</BoldSpan>
