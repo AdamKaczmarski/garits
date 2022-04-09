@@ -127,9 +127,14 @@ const Job = (props) => {
           const editedJob = {
             ...props.job,
             descriptionRequired: formData.descriptionRequired,
+            
           };
           try {
-            const response = await axios({});
+            const response = await axios({
+              method:"PATCH",
+              url: `http://localhost:8080/jobs/${props.job.idJob}`,
+              data: editedJob,
+            });
             console.log(response);
           } catch (err) {
             console.log(err);
@@ -139,27 +144,10 @@ const Job = (props) => {
           }
         };
 
-        setForm(<EditDescriptionRequired />);
+        setForm(<EditDescriptionRequired formData={formData}/>);
         break;
       }
-      case 5: {
-        formData = { services: props.job.services };
-        submitAction.current = async () => {
-          const editedJob = { ...props.job, services: formData.services };
-          try {
-            const response = await axios({});
-            console.log(response);
-          } catch (err) {
-            console.log(err);
-          } finally {
-            props.obtainJobs();
-            setShow(false);
-          }
-        };
 
-        setForm(<EditServicesForJob />);
-        break;
-      }
       default: {
         formData = {};
         submitAction.current = async () => {
@@ -230,9 +218,7 @@ const Job = (props) => {
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(5)}>
-                    Edit services
-                  </Dropdown.Item>
+                  
                   <Dropdown.Item onClick={() => formHandler(1)}>
                     Change assignment
                   </Dropdown.Item>
@@ -246,9 +232,7 @@ const Job = (props) => {
                   <Dropdown.Item onClick={() => formHandler(3)}>
                     Change description
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(5)}>
-                    Change services
-                  </Dropdown.Item>
+                  
                 </>
               ) : null}
               <Dropdown.Item
