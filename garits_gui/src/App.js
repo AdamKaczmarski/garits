@@ -13,7 +13,7 @@ import Payments from "./pages/Payments";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
-import {useEffect, useState, useCallback} from 'react'
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import NotificationModalPayments from "./components/Notifications/NotificationModalPayments";
 import NotificationModalStock from "./components/Notifications/NotificationModalStock";
@@ -24,8 +24,8 @@ const App = () => {
   const handleShow2 = () => setShow2(!show2);
 
   const [latePaymentCustomers, setLatePaymentCustomers] = useState([]);
-  const [lowStockParts, setLowStockParts]=useState([]);
-  const obtainLatePaymentCustomers = useCallback(async ()=>{
+  const [lowStockParts, setLowStockParts] = useState([]);
+  const obtainLatePaymentCustomers = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
@@ -33,15 +33,15 @@ const App = () => {
       });
       console.log(response);
       if (response.status === 200) setLatePaymentCustomers(response.data);
-    } catch (err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     } finally {
       if (latePaymentCustomers && latePaymentCustomers.length > 0) {
         setShow(true);
       }
     }
-  },[]);
-  const obtainLowStockParts = useCallback(async()=>{
+  }, []);
+  const obtainLowStockParts = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
@@ -49,23 +49,24 @@ const App = () => {
       });
       console.log(response);
       if (response.status === 200) setLowStockParts(response.data);
-    } catch (err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     } finally {
-      console.log(lowStockParts)
+      console.log(lowStockParts);
       if (lowStockParts && lowStockParts.length > 0) {
         setShow2(true);
       }
     }
-
-  },[]);
-  useEffect(()=>{
+  }, []);
+  useEffect(() => {
     obtainLowStockParts();
     obtainLatePaymentCustomers();
-
-  },[obtainLatePaymentCustomers,obtainLowStockParts]);
+  }, [obtainLatePaymentCustomers, obtainLowStockParts]);
   return (
-    <Container className="d-flex min-vh-100 flex-column" style={{"maxWidth":'90%'}}>
+    <Container
+      className="d-flex min-vh-100 flex-column"
+      style={{ maxWidth: "90%" }}
+    >
       <NavigationBar />
       <Routes>
         <Route path="/" element={<Jobs />} />
@@ -86,8 +87,16 @@ const App = () => {
         />
       </Routes>
       <Footer />
-      <NotificationModalStock show={show2} onClose={handleShow2} lowStockParts={lowStockParts} />
-      <NotificationModalPayments show={show} onClose={handleShow} latePaymentCustomers={latePaymentCustomers} />
+      <NotificationModalPayments
+        show={show}
+        onClose={handleShow}
+        latePaymentCustomers={latePaymentCustomers}
+      />
+      <NotificationModalStock
+        show={show2}
+        onClose={handleShow2}
+        lowStockParts={lowStockParts}
+      />
     </Container>
   );
 };

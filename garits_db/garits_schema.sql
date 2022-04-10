@@ -4,10 +4,10 @@ USE garits;
 CREATE TABLE `Users` (
     `id_user` int NOT NULL AUTO_INCREMENT,
     `email` varchar(100) NOT NULL UNIQUE,
-    `password` varchar(32) NOT NULL,
-    `salt` varchar(32) NOT NULL,
+    `password` varchar(80) NOT NULL,
     `first_name` varchar(50) NOT NULL,
     `last_name` varchar(100) NOT NULL,
+    `hourly_rate` decimal(8,2),
     PRIMARY KEY (`id_user`),
     UNIQUE INDEX (`id_user`)
 );
@@ -286,5 +286,5 @@ ADD
     CONSTRAINT `FKParts_Paym813726` FOREIGN KEY (`payment_id`) REFERENCES `Payments` (`id_payment`) ON UPDATE CASCADE;
 
 
-    
-insert into roles (role_name) values ('MECHANIC'),("FRANCHISEE"), ("RECEPTIONIST"), ("FOREPERSON");
+
+insert into roles (role_name) values ('ROLE_MECHANIC'),("ROLE_FRANCHISEE"), ("ROLE_RECEPTIONIST"), ("ROLE_FOREPERSON"),("ROLE_ADMIN");

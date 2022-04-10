@@ -35,7 +35,12 @@ public class GaritsUserDetails implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
+    public String getEmail(){
+        return user.getEmail();
+    }
+    public Integer getIdUser(){
+        return user.getIdUser();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

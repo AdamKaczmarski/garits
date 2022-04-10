@@ -12,15 +12,15 @@ INSERT INTO
     )
 VALUES
     (
-        'Airtex Water Block',
+        'Airtex Water Block1',
         'Water Pump',
-        '475861',
+        '475s61',
         'Hyundai',
         'Tucson',
         2020,
         36.00,
-        12,
-        4
+        4,
+        12
     );
 
 
@@ -43,11 +43,13 @@ insert into parts_payments (quantity_sold,part_id,payment_id) values (100,1,1);
 insert into payments_customer (payment_id,customer_id) values (1,1);
 
 insert into customer_variable_discounts_services (customer_id,service_id, discount) values (1,1,10);
-select * from jobs;
 insert into jobs (vehicle_id, status, est_time_min,description_required) values (1,'booked',100,'NEED');
 insert into jobs (vehicle_id, status, est_time_min,description_required,bay) values (1,'active',100,'NEED','regular');
 
-select * from jobs_services where job_id=62;
-select * from customer_flex_discounts;
+SELECT id_customer, name from customers where id_customer IN (SELECT DISTINCT pc.customer_id FROM payments_customer pc INNER JOIN payments p on p.id_payment = pc.payment_id where p.payment_due<CURDATE() AND p.payment_date is NULL);
 
-SELECT p.* FROM payments p LEFT JOIN payments_customer pc on pc.payment_id=p.id_payment WHERE pc.payment_id IS NULL
+select * from roles;
+insert into users_roles values (3,10),(1,6)
+update users set password='$2a$12$8nS3SipjKP.TaSVmV2w0XuQqwTOrfyXf0pP.bt7t1FuWq5Apkk/zO' where id_user=1;
+
+ALTER TABLE users modify column password varchar(80);

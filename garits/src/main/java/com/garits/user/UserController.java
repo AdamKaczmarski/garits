@@ -2,6 +2,7 @@ package com.garits.user;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class UserController {
      * @return Array of User objects.
      */
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Iterable<User> getAllUsers() {
         return userRepository.findAll();

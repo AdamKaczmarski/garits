@@ -1,7 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { INVENTORY } from "../../dummy-data/inventory";
 import PartModal from "./PartModal";
 import styles from "./NotificationModalStock.module.css";
 const NotificationModalStock = (props) => {
