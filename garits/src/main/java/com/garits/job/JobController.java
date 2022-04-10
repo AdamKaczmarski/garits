@@ -160,6 +160,7 @@ public class JobController {
     @PatchMapping("/jobs/{idJob}/{idPart}/{quantity}")
     void addQuantity(@PathVariable Integer idJob, @PathVariable Integer idPart, @PathVariable Integer quantity) {
         jobRepository.setQuantityOfPart(idPart, idJob, quantity);
+        jobRepository.updateStockLevel(idPart,quantity);
     }
     //DELETE MAPPINGS
     @DeleteMapping("/jobs/{idJob}")

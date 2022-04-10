@@ -42,5 +42,10 @@ public interface JobRepository extends CrudRepository<Job,Integer> {
     void linkJobToPayment(@Param("jobId") Integer jobId, @Param("paymentId") Integer paymentId);
     @Query(value="select customer_id from customers_vehicles where reg_no_id = (select id_reg_no from vehicles where id_vehicle=:vehicleId)",nativeQuery = true)
     Integer getCustomerIdByVehicle(@Param("vehicleId") Integer vehicleId);
+
+    @Transactional
+    @Modifying
+    @Query(value="UPDATE parts set stock_level=stock_level-:quantity where id_part=:idPart",nativeQuery = true)
+    void updateStockLevel(@Param("idPart")Integer idPart,@Param("quantity") Integer quantity);
     //@Query(value="INSERT INTO jobs (vehicle_id,status,created_date,description_required,est_time_min)")
 }

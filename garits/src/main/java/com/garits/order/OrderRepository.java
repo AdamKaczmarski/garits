@@ -1,5 +1,6 @@
 package com.garits.order;
 
+import com.garits.part.Part;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,4 +24,5 @@ public interface OrderRepository extends CrudRepository<Order,Integer> {
     @Transactional
     @Query(value="DELETE from parts_orders where order_id=:idOrder",nativeQuery = true)
     void deletePartsOrders(@Param("idOrder")Integer idOrder);
+
 }

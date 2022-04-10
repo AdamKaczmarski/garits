@@ -1,6 +1,8 @@
 package com.garits.order;
 
 import com.garits.exceptions.NotFound;
+import com.garits.part.Part;
+import com.garits.part.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
-
+    @Autowired
+    private PartRepository partRepository;
     /**
      * ADEL
      *
@@ -78,7 +81,12 @@ public class OrderController {
         if (editedOrder.getOrderDate() != null) o.setOrderDate(editedOrder.getOrderDate());
         if (editedOrder.getOrderAmount() > 0) o.setOrderAmount(editedOrder.getOrderAmount());
         if (editedOrder.getOrderArrival() != null) o.setOrderArrival(editedOrder.getOrderArrival());
-
+        if (editedOrder.getStatus().equals("completed")){
+            Iterable<Part> parts = partRepository.findPartsByOrderId(idOrder);
+            for (Part p: parts){
+                partRepository.updatePartStock(p.getIdPart(),idOrder);
+            }
+        }
         return orderRepository.save(o);
     }
 

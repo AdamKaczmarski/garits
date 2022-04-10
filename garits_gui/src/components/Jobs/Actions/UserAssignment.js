@@ -41,7 +41,7 @@ const UserAssignment = (props) => {
         );
       }
     });
-    //props.formData.user[0].idUser = mechanics[0].idUser;
+    props.formData.user[0].idUser = mechanics[0].idUser;
 
     if (props.user) {
       console.log("HERE")
