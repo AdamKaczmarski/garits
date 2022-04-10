@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -13,13 +14,15 @@ const UserTable = () => {
   const handleShow = () => setShow(!show);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  //const users = USERS.map((user) => <User key={user.id} user={user} />);
+  const authCtx  = useContext(AuthContext);
+  console.log(authCtx)
   let userView;
   const obtainUsers = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/users",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       setUsers(response.data);
     } catch (err) {

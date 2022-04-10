@@ -48,8 +48,9 @@ insert into jobs (vehicle_id, status, est_time_min,description_required,bay) val
 
 SELECT id_customer, name from customers where id_customer IN (SELECT DISTINCT pc.customer_id FROM payments_customer pc INNER JOIN payments p on p.id_payment = pc.payment_id where p.payment_due<CURDATE() AND p.payment_date is NULL);
 
-select * from roles;
-insert into users_roles values (3,10),(1,6)
-update users set password='$2a$12$8nS3SipjKP.TaSVmV2w0XuQqwTOrfyXf0pP.bt7t1FuWq5Apkk/zO' where id_user=1;
-
-ALTER TABLE users modify column password varchar(80);
+update users set password='$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO' where id_user=5;
+update users set password='$2a$12$z7pP8c5N74qjF0XJKdSxn.XF81dCIdVoj8b8gXpYshchhwwu5tIr6' where id_user=4;
+update users set password='$2a$12$3QclwhUhO9mmBQ/EpcJj..a0i2FSvUWVU.eOG7g1.OuDTm8QOU7n6' where id_user=3;
+update users set password='$2a$12$UXEQtBGGH4IvP1g.LFMzlOG.sJIC2qV3.X9.77al7H4IgL7xgpSVe' where id_user=2;
+update users set password='$2a$12$2EIG52Uv.3LfQs3HVq0bKO3b1qHrXJ8Wik60Z3aj3sTnkiR6aWA4y' where id_user=3;
+select * from users;

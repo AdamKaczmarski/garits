@@ -5,24 +5,24 @@ import axios from "axios";
 const User = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-
-  const role =
-    props.user.roles[0].roleName.charAt(0).toUpperCase() +
-    props.user.roles[0].roleName.slice(1).toLowerCase();
+  let role = props.user.roles[0].roleName.substring(5, props.user.roles[0].length);
+  role =
+    role.charAt(0).toUpperCase() +
+    role.slice(1).toLowerCase();
 
   const deleteUser = () => {
     try {
       const response = axios({
-        method:"DELETE",
-        url:"http://localhost:8080/users/"+props.user.idUser
+        method: "DELETE",
+        url: "http://localhost:8080/users/" + props.user.idUser,
       });
-      console.log(response)
+      console.log(response);
     } catch (err) {
-        console.log(err)
+      console.log(err);
     } finally {
       window.location.reload();
     }
-  }
+  };
 
   return (
     <>
@@ -36,16 +36,19 @@ const User = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>
-                Edit
-              </Dropdown.Item>
+              <Dropdown.Item>Edit</Dropdown.Item>
               <Dropdown.Item href="#/action-1">Reset password</Dropdown.Item>
               {props.user.role === "ADMIN" ? null : (
                 <Dropdown.Item onClick={handleShow}>Change role</Dropdown.Item>
               )}
 
               {props.user.role === "ADMIN" ? null : (
-                <Dropdown.Item style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }} onClick={deleteUser}>Delete</Dropdown.Item>
+                <Dropdown.Item
+                  style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+                  onClick={deleteUser}
+                >
+                  Delete
+                </Dropdown.Item>
               )}
             </Dropdown.Menu>
           </Dropdown>

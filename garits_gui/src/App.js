@@ -18,11 +18,10 @@ import axios from "axios";
 import NotificationModalPayments from "./components/Notifications/NotificationModalPayments";
 import NotificationModalStock from "./components/Notifications/NotificationModalStock";
 const App = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
-  const [show2, setShow2] = useState(true);
+  const [show2, setShow2] = useState(false);
   const handleShow2 = () => setShow2(!show2);
-
   const [latePaymentCustomers, setLatePaymentCustomers] = useState([]);
   const [lowStockParts, setLowStockParts] = useState([]);
   const obtainLatePaymentCustomers = useCallback(async () => {
@@ -67,36 +66,37 @@ const App = () => {
       className="d-flex min-vh-100 flex-column"
       style={{ maxWidth: "90%" }}
     >
-      <NavigationBar />
-      <Routes>
-        <Route path="/" element={<Jobs />} />
-        <Route path="login" element={<Login />} />
-        <Route path="inventory" element={<Inventory />} />
-        <Route path="payments" element={<Payments />} />
-        <Route path="jobs" element={<Jobs />} />
-        <Route path="users" element={<Users />} />
-        <Route path="customers" element={<Customers />} />
-        <Route path="services" element={<Services />} />
-        <Route
-          path="*"
-          element={
-            <main>
-              <p>Nothing here</p>
-            </main>
-          }
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<Jobs />} />
+          <Route path="login" element={<Login />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="jobs" element={<Jobs />} />
+          <Route path="users" element={<Users />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="services" element={<Services />} />
+          <Route
+            path="*"
+            element={
+              <main>
+                <p>Nothing here</p>
+              </main>
+            }
+          />
+        </Routes>
+        <Footer />
+        <NotificationModalPayments
+          show={show}
+          onClose={handleShow}
+          latePaymentCustomers={latePaymentCustomers}
         />
-      </Routes>
-      <Footer />
-      <NotificationModalPayments
-        show={show}
-        onClose={handleShow}
-        latePaymentCustomers={latePaymentCustomers}
-      />
-      <NotificationModalStock
-        show={show2}
-        onClose={handleShow2}
-        lowStockParts={lowStockParts}
-      />
+        <NotificationModalStock
+          show={show2}
+          onClose={handleShow2}
+          lowStockParts={lowStockParts}
+        />{" "}
+      
     </Container>
   );
 };
