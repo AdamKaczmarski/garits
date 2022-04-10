@@ -51,7 +51,10 @@ public class PartController {
     }
     return ResponseEntity.ok(partNames);
     }
-
+    @GetMapping("/parts/low-stock")
+    Iterable<Part> getLowStock(){
+        return partRepository.findLowStockParts();
+    }
     //POST MAPPINGS
 
     /**

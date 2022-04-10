@@ -46,7 +46,14 @@ public class CustomerController {
     Iterable<VariableDiscount> getVariableDiscounts(@PathVariable Integer idCustomer) {
         return null;
     }
-
+    @GetMapping("/customers/late-payments")
+    Iterable<Customer> getLatePaymentCustomers() {
+        Set<Customer> result = new HashSet<>();
+        for (Customer c : customerRepository.findLatePaymentCustomers()) {
+            result.add(new Customer(c.getIdCustomer(),c.getName()));
+        }
+        return result;
+    }
     @PostMapping("/customers")
     Customer addCustomer(@RequestBody Customer newCustomer) {
         return customerRepository.save(newCustomer);

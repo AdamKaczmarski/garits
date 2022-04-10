@@ -3,6 +3,7 @@ package com.garits.user;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
@@ -24,4 +25,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     void changeUserRole(Integer userId, String role);
     @Query(value="SELECT * from users where id_user IN (SELECT user_id FROM users_roles WHERE role_id=(SELECT id_role FROM roles where role_name='MECHANIC'))",nativeQuery = true)
     Iterable<User> findAllMechanics();
+    @Query(value="SELECT * from users where email=:email",nativeQuery = true)
+    public User getUserByEmail(@Param("email")String email);
 }

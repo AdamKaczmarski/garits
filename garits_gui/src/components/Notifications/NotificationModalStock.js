@@ -5,8 +5,8 @@ import { INVENTORY } from "../../dummy-data/inventory";
 import PartModal from "./PartModal";
 import styles from "./NotificationModalStock.module.css";
 const NotificationModalStock = (props) => {
-  const parts = INVENTORY.map((part) => (
-    <PartModal key={part.id} part={part} />
+  const parts = props.lowStockParts.map((part) => (
+    <PartModal key={part.idPart} part={part} />
   ));
 
   return (

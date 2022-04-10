@@ -9,8 +9,7 @@ const NotificationModalPayments = (props) => {
       <Modal.Body>
         These customers are late with their payments
         <ul>
-            <li>Customer 1</li>
-            <li>Customer 2</li>
+            {props.latePaymentCustomers.map((customer, index) => (<li key={index}>{customer.name} - ID: {customer.idCustomer}</li>))}
         </ul>
       </Modal.Body>
       <Modal.Footer>
