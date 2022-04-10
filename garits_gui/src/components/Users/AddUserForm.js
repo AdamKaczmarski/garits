@@ -1,6 +1,7 @@
 import Form from "react-bootstrap/Form";
-
+import {useState} from 'react';
 const AddUserForm = (props) => {
+  const [role,setRole]=useState("");
   const emailHandler = (ev) => {
     const newUser = {...props.user};
     newUser.email=ev.target.value;
@@ -22,9 +23,15 @@ const AddUserForm = (props) => {
     const newUser = {...props.user};
     newUser.roles.push({roleName:ev.target.value})
     props.setUser(newUser);
-
+    setRole(ev.target.value);
   };
-  return (
+  const hourlyRateHandler=ev=>{
+    const newUser = {...props.user};
+    newUser.hourlyRate=ev.target.value;
+    props.setUser(newUser);
+
+  }
+    return (
     <Form className="mt-3">
       <Form.Group controlId="formEmail">
         <Form.Label>Email address</Form.Label>
@@ -48,6 +55,11 @@ const AddUserForm = (props) => {
           <option value="FOREPERSON">Foreperson</option>
         </Form.Select>
       </Form.Group>
+      {role==='MECHANIC'?
+      <Form.Group controlId="Hourly rate">
+        <Form.Label>Hourly Rate</Form.Label>
+        <Form.Control type="number" onChange={hourlyRateHandler} min={0}/>
+      </Form.Group>:null}
     </Form>
   );
 };

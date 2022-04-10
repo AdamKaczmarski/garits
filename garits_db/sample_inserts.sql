@@ -35,7 +35,6 @@ insert into jobs(vehicle_id,status, est_time_min,act_time_min,fix_date,create_da
 insert into users_jobs values(1,1);
 insert into jobs_parts (part_id,job_id,quantity_used) values(1,2,2);
 insert into parts_orders (part_id,order_id,quantity_ordered) VALUES(1,1,5);
-select * from jobs;
 
 insert into jobs_payments (job_id,payment_id) values (2,2);
 INSERT INTO users(email,password,salt,first_name,last_name) values("test@gmail.com","skjdfhksdjfa","ASDASVZ","Test","User");

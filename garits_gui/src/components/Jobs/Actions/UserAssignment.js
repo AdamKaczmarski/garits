@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 const UserAssignment = (props) => {
   const [mechanics, setMechanics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  console.log(props);
   const obtainMechanics = async () => {
     try {
       const response = await axios({
@@ -40,10 +41,12 @@ const UserAssignment = (props) => {
         );
       }
     });
-    props.formData.user[0].idUser = mechanics[0].idUser;
+    //props.formData.user[0].idUser = mechanics[0].idUser;
 
     if (props.user) {
-      props.formData.user[0].idUser = props.user;
+      console.log("HERE")
+      props.formData.user[0].idUser = props.user[0].idUser;
+      console.log(props.formData)
       mechanicsView.unshift(
         <option key={props.user[0].idUser} value={props.user[0].idUser}>
           {props.user[0].firstName + " " + props.user[0].lastName}
@@ -67,7 +70,7 @@ const UserAssignment = (props) => {
       bay = props.bay;
     }
     props.formData.bay = bay;
-    props.formData.idUser = props.user[0].idUser;
+    //props.formData.idUser = props.user[0].idUser;
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -78,8 +81,8 @@ const UserAssignment = (props) => {
           <Form.Label>Bay</Form.Label>
           <Form.Select onChange={bayHandler}>
             <option value={bay}>{bay}</option>
-            <option value={props.bay === "MOT" ? "regular" : "MOT"}>
-              {props.bay === "MOT" ? "Regular" : "MOT"}
+            <option value={props.bay === "MOT" ? "repair" : "MOT"}>
+              {props.bay === "MOT" ? "Repair" : "MOT"}
             </option>
           </Form.Select>
         </Form.Group>
@@ -87,7 +90,7 @@ const UserAssignment = (props) => {
     );
   } else {
     console.log(props.formData);
-    props.formData.bay = "regular";
+    props.formData.bay = "repair";
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -97,7 +100,7 @@ const UserAssignment = (props) => {
         <Form.Group controlId="bay">
           <Form.Label>Bay</Form.Label>
           <Form.Select onChange={bayHandler}>
-            <option value="regular">Regular</option>
+            <option value="repair">Repair</option>
             <option value="MOT">MOT</option>
           </Form.Select>
         </Form.Group>

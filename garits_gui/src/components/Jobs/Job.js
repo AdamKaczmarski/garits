@@ -38,10 +38,10 @@ const Job = (props) => {
         formData = {
           user: [{ idUser: 0 }],
           bay: "",
-          status: props.job.status === "active" ? "active" : "booked",
+          status: "active",
         };
         console.log(props.job.status)
-        console.log(props.job.status === "active" ? "active" : "booked")
+        //console.log(props.job.status === "active" ? "active" : "booked")
         submitAction.current = async () => {
           console.log(formData);
           try {
@@ -49,7 +49,7 @@ const Job = (props) => {
               ...props.job,
               bay: formData.bay,
               status: formData.status,
-              user: formData.user,
+              user: [formData.user[0]],
             };
             const response = await axios({
               method: "PATCH",
