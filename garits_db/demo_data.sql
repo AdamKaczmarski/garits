@@ -3,7 +3,7 @@ INSERT INTO Users (email,password,first_name,last_name) VALUE
 ( "SunnyEvans@gmail.com", "$2a$12$UXEQtBGGH4IvP1g.LFMzlOG.sJIC2qV3.X9.77al7H4IgL7xgpSVe",  "Sunny", "Evans"),
 ( "GlynneLancaster@gmail.com", "$2a$12$3QclwhUhO9mmBQ/EpcJj..a0i2FSvUWVU.eOG7g1.OuDTm8QOU7n6",  "Glynne", "Lancaster"),
 ( "AdministratorRole@gmail.com", "$2a$12$z7pP8c5N74qjF0XJKdSxn.XF81dCIdVoj8b8gXpYshchhwwu5tIr6",  "Admin", "Role"),
-( "Gavin Ross@gmail.com", "$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO",  "Gavin", "Ross"),
+( "GavinRoss@gmail.com", "$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO",  "Gavin", "Ross"),
 ( "AnthonyWild@gmail.com", "$2a$12$J3o7jF0Zdd7czHPyPA.wSO/H3PJ/s1Yi7yRoVLb4WvjTHPfqg7C1G",  "Anthony", "Wild"
 );
 

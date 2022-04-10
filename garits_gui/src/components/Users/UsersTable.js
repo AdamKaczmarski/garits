@@ -33,8 +33,8 @@ const UserTable = () => {
   };
 
   useEffect(() => {
-    obtainUsers();
-  }, []);
+    if (authCtx.authData.token)obtainUsers();
+  }, [authCtx]);
 
   if (users && users.length > 0) {
     userView = users.map((user) => <User key={user.idUser} user={user} />);
