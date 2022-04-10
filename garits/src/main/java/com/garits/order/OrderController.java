@@ -84,7 +84,7 @@ public class OrderController {
         if (editedOrder.getStatus().equals("completed")){
             Iterable<Part> parts = partRepository.findPartsByOrderId(idOrder);
             for (Part p: parts){
-                partRepository.updatePartStock(p.getIdPart(),idOrder);
+                partRepository.updatePartStockFromOrder(p.getIdPart(),idOrder);
             }
         }
         return orderRepository.save(o);

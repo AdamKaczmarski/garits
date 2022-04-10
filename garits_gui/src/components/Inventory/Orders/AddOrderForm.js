@@ -34,14 +34,13 @@ const AddOrderForm = (props) => {
             Add items...
           </option>
         );
-
-        console.log(itemNames);
         props.orderItems.push({ partId: 0, quantity: 0 });
         setItems([
           <SelectItem
             itemNames={itemNames.current}
             key={Math.random()}
             item={props.orderItems[props.orderItems.length - 1]}
+            from="order"
           />,
         ]);
       }
@@ -66,6 +65,7 @@ const AddOrderForm = (props) => {
           itemNames={itemNames.current}
           key={Math.random()}
           item={props.orderItems[props.orderItems.length - 1]}
+          from="order"
         />,
       ]);
     } else {

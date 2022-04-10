@@ -15,6 +15,10 @@ public interface PartRepository extends CrudRepository<Part,Integer> {
     @Modifying
     @Transactional
     @Query(value="UPDATE parts set stock_level=stock_level+(SELECT quantity_ordered from parts_orders where part_id=:partId and order_id=:orderId) where id_part=:partId",nativeQuery = true)
-    Integer updatePartStock(@Param("partId")Integer partId, @Param("orderId")Integer orderId);
+    Integer updatePartStockFromOrder(@Param("partId")Integer partId, @Param("orderId")Integer orderId);
+    @Modifying
+    @Transactional
+        @Query(value="UPDATE parts set stock_level=stock_level-(SELECT quantity_sold from parts_payments where part_id=:partId and payment_id=:paymentId) where id_part=:partId",nativeQuery = true)
+    Integer updatePartStockFromRetailPayment(@Param("partId")Integer partId, @Param("paymentId")Integer paymentId);
 
 }

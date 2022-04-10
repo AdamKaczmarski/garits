@@ -3,6 +3,7 @@ package com.garits.payment.retail;
 import com.garits.customer.Customer;
 import com.garits.exceptions.NotFound;
 import com.garits.order.PartOrder;
+import com.garits.part.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ import java.util.List;
 public class PaymentRetailController {
     @Autowired
     private PaymentRetailRepository paymentRepository;
-
+    @Autowired
+    private PartRepository partRepository;
     //GET MAPPINGS
 
     /**
@@ -61,6 +63,7 @@ public class PaymentRetailController {
     ResponseEntity<String> addItemsToOrder(@PathVariable Integer idPayment, @RequestBody List<PartOrder> pos){
         for (PartOrder x: pos){
             paymentRepository.addPartToPayment(x.getPartId(),idPayment,x.getQuantity());
+            partRepository.updatePartStockFromRetailPayment(x.getPartId(),idPayment);
         }
         paymentRepository.setPaymentTotalAmount(idPayment);
         return ResponseEntity.ok("ok");

@@ -9,6 +9,8 @@ const AddRetailPaymentForm = (props) => {
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   let itemNames = useRef([]);
+  let itemsTmp = useRef();
+
   const obtainItemNames = useCallback(async () => {
     try {
       const response = await axios({
@@ -27,7 +29,7 @@ const AddRetailPaymentForm = (props) => {
             Add items...
           </option>
         );
-
+        itemsTmp.current=response.data;
         console.log(itemNames);
         props.paymentRetailItems.push({ partId: 0, quantity: 0 });
         setItems([
@@ -35,7 +37,8 @@ const AddRetailPaymentForm = (props) => {
             itemNames={itemNames.current}
             key={Math.random()}
             item={props.paymentRetailItems[props.paymentRetailItems.length - 1]}
-          />,
+            items={itemsTmp.current}
+            />,
         ]);
       }
     } catch (err) {
@@ -59,6 +62,7 @@ const AddRetailPaymentForm = (props) => {
           itemNames={itemNames.current}
           key={Math.random()}
           item={props.paymentRetailItems[props.paymentRetailItems.length - 1]}
+          items={itemsTmp.current}
         />,
       ]);
     } else {
