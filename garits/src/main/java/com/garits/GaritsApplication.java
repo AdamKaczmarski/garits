@@ -19,7 +19,7 @@ public class GaritsApplication {
         Part p1 = new Part();
         Part p2 = new Part();
         Part p3 = new Part();
-        Customer c = new Customer()
+        Customer c = new Customer();
         /*
         * Use those objects to create PDF report
         * I will pull the data from the database later

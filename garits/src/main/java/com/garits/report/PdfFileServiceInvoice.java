@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 @Service
-public class PdfFileService {
+public class PdfFileServiceInvoice {
 
 
     public static void pdfCreation()
@@ -141,6 +141,4 @@ public class PdfFileService {
             e.printStackTrace();
         }
     }
-
-
 }
