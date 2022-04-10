@@ -10,8 +10,8 @@ import javax.transaction.Transactional;
 public interface UserRepository extends CrudRepository<User, Integer> {
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO users (email,password,salt,first_name,last_name) VALUES (?1,?2,?3,?4,?5)",nativeQuery = true)
-    Integer addUser(String email, String password, String salt, String firstName, String lastName);
+    @Query(value = "INSERT INTO users (email,password,first_name,last_name) VALUES (?1,?2,?3,?4)",nativeQuery = true)
+    Integer addUser(String email, String password, String firstName, String lastName);
     @Query(value = "select id_user from users where email=?1",nativeQuery = true)
     Integer getUserId(String email);
     @Modifying

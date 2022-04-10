@@ -48,10 +48,11 @@ public class UserController {
      * @return
      */
     @PostMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     User newUser(@RequestBody User newUser) {
         newUser.setPassword("1234");
-        newUser.setSalt("1234");
-        userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getSalt(), newUser.getFirstName(), newUser.getLastName());
+
+        userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getFirstName(), newUser.getLastName());
         Integer id = userRepository.getUserId(newUser.getEmail());
         userRepository.addUserRole(id,newUser.getRoles().iterator().next().getRoleName());
         return userRepository.findById(id).orElseThrow(()->new NotFound("Couldn't add user"));
