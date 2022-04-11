@@ -28,7 +28,7 @@ public class PdfFileServiceInvoice {
 
     public static void pdfCreation()
     {
-        String filepath="C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garits.pdf";
+        String filepath="C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsInvoice.pdf";
 
         try {
             //Creating the page
@@ -60,53 +60,162 @@ public class PdfFileServiceInvoice {
                     .setFontSize(12).setUnderline()
             );
 
+            float address = 300f;
+            float columnAddress[] = {address,address+50};
+            Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
+
+                    ;
+            //Insert customer's address here
+            location.addCell(new Cell(0,1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+                    .setFontSize(11));
+
+            float dear = 400f;
             float date = 100f;
-            float columnDate[] = {date,date};
-            Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
-                    .setMarginLeft(360f);
+            float columnDate[] = {dear,date,date};
+            Table time = new Table(columnDate).setMarginTop(10f);
+            time.addCell(new Cell().add("Dear").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(12));//Insert customer name here
             time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
                     .setFontSize(12));
             LocalDate now = LocalDate.now();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             time.addCell(new Cell().add(String.valueOf(now))
                     .setMarginTop(-20f).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
-                    .setFontSize(12).setMarginLeft(20f)
+                    .setFontSize(12)
             );
 
-            //Creating Table
-            float colWidth[] = {100, 100, 100, 100, 100};
-            Table information = new Table(colWidth).setMarginTop(30f).setMarginLeft(-20f)
-                    .setMarginRight(-20f).setBorder(Border.NO_BORDER).setFontSize(12)
-                    .setTextAlignment(TextAlignment.CENTER).setMarginLeft(10);
-
-            information.addCell(new Cell(0,5).add("Invoice").setBold()
+            float invoice = 600f;
+            float columnInvoice[] = {invoice};
+            Table invoiceText = new Table(columnInvoice).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            //Insert Invoice Number here
+            invoiceText.addCell(new Cell(0,5).add("INVOICE NO: ").setBold()
                     .setBorderLeft(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderLeft(Border.NO_BORDER).setMarginLeft(10f));
 
+            float info = 300f;
+            float columnInfo[] = {info, info};
+            Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            infoText.addCell(new Cell(0,2).add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            infoText.addCell(new Cell(0,2).add("Make: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            infoText.addCell(new Cell(0,2).add("Model: \n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            infoText.addCell(new Cell(0,2).add("Description of work: \n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            //Insert description of work here
+            infoText.addCell(new Cell(0,2).add("1) Insert info here").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            infoText.addCell(new Cell(0,2).add("2) Insert info here").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+            infoText.addCell(new Cell(0,2).add("3) Insert info here\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.LEFT));
+
+
+            //Creating Table
+            float colWidth[] = {120, 120, 120, 120, 120};
+            Table information = new Table(colWidth).setMarginTop(20f).setMarginLeft(-20f)
+                    .setMarginRight(-20f).setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER);
+
             information.addCell(new Cell().add("Number:").setBold().setMarginTop(-20f)
-                    .setMarginLeft(-20f).setMarginRight(-20f).setBorder(Border.NO_BORDER)
-                    .setFontSize(11)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Reference:").setBold().setMarginTop(-20f)
-                    .setMarginLeft(-20f).setMarginRight(-20f).setBorder(Border.NO_BORDER)
-                    .setFontSize(11)
+            information.addCell(new Cell().add("Part No:").setBold().setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
+            );
+
+            information.addCell(new Cell().add("Unit Cost:").setBold().setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
             );
 
             information.addCell(new Cell().add("Quantity:").setBold().setMarginTop(-20f)
-                    .setMarginLeft(-20f).setMarginRight(-20f).setBorder(Border.NO_BORDER)
-                    .setFontSize(11)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Part Code:").setBold().setMarginTop(-20f)
-                    .setMarginLeft(-20f).setMarginRight(-20f).setBorder(Border.NO_BORDER)
-                    .setFontSize(11)
+            information.addCell(new Cell().add("Cost:").setBold().setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Price:").setBold().setMarginTop(-20f)
-                    .setMarginLeft(-20f).setMarginRight(-20f).setBorder(Border.NO_BORDER)
-                    .setFontSize(11)
+            information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            float labour = 100f;
+            float columnLabour[] = {labour + 100, labour, labour, labour};
+            Table labourTable = new Table(columnLabour).setMarginTop(30f).setMarginLeft(-40f)
+                    .setBorder(Border.NO_BORDER).setFontSize(12).setMarginLeft(10);
+
+            labourTable.addCell(new Cell().add("Labour").setBold().setMarginTop(-20f)
+                    .setFontSize(11).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER)
+
+            );
+
+            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
+                    .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+
+            );
+
+            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
+                    .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
+
+            );
+
+            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
+                    .setFontSize(11).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)
+
+
             );
 
             float total = 300f;
@@ -133,7 +242,11 @@ public class PdfFileServiceInvoice {
             document.add(name);
             document.add(text);
             document.add(time);
+            document.add(location);
+            document.add(invoiceText);
+            document.add(infoText);
             document.add(information);
+            document.add(labourTable);
             document.add(totalTable);
             document.close();
 

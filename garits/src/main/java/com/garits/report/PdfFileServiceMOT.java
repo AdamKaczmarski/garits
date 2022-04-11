@@ -25,46 +25,105 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceMOT {
 
     public static void pdfCreationMOT() {
-        String filepathStock = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsMOT.pdf";
+        String filepathMOT = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsMOT.pdf";
 
         try {
             //Creating the page
-            PdfWriter stock = new PdfWriter(filepathStock);
-            PdfDocument pdfStock = new PdfDocument(stock);
-            pdfStock.setDefaultPageSize(PageSize.A4);
+            PdfWriter stock = new PdfWriter(filepathMOT);
+            PdfDocument pdfMOT = new PdfDocument(stock);
+            pdfMOT.setDefaultPageSize(PageSize.A4);
 
             //Creating the first column
-            float col = 400f;
-            float columnWidth[] = {col, col};
-            Table name = new Table(columnWidth).setMarginTop(-20f).setMarginLeft(-20f).setMarginRight(-20f);
+            float col = 600f;
+            float columnWidth[] = {col};
+            Table name = new Table(columnWidth).setMarginTop(-20f)
+                    .setTextAlignment(TextAlignment.RIGHT);
 
 
-            name.addCell(new Cell().add("Receipt").setVerticalAlignment(VerticalAlignment.MIDDLE)
-                    .setMarginBottom(30f).setMarginTop(20f).setFontSize(25f).setBorderLeft(Border.NO_BORDER)
-                    .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setMarginLeft(10f)
-            );
             name.addCell(new Cell().add("Team 14 - Repo").setTextAlignment(TextAlignment.RIGHT).setVerticalAlignment(VerticalAlignment.MIDDLE)
-                    .setMarginBottom(30f).setMarginTop(20f).setMarginRight(5f).setFontSize(25f).setBorderLeft(Border.NO_BORDER)
+                    .setMarginBottom(30f).setMarginTop(20f).setBorderLeft(Border.NO_BORDER).setFontSize(25f)
                     .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setMarginLeft(10f)
             );
 
+            float address = 500f;
+            float columnAddress[] = {address,address};
+            Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
+                    .setMarginRight(30f)
+                    ;
+            //Insert customer's address here
+            location.addCell(new Cell(0,1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            location.addCell(new Cell(0,1).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+            //Insert Customer Address
+            location.addCell(new Cell(0,1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(11));
+
+
+
+            float dear = 400f;
             float date = 100f;
-            float columnDate[] = {date,date};
-            Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
-                    .setMarginLeft(360f);
+            float columnDate[] = {dear,date,date};
+            Table time = new Table(columnDate).setMarginTop(10f);
+            time.addCell(new Cell().add("Dear").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                    .setFontSize(12));//Insert customer name here
             time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
                     .setFontSize(12));
             LocalDate now = LocalDate.now();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             time.addCell(new Cell().add(String.valueOf(now))
                     .setMarginTop(-20f).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
-                    .setFontSize(12).setMarginLeft(20f)
+                    .setFontSize(12)
             );
 
-            Document document=new Document(pdfStock);
+            float reminder = 600f;
+            float reminderMOT[] = {reminder};
+            Table reminderTable = new Table(reminderMOT).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            reminderTable.addCell(new Cell().add("REMINDER - MoT TEST DUE ").setBorderLeft(Border.NO_BORDER).setFontSize(12f)
+                    .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                    .setBold().setTextAlignment(TextAlignment.CENTER)
+            );
+
+            float info = 300f;
+            float columnInfo[] = {info, info};
+            Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            infoText.addCell(new Cell().add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.CENTER).setBold());//Insert Reg No here
+            infoText.addCell(new Cell().add("Renewal Test Date:  ").setBorder(Border.NO_BORDER).setFontSize(11f)
+                    .setTextAlignment(TextAlignment.CENTER).setBold());//Insert Renewal date here
+
+            float text = 600f;
+            float columnText[] = {text};
+            Table textTable = new Table(columnText).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            reminderTable.addCell(new Cell().add("\nAccording to our records, the above vehicle is due to have its MoT certificate renewed on the date shown.\n" +
+                            "Account Holders customers such as yourself are assured of our prompt attention, and we hope that you will use our\n" +
+                            "services on this occasion in order to have the necessary test carried out on your vehicle.\n\n\n\n ").setBorder(Border.NO_BORDER)
+                    .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
+            );
+
+            reminderTable.addCell(new Cell().add("Yours sincerely, \n\n" + "G. Lancaster").setBorder(Border.NO_BORDER)
+                    .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
+            );
+
+            Document document=new Document(pdfMOT);
             document.add(name);
-            //document.add(text);
+            document.add(location);
             document.add(time);
+            document.add(reminderTable);
+            document.add(infoText);
             document.close();
 
         } catch (FileNotFoundException e) {
