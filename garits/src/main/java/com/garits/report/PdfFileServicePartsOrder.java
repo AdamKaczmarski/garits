@@ -26,7 +26,7 @@ public class PdfFileServicePartsOrder {
 
 
     public static void pdfCreationStock() {
-        String filepathStock = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsPartsOrder.pdf";
+        String filepathStock = "./pdf_reports/parts_orders.pdf";
 
         try {
             //Creating the page

@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceLedger {
 
     public static void pdfCreationLedger() {
-        String filepathStock = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsStockLedger.pdf";
+        String filepathStock = "./pdf_reports/stock_ledger.pdf";
 
         try {
             //Creating the page

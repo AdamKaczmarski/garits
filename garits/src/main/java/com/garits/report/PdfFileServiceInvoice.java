@@ -28,7 +28,7 @@ public class PdfFileServiceInvoice {
 
     public static void pdfCreation()
     {
-        String filepath="C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsInvoice.pdf";
+        String filepath="./pdf_reports/invoice.pdf";
 
         try {
             //Creating the page
