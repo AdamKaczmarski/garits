@@ -7,14 +7,13 @@ CREATE TABLE `Users` (
     `password` varchar(80) NOT NULL,
     `first_name` varchar(50) NOT NULL,
     `last_name` varchar(100) NOT NULL,
-    `hourly_rate` decimal(8,2),
     PRIMARY KEY (`id_user`),
     UNIQUE INDEX (`id_user`)
 );
 
 CREATE TABLE `Roles` (
     `id_role` int NOT NULL AUTO_INCREMENT,
-    `role_name` varchar(20) NOT NULL,
+    `role_name` varchar(20) NOT NULL,    `hourly_rate` decimal(8,2),
     PRIMARY KEY (`id_role`),
     UNIQUE INDEX (`id_role`)
 );

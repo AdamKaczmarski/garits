@@ -13,7 +13,7 @@ INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fix
 ( "John Doherty", "Nowhereshire", "Miscellaneous House, Unknown Street, Whichville", "MT1 2UP", "01010100101", "JohnDoherty@gmail.com", NULL, NULL),
 ( "William Gates", "Richville", "World Domination House, Enormous Street", "NW10 4AT", "02074773333", "WilliamGates@gmail.com", NULL, NULL), 
 ( "Jean-Claude Laprie", "Brokenglasshire", "10 Green Bottles", "NW9 NO8", "02083334444", "JeanClaudeLaprie@gmail.com", NULL, NULL
-);
+) ;
 
 INSERT INTO vehicles ( id_reg_no,manufacturer,model,engine_serial_number,chassis_number,colour,last_mot) VALUE
 ( "AA69 CPG", "Fjord Transit Van", "DONTKNOW", "DONTKNOW1","DK1", "White", "2019-12-5"),
@@ -48,7 +48,7 @@ INSERT INTO Services (service_name,service_price,approx_time_min,short_descripti
 INSERT INTO Payments (id_payment,cash_or_card,amount,create_date,payment_date,payment_due) VALUE
 (1, "Cash", 50.00, "2021-11-5", "2021-11-5", "2021-11-5");
 
-insert into roles (role_name) values ('ROLE_MECHANIC'),("ROLE_FRANCHISEE"), ("ROLE_RECEPTIONIST"), ("ROLE_FOREPERSON"),("ROLE_ADMIN");
+insert into roles (role_name,hourly_rate) values ('ROLE_MECHANIC',105),("ROLE_FRANCHISEE",null), ("ROLE_RECEPTIONIST",null), ("ROLE_FOREPERSON",125),("ROLE_ADMIN",null);
 
 INSERT INTO Users_Roles(user_id,role_id) VALUE
 (1,3),
@@ -77,7 +77,7 @@ INSERT INTO Customers_Vehicles(customer_id,reg_no_id) VALUE
 (1,"FF71 GHT"),
 (1,"VV71 BHN"),
 (2,"GG14 PUB"),
-(3,"BB19 OLE");
+(3,"BB19 OLE"),(4,"BB67 TRU");
 
 INSERT INTO Parts_Payments(part_id,quantity_sold,payment_id) VALUE
 (2,1,1),

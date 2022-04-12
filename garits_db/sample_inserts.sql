@@ -49,3 +49,6 @@ insert into jobs (vehicle_id, status, est_time_min,description_required,bay) val
 SELECT id_customer, name from customers where id_customer IN (SELECT DISTINCT pc.customer_id FROM payments_customer pc INNER JOIN payments p on p.id_payment = pc.payment_id where p.payment_due<CURDATE() AND p.payment_date is NULL);
 
 select email,password from users;
+select * from customers_vehicles;
+select * from vehicles;
+insert into customers_vehicles (customer_id,reg_no_id) values (5,'BB67 TRU')

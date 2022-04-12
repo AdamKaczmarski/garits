@@ -31,9 +31,9 @@ const LoginForm = () => {
       console.log(err);
     } finally {
       if (role === "ROLE_ADMIN") navigate("/users", { replace: true });
-      else if (role === "ROLE_MECHANIC") navigate("/users", { replace: true });
+      else if (role === "ROLE_MECHANIC") navigate("/jobs", { replace: true });
       else if (role === "ROLE_FRANCHISEE") navigate("/users", { replace: true });
-      else if (role === "ROLE_FOREPERSON") navigate("/users", { replace: true });
+      else if (role === "ROLE_FOREPERSON") navigate("/jobs", { replace: true });
       else if (role === "ROLE_RECEPTIONIST") navigate("/jobs", { replace: true });
       else {
         navigate("/login", { replace: true });
