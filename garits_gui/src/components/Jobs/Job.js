@@ -232,7 +232,8 @@ const Job = (props) => {
 
             <Dropdown.Menu>
               {props.jobType === "active" &&
-              authCtx.authData.role === "ROLE_FOREPERSON" ? (
+              (authCtx.authData.role === "ROLE_FOREPERSON" ||
+                authCtx.authData.role === "ROLE_MECHANIC") ? (
                 <>
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
@@ -245,7 +246,8 @@ const Job = (props) => {
               ) : null}
               {props.jobType === "booked" ? (
                 <>
-                  {authCtx.authData.role === "ROLE_FOREPERSON" ? (
+                  {authCtx.authData.role === "ROLE_FOREPERSON" ||
+                  authCtx.authData.role === "ROLE_MECHANIC" ? (
                     <Dropdown.Item onClick={() => formHandler(1)}>
                       Assign mechanic
                     </Dropdown.Item>

@@ -19,4 +19,6 @@ public interface PaymentJobRepository extends CrudRepository<PaymentJob, Integer
     @Transactional
     @Query(value="UPDATE payments SET payment_date=:paymentDate, cash_or_card=:cashOrCard where id_payment=:idPayment",nativeQuery = true)
     void finishPayment(@Param("idPayment")Integer id,@Param("paymentDate") Date paymentDate,@Param("cashOrCard") String cashOrCard);
+    @Query(value="SELECT * from payments where id_payment = (SELECT payment_id from jobs_payments where job_id = :idJob)",nativeQuery = true)
+    PaymentJob findPaymentByJobId(Integer idJob);
 }

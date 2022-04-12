@@ -29,7 +29,7 @@ public class PartController {
      * @return Array of Part objects.
      */
     @GetMapping("/parts")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
     Iterable<Part> allParts(){
         return partRepository.findAll();
     }
@@ -40,12 +40,12 @@ public class PartController {
      * @return
      */
     @GetMapping("/parts/{partId}")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
     Part singlePart(@PathVariable Integer partId){
         return partRepository.findById(partId).orElseThrow(()-> new NotFound("Could not find part: "+partId));
     }
     @GetMapping("/partNames")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
     ResponseEntity<Iterable<Part>> getPartNames(){
     Iterable<Part> parts = partRepository.findAll();
     Set<Part> partNames = new HashSet<>();
@@ -56,7 +56,7 @@ public class PartController {
     return ResponseEntity.ok(partNames);
     }
     @GetMapping("/parts/low-stock")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Iterable<Part> getLowStock(){
         return partRepository.findLowStockParts();
     }
@@ -68,7 +68,7 @@ public class PartController {
      * @return
      */
     @PostMapping("/parts")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Part addPart(@RequestBody Part newPart){
         return partRepository.save(newPart);
     }
@@ -81,7 +81,7 @@ public class PartController {
      * @return
      */
     @PatchMapping("/parts/{partId}")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Part updatePart(@PathVariable Integer partId,@RequestBody Part editedPart){
         return partRepository.findById(partId).map(p->{
             if(editedPart.getManufacturer()!=null)p.setManufacturer(editedPart.getManufacturer());
@@ -104,7 +104,7 @@ public class PartController {
      * @return
      */
     @DeleteMapping("/parts/{partId}")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     ResponseEntity<String> deletePart(@PathVariable Integer partId){
         partRepository.deleteById(partId);
         return ResponseEntity.status(HttpStatus.OK).body("Part deleted");

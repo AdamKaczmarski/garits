@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -39,7 +39,7 @@ const JobsTableBooked = () => {
     }
   };
 
-  const obtainBookedJobs = async () => {
+  const obtainBookedJobs = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
@@ -54,7 +54,7 @@ const JobsTableBooked = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  },[authCtx]);
   const deleteJob = async (idJob) => {
     try {
       const response = await axios({
@@ -73,7 +73,7 @@ const JobsTableBooked = () => {
 
   useEffect(() => {
     obtainBookedJobs();
-  }, []);
+  }, [obtainBookedJobs]);
   if (isLoading) {
     return <Spinner variant="primary" animation="border" />;
   }
@@ -102,22 +102,23 @@ const JobsTableBooked = () => {
             <th>Created date</th>
             <th>Booking Date</th>
             <th>Action</th>
-            <th>
-              <Button variant="outline-primary" onClick={handleShow}>
-                +
-              </Button>
-            </th>
+            {authCtx.authData.role !== "ROLE_MECHANIC" ? (
+                <Button variant="outline-primary" onClick={handleShow}>
+                  +
+                </Button>
+              ) : null}
           </tr>
         </thead>
         <tbody>{jobsView}</tbody>
       </Table>
-      <CustomModal
+      {authCtx.authData.role !== "ROLE_MECHANIC" ? (
+<CustomModal
         title="Add job"
         show={show}
         onClose={handleShow}
         submitAction={addJob}
         form={<AddJob selectedServices={selectedServices} newJob={newJob} />}
-      />
+      /> ) : null}
     </>
   );
 };

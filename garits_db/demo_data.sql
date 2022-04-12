@@ -6,7 +6,6 @@ INSERT INTO Users (email,password,first_name,last_name) VALUE
 ( "Gavin", "$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO",  "Gavin", "Ross"),
 ( "Anthony", "$2a$12$J3o7jF0Zdd7czHPyPA.wSO/H3PJ/s1Yi7yRoVLb4WvjTHPfqg7C1G",  "Anthony", "Wild"
 );
-UPDATE users set email=LOWER(email);
 
 INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fixed_discount) VALUE
 ( "Jack Varta", "Bucks", "Transco Gas Supplies, Methane Buildings, Sulphur Lane, Stenchville", "HP19 2MT",  "01494683725", "JackVarta@gmail.com", NULL, NULL),
@@ -43,7 +42,7 @@ INSERT INTO Jobs (vehicle_id,status,description_done,description_required,est_ti
 ( 7, "completed", " replacement of the exhaust system, 2 new engine mounts, 4 new sparkplugs, new set of spark plug leads, new distributor cap", "Annual MoT", 120, 120, "2021-11-5", "2021-11-5",  "2021-11-5", "repair");
 
 INSERT INTO Services (service_name,service_price,approx_time_min,short_description) VALUE
-( "MoT", 50.00, 120, "Annual MoT");
+( "MoT", 50.00, 120, "Annual MoT"), ("Annual Service",95.00,180,"Annual service - replacement of motor oil and both filters");
 
 INSERT INTO Payments (id_payment,cash_or_card,amount,create_date,payment_date,payment_due) VALUE
 (1, "Cash", 50.00, "2021-11-5", "2021-11-5", "2021-11-5");

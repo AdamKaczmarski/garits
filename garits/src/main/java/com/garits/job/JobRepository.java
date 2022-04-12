@@ -47,5 +47,9 @@ public interface JobRepository extends CrudRepository<Job,Integer> {
     @Modifying
     @Query(value="UPDATE parts set stock_level=stock_level-:quantity where id_part=:idPart",nativeQuery = true)
     void updateStockLevel(@Param("idPart")Integer idPart,@Param("quantity") Integer quantity);
+    @Modifying
+    @Transactional
+    @Query(value="update payments set amount = ROUND(amount + (SELECT ROUND(j.act_time_min*(select ROUND(hourly_rate/60,2) from roles where id_role = (select role_id from users_roles where user_id = (SELECT user_id from users_jobs where job_id=:idJob))),2) from jobs j where id_job=:idJob),2) where id_payment = (SELECT payment_id from jobs_payments where job_id=:idJob)",nativeQuery = true)
+    void updatePriceOnFinish(@Param("idJob")Integer idJob);
     //@Query(value="INSERT INTO jobs (vehicle_id,status,created_date,description_required,est_time_min)")
 }

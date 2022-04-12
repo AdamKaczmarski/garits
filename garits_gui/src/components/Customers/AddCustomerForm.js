@@ -64,7 +64,7 @@ const AddUserForm = (props) => {
         <Form.Label>FAX</Form.Label>
         <Form.Control onChange={faxHandler} />
       </Form.Group>
-      {authCtx.authData.role!=='ROLE_RECEPTIONIST'?<Form.Group controlId="fixed_discount">
+      {authCtx.authData.role!=='ROLE_FRANCHISEE'?<Form.Group controlId="fixed_discount">
         <Form.Label>Fixed Discount</Form.Label>
         <Form.Control
           type="number"

@@ -26,12 +26,12 @@ public class CustomerController {
      * @return
      */
     @GetMapping("/customers")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
     @GetMapping("/customers/short")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Iterable<Customer> getShortInfoCustomers() {
         Iterable<Customer> customers = customerRepository.findAll();
         Set<Customer> result = new HashSet<>();
@@ -41,13 +41,13 @@ public class CustomerController {
         return result;
     }
     @GetMapping("/customers/{idCustomer}")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Customer getOneCustomer(@PathVariable Integer idCustomer) {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
     }
 
     @GetMapping("/customers/{idCustomer}/varDiscounts")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Iterable<VariableDiscount> getVariableDiscounts(@PathVariable Integer idCustomer) {
         return null;
     }
@@ -61,7 +61,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
     Customer addCustomer(@RequestBody Customer newCustomer) {
         return customerRepository.save(newCustomer);
     }

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthContext from "../../../store/auth-context";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import PaymentModal from "../PaymentModal";
 import PaymentRetailDetails from "./PaymentRetailDetails";
 const PaymentRetail = (props) => {
+  const authCtx=useContext(AuthContext);
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => setShowDetails(!showDetails);
   let type = null;
@@ -34,8 +36,8 @@ const PaymentRetail = (props) => {
             <Dropdown.Menu>
               <Dropdown.Item>Download invoice</Dropdown.Item>
               {props.paymentRetail.createDate ===
-              new Date().toISOString().substring(0, 10) ? (
-                <Dropdown.Item
+              new Date().toISOString().substring(0, 10) && authCtx.authData.role === "ROLE_FRANCHISEE" ? 
+                (<Dropdown.Item
                   style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                   onClick={() => {
                     props.deletePaymentRetail(props.paymentRetail.idPayment);

@@ -7,7 +7,7 @@ import AuthContext from "../../store/auth-context";
 
 const PaymentsTabs = () => {
   const authCtx = useContext(AuthContext);
-  if (authCtx.authData.role === "ROLE_RECEPTIONIST") {
+  if (authCtx.authData.role === "ROLE_RECEPTIONIST" || authCtx.authData.role === "ROLE_FOREPERSON") {
     return (
       <Tabs defaultActiveKey="jobs" fill mountOnEnter={true}>
         <Tab eventKey="jobs" title="Jobs">

@@ -6,7 +6,26 @@ import AuthContext from "../../store/auth-context";
 import { Link } from "react-router-dom";
 
 /*need to add conditions what should be shown for each role */
+/*
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="payments">
+          Payments
+        </Nav.Link>
+        <Nav.Link as={Link} to="services">
+          Services
+        </Nav.Link>
+        <Nav.Link as={Link} to="customers">
+          Customers
+        </Nav.Link>
 
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>*/
 const NavigationBar = () => {
   const authCtx = useContext(AuthContext);
   const { authData, onLogout } = authCtx;
@@ -32,24 +51,13 @@ const NavigationBar = () => {
         <Nav.Link as={Link} to="inventory">
           Inventory
         </Nav.Link>
-        <Nav.Link as={Link} to="payments">
-          Payments
-        </Nav.Link>
-        <Nav.Link as={Link} to="services">
-          Services
-        </Nav.Link>
-        <Nav.Link as={Link} to="customers">
-          Customers
-        </Nav.Link>
-
         <Nav.Link as={Link} to="login" onClick={onLogout}>
           Logout
         </Nav.Link>
       </>
     );
   } else if (authData.role === "ROLE_FRANCHISEE") {
-  } else if (authData.role === "ROLE_FOREPERSON") {
-  } else if (authData.role === "ROLE_RECEPTIONIST") {
+  }  else if (authData.role === "ROLE_RECEPTIONIST" || authData.role === "ROLE_FOREPERSON") {
     navLinks = (
       <>
         <Nav.Link as={Link} to="jobs">

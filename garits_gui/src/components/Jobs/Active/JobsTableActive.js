@@ -99,21 +99,25 @@ const JobsTableActive = () => {
             <th>Booking Date</th>
             <th>Action</th>
             <th>
-              <Button variant="outline-primary" onClick={handleShow}>
-                +
-              </Button>
+              {authCtx.authData.role !== "ROLE_MECHANIC" ? (
+                <Button variant="outline-primary" onClick={handleShow}>
+                  +
+                </Button>
+              ) : null}
             </th>
           </tr>
         </thead>
         <tbody>{jobsView}</tbody>
       </Table>
-      <CustomModal
-        title="Add job"
-        show={show}
-        onClose={handleShow}
-        submitAction={addJob}
-        form={<AddJob selectedServices={selectedServices} newJob={newJob} />}
-      />
+      {authCtx.authData.role !== "ROLE_MECHANIC" ? (
+        <CustomModal
+          title="Add job"
+          show={show}
+          onClose={handleShow}
+          submitAction={addJob}
+          form={<AddJob selectedServices={selectedServices} newJob={newJob} />}
+        />
+      ) : null}
     </>
   );
 };

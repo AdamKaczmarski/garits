@@ -34,7 +34,7 @@ const Part = (props) => {
     <>
       <tr
         style={
-          props.part.stockLevel < props.part.stockLevelThreshold
+          props.part.stockLevel < props.part.stockLevelThreshold || !props.part.stockLevel
             ? { backgroundColor: "rgba(242, 97, 99,0.2)" }
             : null
         }
@@ -56,7 +56,7 @@ const Part = (props) => {
           )}
         </td>
         <td colSpan={2}>
-          <Dropdown>
+        {authCtx.authData.role !== "ROLE_MECHANIC" ? (  <Dropdown>
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -68,7 +68,7 @@ const Part = (props) => {
                 Delete
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>{" "}
+          </Dropdown>) : null}
         </td>
         <td></td>
       </tr>

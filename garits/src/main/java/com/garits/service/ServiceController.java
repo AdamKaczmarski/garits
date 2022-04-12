@@ -31,7 +31,7 @@ public class ServiceController {
     }
 
     @GetMapping("/services/short")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
     Iterable<Service> getShortInfoServices() {
         Iterable<Service> result = serviceRepository.findAll();
         Set<Service> services = new HashSet<>();
@@ -52,7 +52,7 @@ public class ServiceController {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
     @GetMapping("/services/{id}/price")
-    @PreAuthorize("hasRole('RECEPTIONIST')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
     double getPrice(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
     }

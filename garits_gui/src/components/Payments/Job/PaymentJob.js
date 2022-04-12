@@ -10,11 +10,11 @@ const PaymentJob = (props) => {
   const authCtx = useContext(AuthContext);
   let isLate = false;
   let paymentDate, paymentDue;
-  let finishPayment= {
+  let finishPayment = {
     idPayment: props.paymentJob.idPayment,
-    paymentDate:"",
-    cashOrCard:""
-  }
+    paymentDate: "",
+    cashOrCard: "",
+  };
   const createDate = new Date(props.paymentJob.createDate)
     .toISOString()
     .substring(0, 10);
@@ -26,7 +26,9 @@ const PaymentJob = (props) => {
     paymentDue = new Date(props.paymentJob.paymentDue)
       .toISOString()
       .substring(0, 10);
-    isLate = new Date() > new Date(props.paymentJob.paymentDue) && !props.paymentJob.paymentDate;
+    isLate =
+      new Date() > new Date(props.paymentJob.paymentDue) &&
+      !props.paymentJob.paymentDate;
   }
   let type = null;
   if (props.paymentJob.cashOrCard) {
@@ -34,21 +36,20 @@ const PaymentJob = (props) => {
       props.paymentJob.cashOrCard.charAt(0).toUpperCase() +
       props.paymentJob.cashOrCard.slice(1).toLowerCase();
   }
-  const completePayment=async()=>{
+  const completePayment = async () => {
     try {
       await axios({
-        method:"PATCH",
-        url:`http://localhost:8080/payments-jobs/${props.paymentJob.idPayment}/complete`,
-        data:finishPayment,
-        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
-
-      })
-    } catch(err){
+        method: "PATCH",
+        url: `http://localhost:8080/payments-jobs/${props.paymentJob.idPayment}/complete`,
+        data: finishPayment,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+      });
+    } catch (err) {
       console.log(err);
     } finally {
       props.obtainPaymentsJobs();
     }
-  }
+  };
   return (
     <>
       <tr style={isLate ? { backgroundColor: "rgba(242, 97, 99,0.2)" } : null}>
@@ -74,12 +75,14 @@ const PaymentJob = (props) => {
                   Set payment as done
                 </Dropdown.Item>
               )}
-              <Dropdown.Item
-                style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                href="#/action-3"
-              >
-                Delete
-              </Dropdown.Item>
+              {authCtx.authData.role === "ROLE_FRANCHISEE" ? (
+                <Dropdown.Item
+                  style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+                  href="#/action-3"
+                >
+                  Delete
+                </Dropdown.Item>
+              ) : null}
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -90,7 +93,12 @@ const PaymentJob = (props) => {
           show={show}
           onClose={handleShow}
           title="Set payment date"
-          form={<SetPayDate id={props.paymentJob.idPayment} finishPayment={finishPayment}/>}
+          form={
+            <SetPayDate
+              id={props.paymentJob.idPayment}
+              finishPayment={finishPayment}
+            />
+          }
           submitAction={completePayment}
         />
       )}
