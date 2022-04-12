@@ -34,7 +34,7 @@ public class JobController {
     //GET MAPPINGS
     //Those 3 methods should return only data neeeded for the frontend without any details.
     @GetMapping("/jobs-active")
-    @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllActiveJobs() {
         Iterable<Job> result = jobRepository.findAllActive();
         for (Job j : result) {
@@ -49,7 +49,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs-completed")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllCompletedJobs() {
         Iterable<Job> result = jobRepository.findAllCompleted();
         for (Job j : result) {
@@ -64,7 +64,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs-booked")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllBookedJobs() {
         Iterable<Job> result = jobRepository.findAllBooked();
         for (Job j : result) {
@@ -76,7 +76,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs/{idJob}")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job getOneJob(@PathVariable Integer idJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
@@ -98,7 +98,7 @@ public class JobController {
 
     //POST MAPPINGS
     @PostMapping("/jobs")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job addJob(@RequestBody Job newJob) {
         newJob.setCreateDate(new Timestamp(System.currentTimeMillis()));
         Job j = jobRepository.save(newJob);
@@ -144,7 +144,7 @@ public class JobController {
 
     //PATCH MAPPINGS
     @PatchMapping("/jobs/{idJob}")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job editJob(@PathVariable Integer idJob, @RequestBody Job editedJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         if (editedJob.getStatus() != null) j.setStatus(editedJob.getStatus());
@@ -169,14 +169,14 @@ public class JobController {
         return jobRepository.save(j);
     }
     @PatchMapping("/jobs/{idJob}/{idPart}/{quantity}")
-    @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void addQuantity(@PathVariable Integer idJob, @PathVariable Integer idPart, @PathVariable Integer quantity) {
         jobRepository.setQuantityOfPart(idPart, idJob, quantity);
         jobRepository.updateStockLevel(idPart,quantity);
     }
     //DELETE MAPPINGS
     @DeleteMapping("/jobs/{idJob}")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void deleteJob(@PathVariable Integer idJob) {
         jobRepository.deleteById(idJob);
     }

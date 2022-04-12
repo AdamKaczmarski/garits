@@ -57,7 +57,32 @@ const NavigationBar = () => {
       </>
     );
   } else if (authData.role === "ROLE_FRANCHISEE") {
-  }  else if (authData.role === "ROLE_RECEPTIONIST" || authData.role === "ROLE_FOREPERSON") {
+    navLinks = (
+      <>
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="payments">
+          Payments
+        </Nav.Link>
+        <Nav.Link as={Link} to="services">
+          Services
+        </Nav.Link>
+        <Nav.Link as={Link} to="customers">
+          Customers
+        </Nav.Link>
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>
+      </>
+    );
+  } else if (
+    authData.role === "ROLE_RECEPTIONIST" ||
+    authData.role === "ROLE_FOREPERSON"
+  ) {
     navLinks = (
       <>
         <Nav.Link as={Link} to="jobs">

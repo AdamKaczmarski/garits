@@ -2,6 +2,7 @@ package com.garits.vehicle;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicles/{customerId}/short")
+    @PreAuthorize("hasRole('MECHANIC') or hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Vehicle> getShortInfoVehicles(@PathVariable Integer customerId) {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             Iterable<Vehicle> vehicles = vehicleRepository.findAllCustomerVehicles(customerId);
@@ -38,6 +40,7 @@ public class VehicleController {
      */
     // SECURE IT FOR NON EXISTENT CUSTOMERS. IF USER SEARCHES FOR CUSTOMER ID THAT DOESNT EXIST IT SHOULD RETURN ERROR
     @GetMapping("/vehicles/{customerId}")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             return vehicleRepository.findAllCustomerVehicles(customerId);
@@ -53,6 +56,7 @@ public class VehicleController {
      * @param newVehicle
      */
     @PostMapping("/vehicles/{customerId}")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void addCustomerVehicle(@PathVariable Integer customerId, @RequestBody Vehicle newVehicle) {
         if (vehicleRepository.findCustomer(customerId) != null && vehicleRepository.findCustomer(customerId).equals("1")) {
             vehicleRepository.save(newVehicle);
@@ -72,6 +76,7 @@ public class VehicleController {
      * @return
      */
     @PatchMapping("/vehicles/{idVehicle}")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Vehicle updateVehicle(@PathVariable String idVehicle, @RequestBody Vehicle editedVehicle) {
         Vehicle v = vehicleRepository.findVehicle(idVehicle);
         if (v != null) {
@@ -95,6 +100,7 @@ public class VehicleController {
      * @param idRegNo
      */
     @DeleteMapping("/vehicles/{customerId}/{idRegNo}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteVehicle(@PathVariable("customerId") Integer customerId, @PathVariable("idRegNo") String idRegNo) {
         vehicleRepository.deleteCustomerVehicle(idRegNo, customerId);
         vehicleRepository.deleteVehicle(idRegNo);

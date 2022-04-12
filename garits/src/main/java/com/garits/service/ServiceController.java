@@ -31,12 +31,12 @@ public class ServiceController {
     }
 
     @GetMapping("/services/short")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Service> getShortInfoServices() {
         Iterable<Service> result = serviceRepository.findAll();
         Set<Service> services = new HashSet<>();
         for (Service s : result) {
-            services.add(new Service(s.getIdService(),s.getServiceName(),s.getServicePrice()));
+            services.add(new Service(s.getIdService(), s.getServiceName(), s.getServicePrice()));
         }
         return services;
     }
@@ -48,11 +48,13 @@ public class ServiceController {
      * @return Service object
      */
     @GetMapping("/services/{id}")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Service one(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
+
     @GetMapping("/services/{id}/price")
-    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     double getPrice(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
     }
@@ -66,6 +68,7 @@ public class ServiceController {
      * @return
      */
     @PostMapping("/services")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     Service newService(@RequestBody Service newService) {
         return serviceRepository.save(newService);
     }
@@ -76,6 +79,7 @@ public class ServiceController {
      * Edit service
      */
     @PatchMapping("/services/{idService}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     ResponseEntity<Service> updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
         Service s = serviceRepository.findById(idService).orElseThrow(() -> new NotFound("Could not find the service: " + idService));
         if (editedService.getServiceName() != null) s.setServiceName(editedService.getServiceName());
@@ -94,6 +98,7 @@ public class ServiceController {
      * @param id - service ID
      */
     @DeleteMapping("/services/{id}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteService(@PathVariable Integer id) {
         serviceRepository.deleteById(id);
     }

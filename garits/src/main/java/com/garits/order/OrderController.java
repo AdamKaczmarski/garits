@@ -6,6 +6,7 @@ import com.garits.part.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class OrderController {
      * @return
      */
     @GetMapping("/orders")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -36,6 +38,7 @@ public class OrderController {
      * @return
      */
     @PostMapping("/orders")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Order addOrder(@RequestBody Order newOrder) {
         return orderRepository.save(newOrder);
     }
@@ -45,12 +48,13 @@ public class OrderController {
      *
      */
      @PostMapping("/orders/{idOrder}/items")
+     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
      ResponseEntity<String> addItemsToOrder(@PathVariable Integer idOrder, @RequestBody List<PartOrder> pos){
          for (PartOrder x: pos){
-             System.out.println("#########");
+             /*System.out.println("#########");
              System.out.println(x.getPartId());
              System.out.println(idOrder);
-             System.out.println(x.getQuantity());
+             System.out.println(x.getQuantity());*/
             orderRepository.addPartToOrder(x.getPartId(),idOrder,x.getQuantity());
          }
          orderRepository.setOrderTotalAmount(idOrder);
@@ -63,6 +67,7 @@ public class OrderController {
      * @return
      */
     @PatchMapping(value="/orders/{idOrder}/status")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<String> changeOrderStatus(@PathVariable Integer idOrder, @RequestBody Status newStatus) {
         Order o = orderRepository.findById(idOrder).orElseThrow(() -> new NotFound("Could not find order: " + idOrder));
         if (newStatus!=null) {
@@ -74,6 +79,7 @@ public class OrderController {
     }
 
     @PatchMapping("/orders/{idOrder}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     Order editOrder(@PathVariable Integer idOrder, @RequestBody Order editedOrder) {
         Order o = orderRepository.findById(idOrder).orElseThrow(() -> new NotFound("Could not find order: " + idOrder));
         if (editedOrder.getStatus() != null) o.setStatus(editedOrder.getStatus());
@@ -96,6 +102,7 @@ public class OrderController {
      * @ADEL
      */
     @DeleteMapping("/orders/{idOrder}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteOrder(@PathVariable Integer idOrder) {
         orderRepository.deletePartsOrders(idOrder);
         orderRepository.deleteById(idOrder);

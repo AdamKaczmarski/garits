@@ -62,7 +62,7 @@ const App = () => {
     }
   }, [authCtx]);
   useEffect(() => {
-    if (authCtx.authData.role==='ROLE_FRANCHISEE'){
+    if (authCtx.authData.role!=='ROLE_MECHANIC'){
     obtainLowStockParts();
     obtainLatePaymentCustomers();
     }
