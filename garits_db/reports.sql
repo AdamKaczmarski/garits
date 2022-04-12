@@ -2,8 +2,19 @@
 -- number of vehicles booked in on a monthly basis, overall and per job type (MoT/Annual service/repair), and
 -- type of customer (casual or Account Holder)
 
-
-
+-- Number of vehicles booked per month per year
+SELECT YEAR(j.create_date) AS'YEAR',MONTH(j.create_date) AS 'Month',count(j.id_job) AS 'Number of vehicles' 
+FROM jobs j 
+GROUP BY MONTH(j.create_date) ORDER BY 1,2;
+-- Overall
+SELECT COUNT(id_job) AS 'Number of bookings' from jobs;
+-- Per job type
+SELECT s.service_name AS 'Job type',COUNT(j.id_job) AS 'Number of bookings'
+FROM jobs j 
+INNER JOIN jobs_services js ON j.id_job = js.job_id
+INNER JOIN services s ON s.id_service=js.service_id
+GROUP BY s.service_name;
+-- Type of customer => To be done tomorrow, I have to fix the db cause I don't have acc holder marking
 
 -- 2nd bullet point
 -- average time, and price, per job type (i.e. MoT/Annual service/repair). This should be done overall, and per
