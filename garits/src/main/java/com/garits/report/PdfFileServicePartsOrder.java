@@ -96,25 +96,25 @@ public class PdfFileServicePartsOrder {
                     .setMarginRight(-20f).setFontSize(12)
                     .setTextAlignment(TextAlignment.CENTER);
 
-            information.addCell(new Cell().add("Order Number:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Order Number").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Description:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Description").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Quantity:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Quantity").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Price:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Price").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)

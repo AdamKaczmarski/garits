@@ -59,43 +59,43 @@ public class PdfFileServiceLedger {
                     .setMarginRight(-20f).setFontSize(12)
                     .setTextAlignment(TextAlignment.CENTER);
 
-            information.addCell(new Cell().add("Part Name:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Part Name").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Code:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Code").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Manufacturer:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Manufacturer").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Vehicle Type:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Vehicle Type").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Year(s):").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Year(s)").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Price:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Price").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)
             );
 
-            information.addCell(new Cell().add("Stock Level:").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("Stock Level").setBold().setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setBorderRight(Border.NO_BORDER)

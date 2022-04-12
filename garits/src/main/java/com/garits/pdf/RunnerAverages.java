@@ -1,28 +1,28 @@
 package com.garits.pdf;
 
+import com.garits.report.PdfFileServiceAverages;
+import com.garits.report.PdfFileServiceLedger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.garits.report.PdfFileServiceLedger;
-
 @Component
-public class RunnerStockLedger implements ApplicationRunner {
+public class RunnerAverages implements ApplicationRunner {
 
-    private PdfFileServiceLedger pdfFileServiceLedger;
+    private PdfFileServiceAverages pdfFileServiceAverages;
 
     @Autowired
 
-    public RunnerStockLedger(PdfFileServiceLedger pdfFileServiceLedger) {
+    public RunnerAverages(PdfFileServiceAverages pdfFileServiceAverages) {
 
-        this.pdfFileServiceLedger = pdfFileServiceLedger;
+        this.pdfFileServiceAverages = pdfFileServiceAverages;
 
     }
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        pdfFileServiceLedger.pdfCreationLedger();
+        pdfFileServiceAverages.pdfCreationAverages();
         System.out.println("Stock Ledger PDF File Created");
 
 
