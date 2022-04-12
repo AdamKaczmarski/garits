@@ -114,6 +114,7 @@ public class PdfFileServiceInvoice {
             float info = 300f;
             float columnInfo[] = {info, info};
             Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+            //Insert info here
             infoText.addCell(new Cell(0,2).add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
                     .setTextAlignment(TextAlignment.LEFT));
             infoText.addCell(new Cell(0,2).add("Make: ").setBorder(Border.NO_BORDER).setFontSize(11f)
@@ -192,28 +193,31 @@ public class PdfFileServiceInvoice {
                     .setBorder(Border.NO_BORDER)
             );
 
-            float labour = 100f;
-            float columnLabour[] = {labour + 100, labour, labour, labour};
-            Table labourTable = new Table(columnLabour).setMarginTop(30f).setMarginLeft(-40f)
-                    .setBorder(Border.NO_BORDER).setFontSize(12).setMarginLeft(10);
 
-            labourTable.addCell(new Cell().add("Labour").setBold().setMarginTop(-20f)
-                    .setFontSize(11).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER)
-
-            );
-
-            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
-                    .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
-
-            );
-
-            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
+            information.addCell(new Cell().add("\n\nLabour").setBold().setMarginTop(-20f)
                     .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
 
             );
 
-            labourTable.addCell(new Cell().add("Insert Value").setBold().setMarginTop(-20f)
-                    .setFontSize(11).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)
+            //Empty Cell for layout purposes
+            information.addCell(new Cell().add("\n\n").setBold().setMarginTop(-20f)
+                    .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+
+            );
+
+            //Insert total unit cost
+            information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+                    .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+
+            );
+            //insert total quantity
+            information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+                    .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
+
+            );
+            //insert total cost
+            information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+                    .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
 
 
             );
@@ -236,6 +240,18 @@ public class PdfFileServiceInvoice {
             );
 
 
+            float thankYou= 600f;
+            float columnText[] = {thankYou};
+            Table textTable = new Table(columnText).setMarginTop(10f);
+            textTable.addCell(new Cell().add("\nThank you for your valued custom. We look forward to receiving your payment in due course. \n\n\n ").setBorder(Border.NO_BORDER)
+                    .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
+            );
+
+            textTable.addCell(new Cell().add("Yours sincerely, \n\n" + "G. Lancaster").setBorder(Border.NO_BORDER)
+                    .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
+            );
+
+
 
             Document document=new Document(pdfdoc);
 
@@ -246,8 +262,8 @@ public class PdfFileServiceInvoice {
             document.add(invoiceText);
             document.add(infoText);
             document.add(information);
-            document.add(labourTable);
             document.add(totalTable);
+            document.add(textTable);
             document.close();
 
         } catch (FileNotFoundException e) {

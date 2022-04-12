@@ -72,6 +72,7 @@ public class PdfFileServiceJobSheet {
 
             float job = 600f;
             float jobNo[] = {job};
+            //Insert Job No here
             Table jobText = new Table(jobNo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
             jobText.addCell(new Cell().add("Job No: ").setBorderLeft(Border.NO_BORDER).setFontSize(11f)
                     .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
@@ -80,6 +81,7 @@ public class PdfFileServiceJobSheet {
 
             float info = 300f;
             float columnInfo[] = {info, info};
+            //Insert Info here
             Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
             infoText.addCell(new Cell(0,2).add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
                     .setTextAlignment(TextAlignment.LEFT));
@@ -102,10 +104,11 @@ public class PdfFileServiceJobSheet {
                     .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                     .setTextAlignment(TextAlignment.LEFT));
 
-            //Insert data here
+
 
             float eTime = 600f;
             float columnEstimatedTime[] = {eTime};
+            //Insert data here
             Table estimatedTime = new Table(columnEstimatedTime).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
             estimatedTime.addCell(new Cell().add("Estimated time: ").setBorderLeft(Border.NO_BORDER).setFontSize(11f)
                     .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setBold()
@@ -135,6 +138,7 @@ public class PdfFileServiceJobSheet {
 
             float spareParts = 150f;
             float columnSpareParts[] = {spareParts, spareParts, spareParts};
+            //Insert data here
             Table sparePart = new Table(columnSpareParts).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
             sparePart.addCell(new Cell(0,1).add("Description: ").setBorder(Border.NO_BORDER).setFontSize(11f)
                     .setTextAlignment(TextAlignment.LEFT));

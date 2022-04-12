@@ -50,7 +50,7 @@ public class PdfFileServiceMOT {
             Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
                     .setMarginRight(30f)
                     ;
-            //Insert customer's address here
+
             location.addCell(new Cell(0,1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                     .setFontSize(11));
             //Insert Customer Address
@@ -107,14 +107,14 @@ public class PdfFileServiceMOT {
 
             float text = 600f;
             float columnText[] = {text};
-            Table textTable = new Table(columnText).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-            reminderTable.addCell(new Cell().add("\nAccording to our records, the above vehicle is due to have its MoT certificate renewed on the date shown.\n" +
+            Table textTable = new Table(columnText).setMarginTop(10f);
+            textTable.addCell(new Cell().add("\nAccording to our records, the above vehicle is due to have its MoT certificate renewed on the date shown.\n" +
                             "Account Holders customers such as yourself are assured of our prompt attention, and we hope that you will use our\n" +
                             "services on this occasion in order to have the necessary test carried out on your vehicle.\n\n\n\n ").setBorder(Border.NO_BORDER)
                     .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
             );
 
-            reminderTable.addCell(new Cell().add("Yours sincerely, \n\n" + "G. Lancaster").setBorder(Border.NO_BORDER)
+            textTable.addCell(new Cell().add("Yours sincerely, \n\n" + "G. Lancaster").setBorder(Border.NO_BORDER)
                     .setFontSize(11f).setTextAlignment(TextAlignment.LEFT)
             );
 
@@ -124,6 +124,7 @@ public class PdfFileServiceMOT {
             document.add(time);
             document.add(reminderTable);
             document.add(infoText);
+            document.add(textTable);
             document.close();
 
         } catch (FileNotFoundException e) {
