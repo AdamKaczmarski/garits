@@ -24,14 +24,13 @@ const App = () => {
   const handleShow2 = () => setShow2(!show2);
   const [latePaymentCustomers, setLatePaymentCustomers] = useState([]);
   const [lowStockParts, setLowStockParts] = useState([]);
-  const authCtx = useContext(AuthContext)
+  const authCtx = useContext(AuthContext);
   const obtainLatePaymentCustomers = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/customers/late-payments",
-        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
-
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
       if (response.status === 200) setLatePaymentCustomers(response.data);
@@ -48,7 +47,7 @@ const App = () => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/parts/low-stock",
-        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
       if (response.status === 200) setLowStockParts(response.data);
@@ -62,51 +61,142 @@ const App = () => {
     }
   }, [authCtx]);
   useEffect(() => {
-    if (authCtx.authData.role!=='ROLE_MECHANIC'){
-    obtainLowStockParts();
-    obtainLatePaymentCustomers();
+    if (
+      authCtx.authData.role !== "ROLE_MECHANIC" &&
+      authCtx.authData.token !== null
+    ) {
+      obtainLowStockParts();
+      obtainLatePaymentCustomers();
     }
   }, [obtainLatePaymentCustomers, obtainLowStockParts, authCtx]);
   let routes;
-  if (authCtx.authData.role==='ROLE_ADMIN'){
-
+  if (authCtx.authData.role === "ROLE_MECHANIC") {
+    routes = (
+      <Routes>
+        <Route exact path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="inventory" element={<Inventory />} />
+        <Route path="jobs" element={<Jobs />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
+        />
+      </Routes>
+    );
+  } else if (
+    authCtx.authData.role === "ROLE_RECEPTIONIST" ||
+    authCtx.authData.role === "ROLE_FOREPERSON"
+  ) {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="inventory" element={<Inventory />} />
+        <Route path="jobs" element={<Jobs />} />
+        <Route path="payments" element={<Payments />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
+        />
+      </Routes>
+    );
+  } else if (authCtx.authData.role === "ROLE_FRANCHISEE") {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="inventory" element={<Inventory />} />
+        <Route path="payments" element={<Payments />} />
+        <Route path="jobs" element={<Jobs />} />
+        <Route path="users" element={<Users />} />
+        <Route path="customers" element={<Customers />} />
+        <Route path="services" element={<Services />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
+        />
+      </Routes>
+    );
+  } else if (authCtx.authData.role === "ROLE_ADMIN") {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="users" element={<Users />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
+        />
+      </Routes>
+    );
+  } else {
+    routes = (
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
+        />
+      </Routes>
+    );
   }
   return (
     <Container
       className="d-flex min-vh-100 flex-column"
       style={{ maxWidth: "90%" }}
     >
-        <NavigationBar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="login" element={<Login />} />
-          <Route path="inventory" element={<Inventory />} />
-          <Route path="payments" element={<Payments />} />
-          <Route path="jobs" element={<Jobs />} />
-          <Route path="users" element={<Users />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="services" element={<Services />} />
-          <Route
-            path="*"
-            element={
-              <main>
-                <p>Nothing here</p>
-              </main>
-            }
-          />
-        </Routes>
-        <Footer />
-        <NotificationModalPayments
-          show={show}
-          onClose={handleShow}
-          latePaymentCustomers={latePaymentCustomers}
+      <NavigationBar />
+      {/*  <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="inventory" element={<Inventory />} />
+        <Route path="payments" element={<Payments />} />
+        <Route path="jobs" element={<Jobs />} />
+        <Route path="users" element={<Users />} />
+        <Route path="customers" element={<Customers />} />
+        <Route path="services" element={<Services />} />
+        <Route
+          path="*"
+          element={
+            <main>
+              <p>Nothing here</p>
+            </main>
+          }
         />
-        <NotificationModalStock
-          show={show2}
-          onClose={handleShow2}
-          lowStockParts={lowStockParts}
-        />{" "}
-      
+      </Routes> */}
+      {routes}
+      <Footer />
+      <NotificationModalPayments
+        show={show}
+        onClose={handleShow}
+        latePaymentCustomers={latePaymentCustomers}
+      />
+      <NotificationModalStock
+        show={show2}
+        onClose={handleShow2}
+        lowStockParts={lowStockParts}
+      />{" "}
     </Container>
   );
 };

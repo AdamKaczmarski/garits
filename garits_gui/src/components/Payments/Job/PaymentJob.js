@@ -36,7 +36,20 @@ const PaymentJob = (props) => {
       props.paymentJob.cashOrCard.charAt(0).toUpperCase() +
       props.paymentJob.cashOrCard.slice(1).toLowerCase();
   }
-  const completePayment = async () => {
+/*   const deletePayment = async () => {
+    try {
+      await axios({
+        method: "DELETE",
+        url: `http://localhost:8080/payments-jobs/${props.paymentJob.idPayment}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      props.obtainPaymentsJobs();
+    }
+  };
+ */  const completePayment = async () => {
     try {
       await axios({
         method: "PATCH",
@@ -75,14 +88,14 @@ const PaymentJob = (props) => {
                   Set payment as done
                 </Dropdown.Item>
               )}
-              {authCtx.authData.role === "ROLE_FRANCHISEE" ? (
+              {/* {authCtx.authData.role === "ROLE_FRANCHISEE" ? (
                 <Dropdown.Item
                   style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                  href="#/action-3"
+                  onClick={deletePayment}
                 >
                   Delete
                 </Dropdown.Item>
-              ) : null}
+              ) : null} */}
             </Dropdown.Menu>
           </Dropdown>
         </td>

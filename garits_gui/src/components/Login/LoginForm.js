@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "../../store/auth-context";
 const LoginForm = () => {
   const authCtx = useContext(AuthContext);
@@ -32,7 +32,7 @@ const LoginForm = () => {
     } finally {
       if (role === "ROLE_ADMIN") navigate("/users", { replace: true });
       else if (role === "ROLE_MECHANIC") navigate("/jobs", { replace: true });
-      else if (role === "ROLE_FRANCHISEE") navigate("/users", { replace: true });
+      else if (role === "ROLE_FRANCHISEE") navigate("/jobs", { replace: true });
       else if (role === "ROLE_FOREPERSON") navigate("/jobs", { replace: true });
       else if (role === "ROLE_RECEPTIONIST") navigate("/jobs", { replace: true });
       else {
@@ -40,6 +40,11 @@ const LoginForm = () => {
       }
     }
   };
+  useEffect(()=>{
+    if (authCtx.authData.token!==null){
+      authCtx.onLogout();
+    }
+  },[authCtx])
   const emailHandler = (ev) => {
     loginData.email = ev.target.value;
   };

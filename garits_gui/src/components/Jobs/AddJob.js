@@ -116,7 +116,7 @@ const AddJob = (props) => {
         const response = await axios({
           method: "GET",
           url: `http://localhost:8080/services/${tmp}/price`,
-          
+          headers:{'Authorization': `Bearer ${authCtx.authData.token}`}          
         });
         sum+=parseFloat(response.data);
         console.log(sum)

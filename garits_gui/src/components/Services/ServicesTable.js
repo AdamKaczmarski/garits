@@ -39,7 +39,7 @@ const ServicesTable = () => {
   }, [obtainServices]);
   const addService = async () => {
     try {
-      const response = axios({
+      const response = await axios({
         method: "POST",
         url: "http://localhost:8080/services",
         data: newService,

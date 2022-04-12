@@ -3,7 +3,9 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import PartModal from "./PartModal";
 import styles from "./NotificationModalStock.module.css";
+import { useNavigate } from "react-router-dom";
 const NotificationModalStock = (props) => {
+  const navigate = useNavigate();
   const parts = props.lowStockParts.map((part) => (
     <PartModal key={part.idPart} part={part} />
   ));
@@ -40,10 +42,10 @@ const NotificationModalStock = (props) => {
           Close
         </Button>
         <Button variant="secondary" onClick={props.onClose}>
-          Acknowledge
+          Okay
         </Button>
-        <Button variant="primary" onClick={props.onClose}>
-          Create order
+        <Button variant="primary" onClick={()=>{navigate("/inventory");props.onClose();}}>
+          Go to orders
         </Button>
       </Modal.Footer>
     </Modal>

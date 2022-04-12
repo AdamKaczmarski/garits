@@ -233,7 +233,7 @@ const Job = (props) => {
             <Dropdown.Menu>
               {props.jobType === "active" &&
               (authCtx.authData.role === "ROLE_FOREPERSON" ||
-                authCtx.authData.role === "ROLE_MECHANIC") ? (
+                authCtx.authData.role === "ROLE_MECHANIC"|| authCtx.authData.role === "ROLE_FRANCHISEE") ? (
                 <>
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
@@ -247,7 +247,7 @@ const Job = (props) => {
               {props.jobType === "booked" ? (
                 <>
                   {authCtx.authData.role === "ROLE_FOREPERSON" ||
-                  authCtx.authData.role === "ROLE_MECHANIC" ? (
+                  authCtx.authData.role === "ROLE_MECHANIC" || authCtx.authData.role === "ROLE_FRANCHISEE" ? (
                     <Dropdown.Item onClick={() => formHandler(1)}>
                       Assign mechanic
                     </Dropdown.Item>
@@ -257,7 +257,7 @@ const Job = (props) => {
                   </Dropdown.Item>
                 </>
               ) : null}
-              {authCtx.authData.role === "ROLE_FOREPERSON" ? (
+              {authCtx.authData.role === "ROLE_FOREPERSON" || authCtx.authData.role === "ROLE_FRANCHISEE" ? (
                 <Dropdown.Item
                   style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                   onClick={() => props.deleteJob(props.job.idJob)}

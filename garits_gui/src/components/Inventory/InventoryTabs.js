@@ -9,7 +9,7 @@ const InventoryTabs = () => {
   const authCtx = useContext(AuthContext);
   if (
     authCtx.authData.role === "ROLE_FOREPERSON" ||
-    authCtx.authData.role === "ROLE_RECEPTIONIST"
+    authCtx.authData.role === "ROLE_RECEPTIONIST"|| authCtx.authData.role === "ROLE_FRANCHISEE"
   ) {
     return (
       <Tabs defaultActiveKey="inventory" fill mountOnEnter={true}>
