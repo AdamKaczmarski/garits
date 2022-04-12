@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceMOT {
 
     public static void pdfCreationMOT() {
-        String filepathMOT = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsMOT.pdf";
+        String filepathMOT = "./pdf_reports/mot_reminder.pdf";
 
         try {
             //Creating the page

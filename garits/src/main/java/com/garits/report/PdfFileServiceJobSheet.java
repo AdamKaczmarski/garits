@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceJobSheet {
 
     public static void pdfCreationJobSheet() {
-        String filepathJobSheet = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsJobSheet.pdf";
+        String filepathJobSheet = "./pdf_reports/job_sheet.pdf";
 
         try {
             //Creating the page
