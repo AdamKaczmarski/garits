@@ -21,6 +21,7 @@ const LoginForm = () => {
         method: "POST",
         url: "http://localhost:8080/auth/login",
         data: loginData,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       if (response.status === 200) {
         role = response.data.roles[0];
@@ -33,7 +34,7 @@ const LoginForm = () => {
       else if (role === "ROLE_MECHANIC") navigate("/users", { replace: true });
       else if (role === "ROLE_FRANCHISEE") navigate("/users", { replace: true });
       else if (role === "ROLE_FOREPERSON") navigate("/users", { replace: true });
-      else if (role === "ROLE_RECEPTIONIST") navigate("/users", { replace: true });
+      else if (role === "ROLE_RECEPTIONIST") navigate("/jobs", { replace: true });
       else {
         navigate("/login", { replace: true });
       }
@@ -52,10 +53,10 @@ const LoginForm = () => {
       </Card.Body>
       <Form className="mx-3 mb-3">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Login</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="Enter email"
+            type="text"
+            placeholder="Enter login"
             onChange={emailHandler}
           />
         </Form.Group>

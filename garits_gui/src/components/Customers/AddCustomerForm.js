@@ -1,6 +1,8 @@
 import Form from "react-bootstrap/Form";
-
+import {useContext} from "react";
+import AuthContext from "../../store/auth-context";
 const AddUserForm = (props) => {
+  const authCtx = useContext(AuthContext);
   const emailHandler = (ev) => {
     const newCustomer = props.customer;
     newCustomer.email = ev.target.value;
@@ -62,7 +64,7 @@ const AddUserForm = (props) => {
         <Form.Label>FAX</Form.Label>
         <Form.Control onChange={faxHandler} />
       </Form.Group>
-      <Form.Group controlId="fixed_discount">
+      {authCtx.authData.role!=='ROLE_RECEPTIONIST'?<Form.Group controlId="fixed_discount">
         <Form.Label>Fixed Discount</Form.Label>
         <Form.Control
           type="number"
@@ -70,7 +72,7 @@ const AddUserForm = (props) => {
           max={100}
           onChange={fixedDiscountHandler}
         />
-      </Form.Group>
+      </Form.Group>:null}
     </Form>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -6,12 +6,14 @@ import Spinner from "react-bootstrap/Spinner";
 import Job from "../Job";
 import AddJob from "../AddJob";
 import CustomModal from "../../CommonComponents/CustomModal";
+import AuthContext from "../../../store/auth-context";
 
 const JobsTableBooked = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
+  const authCtx = useContext(AuthContext)
   let selectedServices = [];
   let newJob = {
     vehicle: { idVehicle: 0 },
@@ -24,6 +26,8 @@ const JobsTableBooked = () => {
       const response = await axios({
         method: "POST",
         url: "http://localhost:8080/jobs",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`},
+
         data: newJob,
       });
       console.log(response);
@@ -40,6 +44,8 @@ const JobsTableBooked = () => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/jobs-booked",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       if (response.status === 200) setJobs(response.data);
@@ -54,6 +60,8 @@ const JobsTableBooked = () => {
       const response = await axios({
         method: "DELETE",
         url: `http://localhost:8080/jobs/${idJob}`,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {

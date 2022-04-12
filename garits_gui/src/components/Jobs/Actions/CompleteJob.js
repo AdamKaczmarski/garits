@@ -1,19 +1,21 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import SelectItem from "../../Inventory/Orders/SelectItem";
+import AuthContext from "../../../store/auth-context";
 const CompleteJob = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
   let itemNames = useRef([]);
-  console.log(props)
+  const authCtx = useContext(AuthContext);
   const obtainItems = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/partNames",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       console.log(response);
       if (response.status === 200) {

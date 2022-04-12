@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import InventoryModal from "../InventoryModal";
 import Part from "./Part";
 import AddToInventoryForm from "../AddToInventoryForm";
-import { Spinner } from "react-bootstrap";
-
+import  Spinner  from "react-bootstrap/Spinner";
+import AuthContext from '../../../store/auth-context';
 const PartsTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [parts, setParts] = useState([]);
+  const authCtx = useContext(AuthContext);
   let newPart = {
     partName: "",
     partType: "",
@@ -29,6 +30,7 @@ const PartsTable = () => {
       const response = await axios({
         method: "DELETE",
         url: "http://localhost:8080/parts/" + idPart,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -44,6 +46,7 @@ const PartsTable = () => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/parts",
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       setParts(response.data);
     } catch (err) {
@@ -58,6 +61,7 @@ const PartsTable = () => {
         method: "POST",
         url: "http://localhost:8080/parts/",
         data: newPart,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {

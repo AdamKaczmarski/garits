@@ -1,8 +1,8 @@
+import { useEffect, useState, useCallback, useContext } from "react";
 //import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 
-import Home from "./pages/Home";
 import Inventory from "./pages/Inventory";
 import Jobs from "./pages/Jobs";
 import Login from "./pages/Login";
@@ -13,10 +13,10 @@ import Payments from "./pages/Payments";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
-import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import NotificationModalPayments from "./components/Notifications/NotificationModalPayments";
 import NotificationModalStock from "./components/Notifications/NotificationModalStock";
+import AuthContext from "./store/auth-context";
 const App = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
@@ -24,11 +24,14 @@ const App = () => {
   const handleShow2 = () => setShow2(!show2);
   const [latePaymentCustomers, setLatePaymentCustomers] = useState([]);
   const [lowStockParts, setLowStockParts] = useState([]);
+  const authCtx = useContext(AuthContext)
   const obtainLatePaymentCustomers = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/customers/late-payments",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       if (response.status === 200) setLatePaymentCustomers(response.data);
@@ -39,12 +42,13 @@ const App = () => {
         setShow(true);
       }
     }
-  }, []);
+  }, [authCtx]);
   const obtainLowStockParts = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/parts/low-stock",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       console.log(response);
       if (response.status === 200) setLowStockParts(response.data);
@@ -56,11 +60,17 @@ const App = () => {
         setShow2(true);
       }
     }
-  }, []);
+  }, [authCtx]);
   useEffect(() => {
+    if (authCtx.authData.role==='ROLE_FRANCHISEE'){
     obtainLowStockParts();
     obtainLatePaymentCustomers();
-  }, [obtainLatePaymentCustomers, obtainLowStockParts]);
+    }
+  }, [obtainLatePaymentCustomers, obtainLowStockParts, authCtx]);
+  let routes;
+  if (authCtx.authData.role==='ROLE_ADMIN'){
+
+  }
   return (
     <Container
       className="d-flex min-vh-100 flex-column"
@@ -68,7 +78,7 @@ const App = () => {
     >
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<Jobs />} />
+          <Route path="/" element={<Login />} />
           <Route path="login" element={<Login />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="payments" element={<Payments />} />

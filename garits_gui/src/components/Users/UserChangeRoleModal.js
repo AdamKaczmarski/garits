@@ -1,10 +1,12 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 import axios from 'axios';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import UserChangeRoleForm from "./UserChangeRoleForm";
+import AuthContext from '../../store/auth-context';
 const UserChangeRoleModal = (props) => {
   const [roleName,setRoleName] = useState(props.roleFrom);
+  const authCtx = useContext(AuthContext);
   const changeRole = ()=>{
     try {
       axios({
@@ -12,7 +14,8 @@ const UserChangeRoleModal = (props) => {
         url:"http://localhost:8080/users/"+props.idUser+"/role",
         data: {
           roleName
-        }
+        },
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
     } catch (err) {
       console.log(err)

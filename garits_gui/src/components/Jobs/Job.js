@@ -1,5 +1,5 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import CustomModal from "../CommonComponents/CustomModal";
 import JobDetails from "./JobDetails";
@@ -7,6 +7,7 @@ import UserAssignment from "./Actions/UserAssignment";
 import CompleteJob from "./Actions/CompleteJob";
 import EditDescriptionRequired from "./Actions/EditDescriptionRequired";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
 const Job = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
@@ -14,6 +15,7 @@ const Job = (props) => {
   const handleShowDetails = () => setShowDetails(!showDetails);
   const [form, setForm] = useState();
   const submitAction = useRef();
+  const authCtx = useContext(AuthContext);
   let bookingDate;
   if (props.job.bookingDate)
     bookingDate = new Date(props.job.bookingDate)
@@ -40,7 +42,7 @@ const Job = (props) => {
           bay: "",
           status: "active",
         };
-        console.log(props.job.status)
+        console.log(props.job.status);
         //console.log(props.job.status === "active" ? "active" : "booked")
         submitAction.current = async () => {
           console.log(formData);
@@ -55,6 +57,7 @@ const Job = (props) => {
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
             });
             console.log(response);
           } catch (err) {
@@ -104,12 +107,16 @@ const Job = (props) => {
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
             });
             editedJob.parts.forEach(async (p) => {
               try {
                 await axios({
                   method: "PATCH",
                   url: `http://localhost:8080/jobs/${props.job.idJob}/${p.idPart}/${p.quantityUsed}`,
+                  headers: {
+                    Authorization: `Bearer ${authCtx.authData.token}`,
+                  },
                 });
               } catch (err) {
                 console.log(err);
@@ -143,6 +150,7 @@ const Job = (props) => {
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
             });
             console.log(response);
           } catch (err) {
@@ -223,7 +231,8 @@ const Job = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {props.jobType === "active" ? (
+              {props.jobType === "active" &&
+              authCtx.authData.role === "ROLE_FOREPERSON" ? (
                 <>
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
@@ -236,20 +245,24 @@ const Job = (props) => {
               ) : null}
               {props.jobType === "booked" ? (
                 <>
-                  <Dropdown.Item onClick={() => formHandler(1)}>
-                    Assign mechanic
-                  </Dropdown.Item>
+                  {authCtx.authData.role === "ROLE_FOREPERSON" ? (
+                    <Dropdown.Item onClick={() => formHandler(1)}>
+                      Assign mechanic
+                    </Dropdown.Item>
+                  ) : null}
                   <Dropdown.Item onClick={() => formHandler(3)}>
                     Change description
                   </Dropdown.Item>
                 </>
               ) : null}
-              <Dropdown.Item
-                style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                onClick={() => props.deleteJob(props.job.idJob)}
-              >
-                Delete
-              </Dropdown.Item>
+              {authCtx.authData.role === "ROLE_FOREPERSON" ? (
+                <Dropdown.Item
+                  style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+                  onClick={() => props.deleteJob(props.job.idJob)}
+                >
+                  Delete
+                </Dropdown.Item>
+              ) : null}
             </Dropdown.Menu>
           </Dropdown>
         </td>

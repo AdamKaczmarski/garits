@@ -12,6 +12,7 @@ import com.garits.service.Service;
 import com.garits.service.ServiceRepository;
 import com.garits.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -33,6 +34,7 @@ public class JobController {
     //GET MAPPINGS
     //Those 3 methods should return only data neeeded for the frontend without any details.
     @GetMapping("/jobs-active")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Job> getAllActiveJobs() {
         Iterable<Job> result = jobRepository.findAllActive();
         for (Job j : result) {
@@ -47,6 +49,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs-completed")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Job> getAllCompletedJobs() {
         Iterable<Job> result = jobRepository.findAllCompleted();
         for (Job j : result) {
@@ -61,6 +64,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs-booked")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Job> getAllBookedJobs() {
         Iterable<Job> result = jobRepository.findAllBooked();
         for (Job j : result) {
@@ -72,6 +76,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs/{idJob}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Job getOneJob(@PathVariable Integer idJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
@@ -93,6 +98,7 @@ public class JobController {
 
     //POST MAPPINGS
     @PostMapping("/jobs")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Job addJob(@RequestBody Job newJob) {
         newJob.setCreateDate(new Timestamp(System.currentTimeMillis()));
         Job j = jobRepository.save(newJob);
@@ -138,6 +144,7 @@ public class JobController {
 
     //PUT MAPPINGS
     @PatchMapping("/jobs/{idJob}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Job editJob(@PathVariable Integer idJob, @RequestBody Job editedJob) {
         Job j = jobRepository.findById(idJob).orElseThrow(() -> new NotFound("Could not find job: " + idJob));
         if (editedJob.getStatus() != null) j.setStatus(editedJob.getStatus());
@@ -158,12 +165,14 @@ public class JobController {
         return jobRepository.save(j);
     }
     @PatchMapping("/jobs/{idJob}/{idPart}/{quantity}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     void addQuantity(@PathVariable Integer idJob, @PathVariable Integer idPart, @PathVariable Integer quantity) {
         jobRepository.setQuantityOfPart(idPart, idJob, quantity);
         jobRepository.updateStockLevel(idPart,quantity);
     }
     //DELETE MAPPINGS
     @DeleteMapping("/jobs/{idJob}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     void deleteJob(@PathVariable Integer idJob) {
         jobRepository.deleteById(idJob);
     }

@@ -8,6 +8,7 @@ import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +26,12 @@ public class CustomerController {
      * @return
      */
     @GetMapping("/customers")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
     @GetMapping("/customers/short")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Customer> getShortInfoCustomers() {
         Iterable<Customer> customers = customerRepository.findAll();
         Set<Customer> result = new HashSet<>();
@@ -38,11 +41,13 @@ public class CustomerController {
         return result;
     }
     @GetMapping("/customers/{idCustomer}")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Customer getOneCustomer(@PathVariable Integer idCustomer) {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
     }
 
     @GetMapping("/customers/{idCustomer}/varDiscounts")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<VariableDiscount> getVariableDiscounts(@PathVariable Integer idCustomer) {
         return null;
     }
@@ -54,7 +59,9 @@ public class CustomerController {
         }
         return result;
     }
+
     @PostMapping("/customers")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Customer addCustomer(@RequestBody Customer newCustomer) {
         return customerRepository.save(newCustomer);
     }

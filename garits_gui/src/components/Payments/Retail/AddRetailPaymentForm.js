@@ -1,21 +1,23 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import { Spinner } from "react-bootstrap";
 import SelectItem from '../../Inventory/Orders/SelectItem';
 import Button from 'react-bootstrap/Button';
+import AuthContext from "../../../store/auth-context";
 const AddRetailPaymentForm = (props) => {
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   let itemNames = useRef([]);
   let itemsTmp = useRef();
-
+const authCtx = useContext(AuthContext)
   const obtainItemNames = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/partNames",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       console.log(response);
       if (response.status === 200) {

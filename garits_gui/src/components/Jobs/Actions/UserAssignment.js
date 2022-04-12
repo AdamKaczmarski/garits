@@ -1,16 +1,18 @@
 import Form from "react-bootstrap/Form";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import AuthContext from "../../../store/auth-context";
 const UserAssignment = (props) => {
   const [mechanics, setMechanics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(props);
+  const authCtx = useContext(AuthContext);
   const obtainMechanics = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/users/mechanics",
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       setMechanics(response.data);
     } catch (err) {
@@ -33,20 +35,19 @@ const UserAssignment = (props) => {
               {mechanic.firstName + " " + mechanic.lastName}
             </option>
           );
-      } else {
-        return (
-          <option key={mechanic.idUser} value={mechanic.idUser}>
-            {mechanic.firstName + " " + mechanic.lastName}
-          </option>
-        );
       }
+      return (
+        <option key={mechanic.idUser} value={mechanic.idUser}>
+          {mechanic.firstName + " " + mechanic.lastName}
+        </option>
+      );
     });
     props.formData.user[0].idUser = mechanics[0].idUser;
 
     if (props.user) {
-      console.log("HERE")
+      console.log("HERE");
       props.formData.user[0].idUser = props.user[0].idUser;
-      console.log(props.formData)
+      console.log(props.formData);
       mechanicsView.unshift(
         <option key={props.user[0].idUser} value={props.user[0].idUser}>
           {props.user[0].firstName + " " + props.user[0].lastName}

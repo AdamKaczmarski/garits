@@ -4,6 +4,7 @@ import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -28,7 +29,9 @@ public class ServiceController {
     Iterable<Service> getAllServices() {
         return serviceRepository.findAll();
     }
+
     @GetMapping("/services/short")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     Iterable<Service> getShortInfoServices() {
         Iterable<Service> result = serviceRepository.findAll();
         Set<Service> services = new HashSet<>();
@@ -49,6 +52,7 @@ public class ServiceController {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
     @GetMapping("/services/{id}/price")
+    @PreAuthorize("hasRole('RECEPTIONIST')")
     double getPrice(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
     }

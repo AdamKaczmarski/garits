@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import AddService from "./AddService";
 import BoldSpan from "../CommonComponents/BoldSpan";
+import AuthContext from "../../store/auth-context";
 const AddJob = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [customers, setCustomers] = useState([]);
@@ -14,13 +15,14 @@ const AddJob = (props) => {
   //const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [total, setTotal] = useState(0.0);
   const servicesIDs = useRef([]);
-
+  const authCtx = useContext(AuthContext);
   const obtainVehicles = useCallback(
     async (id) => {
       try {
         const response = await axios({
           method: "GET",
           url: `http://localhost:8080/vehicles/${id}/short`,
+          headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
         });
         console.log(response);
         setVehicles(response.data);
@@ -36,6 +38,8 @@ const AddJob = (props) => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/customers/short",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setCustomers(response.data);
@@ -50,6 +54,8 @@ const AddJob = (props) => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/services/short",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setServices(response.data);

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import UserChangeRoleModal from "./UserChangeRoleModal";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
 const User = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
+  const authCtx = useContext(AuthContext);
   let role = props.user.roles[0].roleName.substring(5, props.user.roles[0].length);
   role =
     role.charAt(0).toUpperCase() +
@@ -15,6 +17,8 @@ const User = (props) => {
       const response = axios({
         method: "DELETE",
         url: "http://localhost:8080/users/" + props.user.idUser,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {
@@ -57,7 +61,7 @@ const User = (props) => {
       <UserChangeRoleModal
         show={show}
         onClose={handleShow}
-        roleFrom={props.user.roles[0].roleName}
+        roleFrom={role}
         idUser={props.user.idUser}
       />
     </>

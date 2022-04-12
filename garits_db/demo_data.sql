@@ -1,12 +1,12 @@
 INSERT INTO Users (email,password,first_name,last_name) VALUE
-( "PenelopeCarr@gmail.com", "$2a$12$2EIG52Uv.3LfQs3HVq0bKO3b1qHrXJ8Wik60Z3aj3sTnkiR6aWA4y", "Penelope", "Carr"),
-( "SunnyEvans@gmail.com", "$2a$12$UXEQtBGGH4IvP1g.LFMzlOG.sJIC2qV3.X9.77al7H4IgL7xgpSVe",  "Sunny", "Evans"),
-( "GlynneLancaster@gmail.com", "$2a$12$3QclwhUhO9mmBQ/EpcJj..a0i2FSvUWVU.eOG7g1.OuDTm8QOU7n6",  "Glynne", "Lancaster"),
-( "AdministratorRole@gmail.com", "$2a$12$z7pP8c5N74qjF0XJKdSxn.XF81dCIdVoj8b8gXpYshchhwwu5tIr6",  "Admin", "Role"),
-( "GavinRoss@gmail.com", "$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO",  "Gavin", "Ross"),
-( "AnthonyWild@gmail.com", "$2a$12$J3o7jF0Zdd7czHPyPA.wSO/H3PJ/s1Yi7yRoVLb4WvjTHPfqg7C1G",  "Anthony", "Wild"
+( "Penelope", "$2a$12$Hp.RX7Yi2iIoO2NR.9mjTOuHCSbgIc9GISZUcqcu4Ln6KvFXVFjUS", "Penelope", "Carr"),
+( "Sunny", "$2a$12$UXEQtBGGH4IvP1g.LFMzlOG.sJIC2qV3.X9.77al7H4IgL7xgpSVe",  "Sunny", "Evans"),
+( "Glynne", "$2a$12$3QclwhUhO9mmBQ/EpcJj..a0i2FSvUWVU.eOG7g1.OuDTm8QOU7n6",  "Glynne", "Lancaster"),
+( "SYSDBA", "$2a$12$z7pP8c5N74qjF0XJKdSxn.XF81dCIdVoj8b8gXpYshchhwwu5tIr6",  "Admin", "Role"),
+( "Gavin", "$2a$12$4ZHJdwfLewmQQkdJ14VTAu5oywiPx/SzcEqMqrMGd0Pontxwz3mrO",  "Gavin", "Ross"),
+( "Anthony", "$2a$12$J3o7jF0Zdd7czHPyPA.wSO/H3PJ/s1Yi7yRoVLb4WvjTHPfqg7C1G",  "Anthony", "Wild"
 );
-
+UPDATE users set email=LOWER(email);
 
 INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fixed_discount) VALUE
 ( "Jack Varta", "Bucks", "Transco Gas Supplies, Methane Buildings, Sulphur Lane, Stenchville", "HP19 2MT",  "01494683725", "JackVarta@gmail.com", NULL, NULL),
@@ -40,7 +40,7 @@ INSERT INTO Parts (part_name,part_type,code,manufacturer,vehicle_type,year_s,pri
 ( "Air Filter", "Air Filter", 485424, "Fjord", "All", "2020", 15.00, 15, 10);
 
 INSERT INTO Jobs (vehicle_id,status,description_done,description_required,est_time_min,act_time_min,create_date,booking_date,fix_date,bay) VALUE 
-( 7, "Complete", " replacement of the exhaust system, 2 new engine mounts, 4 new sparkplugs, new set of spark plug leads, new distributor cap", "Annual MoT", 120, 120, "2021-11-5", "2021-11-5",  "2021-11-5", "Repair");
+( 7, "completed", " replacement of the exhaust system, 2 new engine mounts, 4 new sparkplugs, new set of spark plug leads, new distributor cap", "Annual MoT", 120, 120, "2021-11-5", "2021-11-5",  "2021-11-5", "repair");
 
 INSERT INTO Services (service_name,service_price,approx_time_min,short_description) VALUE
 ( "MoT", 50.00, 120, "Annual MoT");
@@ -99,5 +99,6 @@ INSERT INTO Parts_Orders(part_id,order_id,quantity_ordered) VALUE
 
 INSERT INTO Jobs_Payments(job_id,payment_id) VALUE
 (1,1);
+
 
 

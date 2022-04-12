@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -6,12 +6,13 @@ import Spinner from "react-bootstrap/Spinner";
 import JobCompleted from "./JobCompleted";
 import AddJob from "../AddJob";
 import CustomModal from "../../CommonComponents/CustomModal";
-
+import AuthContext from "../../../store/auth-context";
 const JobsTableCompleted = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
+  const authCtx = useContext(AuthContext);
   let selectedServices = [];
   let newJob = {
     vehicle: { idVehicle: 0 },
@@ -25,9 +26,11 @@ const JobsTableCompleted = (props) => {
       const response = await axios({
         method: "POST",
         url: "http://localhost:8080/jobs",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`},
+
         data: newJob,
       });
-      console.log(response);
+      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -38,8 +41,10 @@ const JobsTableCompleted = (props) => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/jobs-completed",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
-      console.log(response);
+      console.log(response.data);
       if (response.status === 200) setJobs(response.data);
     } catch (err) {
       console.log(err);
@@ -52,6 +57,7 @@ const JobsTableCompleted = (props) => {
       const response = await axios({
         method: "DELETE",
         url: `http://localhost:8080/jobs/${idJob}`,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       console.log(response);
     } catch (err) {

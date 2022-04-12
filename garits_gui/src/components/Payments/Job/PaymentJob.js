@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import PaymentModal from "../PaymentModal";
 import SetPayDate from "./SetPayDate";
 import axios from "axios";
+import AuthContext from "../../../store/auth-context";
 const PaymentJob = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
+  const authCtx = useContext(AuthContext);
   let isLate = false;
   let paymentDate, paymentDue;
   let finishPayment= {
@@ -37,7 +39,9 @@ const PaymentJob = (props) => {
       await axios({
         method:"PATCH",
         url:`http://localhost:8080/payments-jobs/${props.paymentJob.idPayment}/complete`,
-        data:finishPayment
+        data:finishPayment,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       })
     } catch(err){
       console.log(err);

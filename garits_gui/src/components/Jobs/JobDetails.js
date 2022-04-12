@@ -1,17 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
 import ListGroup from "react-bootstrap/ListGroup";
 import Accordion from "react-bootstrap/Accordion";
 import BoldSpan from "../CommonComponents/BoldSpan";
+import AuthContext from "../../store/auth-context";
 const JobDetails = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [job, setJob] = useState({});
+  const authCtx = useContext(AuthContext)
   const obtainJobDetails = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: `http://localhost:8080/jobs/${props.idJob}`,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setJob(response.data);

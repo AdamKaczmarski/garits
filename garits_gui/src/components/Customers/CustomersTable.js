@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -6,11 +6,13 @@ import Customer from "./Customer";
 //import { CUSTOMERS } from "../../dummy-data/customers";
 import AddCustomerModal from "./AddCustomerModal";
 import Spinner from "react-bootstrap/Spinner";
-
+import AuthContext from "../../store/auth-context";
 const CustomersTable = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const handleShowAdd = () => setShowAdd(!showAdd);
   const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading]=useState(true);
+  const authCtx = useContext(AuthContext);
   /*   const customers = CUSTOMERS.map((customer) => (
     <Customer key={customer.id} customer={customer} />
   )); */
@@ -24,10 +26,14 @@ const CustomersTable = (props) => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/customers",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       setCustomers(response.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false)
     }
   };
   if (customers && customers.length > 0) {
@@ -35,10 +41,12 @@ const CustomersTable = (props) => {
       <Customer key={customer.idCustomer} customer={customer} />
     ));
   }
-
+if (isLoading){
+  return  <Spinner animation="border" variant="primary" />
+}
   return (
     <>
-      <Suspense fallback={<Spinner animation="border" variant="primary" />}>
+     
         <Table striped hover className="mt-3">
           <thead>
             <tr>
@@ -58,8 +66,8 @@ const CustomersTable = (props) => {
           </thead>
           <tbody>{customersView}</tbody>
         </Table>
-        <AddCustomerModal show={showAdd} onClose={handleShowAdd} />
-      </Suspense>
+        <AddCustomerModal show={showAdd} obtainCustomers={obtainCustomers} onClose={handleShowAdd} />
+      
     </>
   );
 };

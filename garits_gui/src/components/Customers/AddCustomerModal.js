@@ -1,23 +1,27 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import AddCustomerForm from "./AddCustomerForm";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import CustomerClass from '../../models/Customer';
+import AuthContext from "../../store/auth-context";
 const AddCustomerModal = (props) => {
   const [customer, setCustomer] = useState(new CustomerClass())
-  const addCustomer = ()=>{
+  const authCtx = useContext(AuthContext);
+  const addCustomer = async()=>{
     try {
-      const response = axios({
+      const response = await axios({
         method:"POST",
         url:"http://localhost:8080/customers",
-        data: customer
+        data: customer,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {
       console.log(err)
     } finally {
-      window.location.reload();
+      props.obtainCustomers();
     }
   }
   return (

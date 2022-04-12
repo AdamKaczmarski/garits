@@ -1,11 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
 import PaymentJob from "./PaymentJob";
 import axios from "axios";
-//import { PAYMENTS_JOBS } from "../../dummy-data/payments";
-import PaymentModal from "../PaymentModal";
-import AddJobPaymentForm from './AddJobPaymentForm';
+import AuthContext from "../../../store/auth-context";
 import  Spinner  from "react-bootstrap/Spinner";
 
 const PaymentsTable = () => {
@@ -13,11 +10,14 @@ const PaymentsTable = () => {
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [paymentsJob, setPaymentsJobs] = useState([]);
+  const authCtx = useContext(AuthContext);
   const obtainPaymentsJobs = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/payments-jobs",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       if (response.status === 200) setPaymentsJobs(response.data);
@@ -32,6 +32,8 @@ const PaymentsTable = () => {
       const response = await axios({
         method: "DELETE",
         url: `http://localhost:8080/payments-jobs/${idPayment}`,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (e) {
