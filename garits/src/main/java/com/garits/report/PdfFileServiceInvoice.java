@@ -28,7 +28,9 @@ public class PdfFileServiceInvoice {
 
     public static void pdfCreation()
     {
-        String filepath="./pdf_reports/invoice.pdf";
+
+        String filepath="./pdf_reports/Invoice.pdf";
+
 
         try {
             //Creating the page

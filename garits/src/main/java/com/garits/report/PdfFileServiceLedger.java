@@ -19,7 +19,9 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceLedger {
 
     public static void pdfCreationLedger() {
-        String filepathStock = "./pdf_reports/stock_ledger.pdf";
+
+        String filepathStock = "./pdf_reports/Service_Ledger.pdf";
+
 
         try {
             //Creating the page
@@ -135,6 +137,7 @@ public class PdfFileServiceLedger {
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
+
 
 
             Document document=new Document(pdfStock);

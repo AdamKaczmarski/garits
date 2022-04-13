@@ -25,7 +25,10 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceMOT {
 
     public static void pdfCreationMOT() {
-        String filepathMOT = "./pdf_reports/mot_reminder.pdf";
+
+        String filepathMOT = "./pdf_reports/MoT_Reminder.pdf";
+
+
 
         try {
             //Creating the page

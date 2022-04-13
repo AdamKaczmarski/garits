@@ -19,7 +19,9 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceAverages {
 
     public static void pdfCreationAverages() {
-        String filepathAverages = "./pdf_reports/averages.pdf";
+
+        String filepathAverages = "./pdf_reports/Averages.pdf";
+
 
         try {
             //Creating the page
