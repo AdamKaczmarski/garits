@@ -15,13 +15,13 @@ INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fix
 ) ;
 
 INSERT INTO vehicles ( id_reg_no,manufacturer,model,engine_serial_number,chassis_number,colour,last_mot) VALUE
-( "AA69 CPG", "Fjord Transit Van", "DONTKNOW", "DONTKNOW1","DK1", "White", "2019-12-5"),
-( "CT70 DWR", "Fjord Transit Van", "DONTKNOW", "DONTKNOW2","DK2", "White", "2020-12-12"),
-( "FF71 GHT", "Fjord Transit Van", "DONTKNOW", "DONTKNOW3","DK3", "White", "2021-2-3"),
-( "VV71 BHN", "Fjord Transit Van", "DONTKNOW", "DONTKNOW4","DK4", "White", "2021-11-19"),
-( "GG14 PUB", "Fjord Estate MK8", "DONTKNOW", "DONTKNOW5","DK5", "Green", "2014-1-1"),
-( "BB19 OLE", "Rolls Royce", "Silver Shadow", "DONTKNOW6","DK6", "Red", "2019-1-1"),
-( "BB67 TRU", "Fjord Estate", "Ficus", "DONTKNOW7","DK7", "Brown", "2020-11-5"
+( "AA69 CPG", "Fjord", "Transit Van", "ABCDEF123","132EWQ4", "White", "2019-12-5"),
+( "CT70 DWR", "Fjord", "Transit Van", "ACDERF534","5453QW", "White", "2020-12-12"),
+( "FF71 GHT", "Fjord", "Transit Van", "HFGTR31WE","654FDB", "White", "2021-2-3"),
+( "VV71 BHN", "Fjord", "Transit Van", "HGFTY1235","234WRE", "White", "2021-11-19"),
+( "GG14 PUB", "Fjord", "Estate MK8", "JSDJFKSFKJS","764WER", "Green", "2014-1-1"),
+( "BB19 OLE", "Rolls Royce", "Silver Shadow", "87FS7DFS79F","BGT456", "Red", "2019-1-1"),
+( "BB67 TRU", "Fjord Estate", "Ficus", "DONTKNOW7","123QWE", "Brown", "2020-11-5"
 );
 
 

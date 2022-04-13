@@ -26,7 +26,9 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceVehiclesBooked {
 
     public static void pdfCreationVehiclesBooked() {
+
     String filepathVehiclesBooked = "./pdf_reports/Vehicles_Booked.pdf";
+
 
     try
     {
