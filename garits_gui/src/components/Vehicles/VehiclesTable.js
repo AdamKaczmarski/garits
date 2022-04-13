@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import AddVehicleForm from "./AddVehicleForm";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
-
+import AuthContext from "../../store/auth-context";
 import Vehicle from "./Vehicle";
 import CustomModal from "../CommonComponents/CustomModal";
 
@@ -14,7 +14,8 @@ const VehiclesTable = (props) => {
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [vehicles, setVehicles] = useState([]);
-  let newVehicle={
+  const authCtx = useContext(AuthContext);
+  let newVehicle = {
     idRegNo: "",
     manufacturer: "",
     model: "",
@@ -23,13 +24,14 @@ const VehiclesTable = (props) => {
     colour: "",
     lastMot: "",
   };
-  const editVehicle=async(editedVehicle)=>{
+  const editVehicle = async (editedVehicle) => {
     try {
       setIsLoading(true);
       const response = await axios({
-        method:"PATCH",
-        url:`http://localhost:8080/vehicles/${editedVehicle.idVehicle}`,
-        data:editedVehicle
+        method: "PATCH",
+        url: `http://localhost:8080/vehicles/${editedVehicle.idVehicle}`,
+        data: editedVehicle,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -37,15 +39,15 @@ const VehiclesTable = (props) => {
     } finally {
       obtainVehicles();
     }
-
   };
-  const addVehicle = async()=>{
+  const addVehicle = async () => {
     try {
       setIsLoading(true);
       const response = await axios({
-        method:"POST",
-        url:`http://localhost:8080/vehicles/${props.customer_id}`,
-        data:newVehicle
+        method: "POST",
+        url: `http://localhost:8080/vehicles/${props.customer_id}`,
+        data: newVehicle,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -59,6 +61,7 @@ const VehiclesTable = (props) => {
       const response = await axios({
         method: "DELETE",
         url: `http://localhost:8080/vehicles/${props.customer_id}/${id}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -72,6 +75,7 @@ const VehiclesTable = (props) => {
       const response = await axios({
         method: "GET",
         url: `http://localhost:8080/vehicles/${props.customer_id}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       setVehicles(response.data);
     } catch (err) {
@@ -89,7 +93,12 @@ const VehiclesTable = (props) => {
   let vehiclesView;
   if (vehicles && vehicles.length > 0) {
     vehiclesView = vehicles.map((vehicle) => (
-      <Vehicle key={vehicle.idVehicle} vehicle={vehicle} deleteVehicles={deleteVehicles} editVehicle={editVehicle}/>
+      <Vehicle
+        key={vehicle.idVehicle}
+        vehicle={vehicle}
+        deleteVehicles={deleteVehicles}
+        editVehicle={editVehicle}
+      />
     ));
   }
   return (
@@ -113,7 +122,14 @@ const VehiclesTable = (props) => {
         </thead>
         <tbody>{vehiclesView}</tbody>
       </Table>
-      <CustomModal show={show} onClose={handleShow} addVehicle={addVehicle} title="Add Vehicle" submitAction={addVehicle} form={<AddVehicleForm newVehicle={newVehicle}/>}/>
+      <CustomModal
+        show={show}
+        onClose={handleShow}
+        addVehicle={addVehicle}
+        title="Add Vehicle"
+        submitAction={addVehicle}
+        form={<AddVehicleForm newVehicle={newVehicle} />}
+      />
     </>
   );
 };

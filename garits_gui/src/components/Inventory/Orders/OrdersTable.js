@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -6,16 +6,19 @@ import InventoryModal from "../InventoryModal";
 import Order from "./Order";
 import AddOrderForm from "./AddOrderForm";
 import Spinner from "react-bootstrap/Spinner";
+import AuthContext from "../../../store/auth-context";
 const OrdersTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
+  const authCtx = useContext(AuthContext);
   const obtainOrders = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/orders",
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
       setOrders(response.data);
@@ -31,6 +34,7 @@ const OrdersTable = () => {
       const response = await axios({
         method: "DELETE",
         url: `http://localhost:8080/orders/${id}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -39,16 +43,21 @@ const OrdersTable = () => {
       obtainOrders();
     }
   };
-  const completeOrder=async(idOrder,newArrivalOrder)=>{
+  const completeOrder = async (idOrder, newArrivalOrder) => {
     try {
-      const response = await axios({method:"PATCH",url:`http://localhost:8080/orders/${idOrder}`,data:newArrivalOrder});    
-      console.log(response)
-    } catch(err){
-      console.log(err)
+      const response = await axios({
+        method: "PATCH",
+        url: `http://localhost:8080/orders/${idOrder}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+        data: newArrivalOrder,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     } finally {
       obtainOrders();
     }
-  }
+  };
 
   const changeOrderStatus = async (id, newStatus) => {
     try {
@@ -56,6 +65,7 @@ const OrdersTable = () => {
       const response = await axios({
         method: "PATCH",
         url: `http://localhost:8080/orders/${id}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
         data: newStatus,
       });
       console.log(response);
@@ -94,6 +104,7 @@ const OrdersTable = () => {
         method: "POST",
         url: "http://localhost:8080/orders",
         data: newOrder,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
       const idOrder = response.data.idOrder;
@@ -103,14 +114,15 @@ const OrdersTable = () => {
     } finally {
       handleShow();
     }
-   };
-   const addItemsToOrder = async(idOrder)=>{
+  };
+  const addItemsToOrder = async (idOrder) => {
     try {
       setIsLoading(true);
       const response = await axios({
         method: "POST",
         url: `http://localhost:8080/orders/${idOrder}/items`,
         data: orderItems,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -119,7 +131,7 @@ const OrdersTable = () => {
       handleShow();
       obtainOrders();
     }
-   };
+  };
 
   return (
     <>

@@ -1,16 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
-
+import AuthContext from "../../../store/auth-context";
 const OrderDetails = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [orderDetails, setOrderDetails] = useState([]);
+  const authCtx = useContext(AuthContext);
   const obtainOrderDetails = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: `http://localhost:8080/partsorders/${props.idOrder}`,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setOrderDetails(response.data);

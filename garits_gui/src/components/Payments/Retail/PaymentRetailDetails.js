@@ -1,15 +1,19 @@
-import {useState, useEffect,useCallback} from 'react';
+import {useState, useEffect,useCallback, useContext} from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import { Spinner } from 'react-bootstrap';
+import AuthContext from '../../../store/auth-context';
 const PaymentRetailDetails = props =>{
     const [isLoading,setIsLoading] = useState(true);
     const [paymentRetailDetails, setPaymentsRetailDetails] = useState([]);
+    const authCtx = useContext(AuthContext);
     const obtainPaymentRetailDetails = async()=>{
         try{
             const response = await axios({
                 method:"GET",
-                url:`http://localhost:8080/payments-retails/${props.idPayment}/details`
+                url:`http://localhost:8080/payments-retails/${props.idPayment}/details`,
+                headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
             });
             console.log(response);
             setPaymentsRetailDetails(response.data);

@@ -1,15 +1,18 @@
 import Form from "react-bootstrap/Form";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import AuthContext from "../../../store/auth-context";
 const UserAssignment = (props) => {
   const [mechanics, setMechanics] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const authCtx = useContext(AuthContext);
   const obtainMechanics = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/users/mechanics",
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       setMechanics(response.data);
     } catch (err) {
@@ -25,15 +28,26 @@ const UserAssignment = (props) => {
   let mechanicsView;
   if (mechanics && mechanics.length > 0) {
     mechanicsView = mechanics.map((mechanic) => {
-      if (mechanic.idUser !== props.user[0].idUser) {
-        return (
-          <option key={mechanic.idUser} value={mechanic.idUser}>
-            {mechanic.firstName + " " + mechanic.lastName}
-          </option>
-        );
+      if (props.user) {
+        if (mechanic.idUser !== props.user[0].idUser)
+          return (
+            <option key={mechanic.idUser} value={mechanic.idUser}>
+              {mechanic.firstName + " " + mechanic.lastName}
+            </option>
+          );
       }
+      return (
+        <option key={mechanic.idUser} value={mechanic.idUser}>
+          {mechanic.firstName + " " + mechanic.lastName}
+        </option>
+      );
     });
-    if (props.user[0].idUser) {
+    props.formData.user[0].idUser = mechanics[0].idUser;
+
+    if (props.user) {
+      console.log("HERE");
+      props.formData.user[0].idUser = props.user[0].idUser;
+      console.log(props.formData);
       mechanicsView.unshift(
         <option key={props.user[0].idUser} value={props.user[0].idUser}>
           {props.user[0].firstName + " " + props.user[0].lastName}
@@ -41,18 +55,23 @@ const UserAssignment = (props) => {
       );
     }
   }
-  const mechanicHandler=ev=>{props.formData.idUser=+ev.target.value}
-  const bayHandler=ev=>{props.formData.bay=ev.target.value}
+  const mechanicHandler = (ev) => {
+    props.formData.user[0].idUser = +ev.target.value;
+  };
+  const bayHandler = (ev) => {
+    props.formData.bay = ev.target.value;
+  };
 
-  if (props.user.length > 0) {
-      let bay;
+  if (props.user) {
+    let bay;
     if (props.bay && props.bay !== "MOT") {
-        bay =
-          props.bay.charAt(0).toUpperCase() +
-          props.bay.slice(1).toLowerCase();
-      } else bay = props.bay;
-      props.formData.idUser=props.user[0].idUser;
-      props.formData.bay=bay;
+      bay =
+        props.bay.charAt(0).toUpperCase() + props.bay.slice(1).toLowerCase();
+    } else {
+      bay = props.bay;
+    }
+    props.formData.bay = bay;
+    //props.formData.idUser = props.user[0].idUser;
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -63,14 +82,16 @@ const UserAssignment = (props) => {
           <Form.Label>Bay</Form.Label>
           <Form.Select onChange={bayHandler}>
             <option value={bay}>{bay}</option>
-            <option value={props.bay === "MOT" ? "regular" : "MOT"}>
-              {props.bay === "MOT" ? "Regular" : "MOT"}
+            <option value={props.bay === "MOT" ? "repair" : "MOT"}>
+              {props.bay === "MOT" ? "Repair" : "MOT"}
             </option>
           </Form.Select>
         </Form.Group>
       </Form>
     );
   } else {
+    console.log(props.formData);
+    props.formData.bay = "repair";
     return (
       <Form>
         <Form.Group controlId="assignee">
@@ -80,13 +101,10 @@ const UserAssignment = (props) => {
         <Form.Group controlId="bay">
           <Form.Label>Bay</Form.Label>
           <Form.Select onChange={bayHandler}>
-            <option value="regular">Regular</option>
-            <option value="MOT">
-              MOT
-            </option>
+            <option value="repair">Repair</option>
+            <option value="MOT">MOT</option>
           </Form.Select>
         </Form.Group>
-
       </Form>
     );
   }

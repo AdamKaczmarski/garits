@@ -1,5 +1,6 @@
-package com.garits.payment;
+package com.garits.payment.retail;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.garits.customer.Customer;
 
 import javax.persistence.*;
@@ -7,7 +8,8 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public class PaymentRetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment")
@@ -22,22 +24,27 @@ public class Payment {
     private Date paymentDate;
     @Column(name = "payment_due")
     private Date paymentDue;
-    @OneToOne
-    @JoinTable(name="payments_customer",joinColumns = @JoinColumn(name="payment_id"),inverseJoinColumns = @JoinColumn(name="customer_id"))
-    private Customer customer;
+
     //Getters and Setters
 
-    public Payment() {
+    public PaymentRetail() {
     }
 
-    public Payment(Integer idPayment, String cashOrCard, double amount, Date createDate, Date paymentDate, Date paymentDue, Customer customer) {
+    public PaymentRetail(String cashOrCard, double amount, Date createDate, Date paymentDate, Date paymentDue) {
+        this.cashOrCard = cashOrCard;
+        this.amount = amount;
+        this.createDate = createDate;
+        this.paymentDate = paymentDate;
+        this.paymentDue = paymentDue;
+    }
+
+    public PaymentRetail(Integer idPayment, String cashOrCard, double amount, Date createDate, Date paymentDate, Date paymentDue) {
         this.idPayment = idPayment;
         this.cashOrCard = cashOrCard;
         this.amount = amount;
         this.createDate = createDate;
         this.paymentDate = paymentDate;
         this.paymentDue = paymentDue;
-        this.customer = customer;
     }
 
     public Integer getIdPayment() {
@@ -84,11 +91,4 @@ public class Payment {
         this.paymentDue = paymentDue;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

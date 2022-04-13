@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import AddUserForm from "./AddUserForm";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
+import AuthContext from '../../store/auth-context';
 class User {
   constructor() {
     this.email = "";
@@ -14,6 +15,7 @@ class User {
 const AddUserModal = (props) => {
   //const [lgShow, setLgShow] = useState(false);
   const [user, setUser] = useState(new User());
+  const authCtx = useContext(AuthContext);
   const addUser = () => {
     console.log(user);
     try {
@@ -21,13 +23,17 @@ const AddUserModal = (props) => {
         method: "POST",
         url: "http://localhost:8080/users",
         data: user,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(result);
     } catch (err) {
       console.log(err);
     } finally {
       // I don't like this method to refresh the list of users but for this project's needs I think it will be fine as there's much more work to do.
-      window.location.reload();
+      //window.location.reload();
+      props.obtainUsers();
+      props.onClose();
     }
   };
   return (

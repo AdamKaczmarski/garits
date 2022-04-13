@@ -1,19 +1,23 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import EditServiceForm from "./EditServiceForm";
 import ServiceModal from "./ServiceModal";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
 const Service = (props) => {
   /* Implement this for short_decsription and then only add edit modal
     https://react-bootstrap.github.io/components/overlays/#disabled-elements */
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const editedService = { ...props.service };
+  const authCtx = useContext(AuthContext);
   const deleteService = async () => {
     try {
       const response = await axios({
         method: "DELETE",
         url: "http://localhost:8080/services/" + props.service.idService,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {
@@ -31,6 +35,8 @@ const Service = (props) => {
         method: "PATCH",
         url: "http://localhost:8080/services/" + props.service.idService,
         data: editedService,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {

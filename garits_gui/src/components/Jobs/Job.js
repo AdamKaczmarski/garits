@@ -1,14 +1,13 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import CustomModal from "../CommonComponents/CustomModal";
 import JobDetails from "./JobDetails";
 import UserAssignment from "./Actions/UserAssignment";
 import CompleteJob from "./Actions/CompleteJob";
 import EditDescriptionRequired from "./Actions/EditDescriptionRequired";
-import EditUsedParts from "./Actions/EditUsedParts";
-import EditServicesForJob from "./Actions/EditServicesForJob";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
 const Job = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
@@ -16,6 +15,7 @@ const Job = (props) => {
   const handleShowDetails = () => setShowDetails(!showDetails);
   const [form, setForm] = useState();
   const submitAction = useRef();
+  const authCtx = useContext(AuthContext);
   let bookingDate;
   if (props.job.bookingDate)
     bookingDate = new Date(props.job.bookingDate)
@@ -37,50 +37,148 @@ const Job = (props) => {
   const formHandler = (id) => {
     switch (id) {
       case 1: {
-        formData = { idUser: 0, bay: "" };
+        formData = {
+          user: [{ idUser: 0 }],
+          bay: "",
+          status: "active",
+        };
+        console.log(props.job.status);
+        //console.log(props.job.status === "active" ? "active" : "booked")
         submitAction.current = async () => {
+          console.log(formData);
           try {
-            const editedJob = { ...props.job, bay: formData.bay };
-            editedJob.user[0].idUser = formData.idUser;
-            const response = axios({
+            const editedJob = {
+              ...props.job,
+              bay: formData.bay,
+              status: formData.status,
+              user: [formData.user[0]],
+            };
+            const response = await axios({
               method: "PATCH",
               url: `http://localhost:8080/jobs/${props.job.idJob}`,
               data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
             });
             console.log(response);
           } catch (err) {
             console.log(err);
           } finally {
-            props.obtainJobs();
+            if (props.job.bay === "" || !props.job.bay) {
+              window.location.reload();
+            } else {
+              props.obtainJobs();
+              setShow(false);
+            }
           }
         };
 
         setForm(
           <UserAssignment
-            user={props.job.user}
-            bay={props.job.bay}
+            user={props.job.status === "active" ? props.job.user : null}
+            bay={props.job.status === "active" ? props.job.bay : null}
             formData={formData}
           />
         );
         break;
       }
       case 2: {
-        setForm(<CompleteJob />);
+        formData = {
+          parts: [],
+          descriptionDone: props.job.descriptionRequired,
+          actTimeMin: props.job.estTimeMin,
+        };
+        submitAction.current = async () => {
+          console.log(formData);
+          try {
+            formData.parts = formData.parts.filter(
+              (p) => p.idPart !== 0 && p.quantityUsed > 0
+            );
+            console.log(formData.parts);
+            const editedJob = {
+              ...props.job,
+              parts: formData.parts,
+              descriptionDone: formData.descriptionDone,
+              actTimeMin: formData.actTimeMin,
+              status: "completed",
+              fixDate: new Date().toISOString().substring(0, 10),
+            };
+            console.log(editedJob.parts);
+            await axios({
+              method: "PATCH",
+              url: `http://localhost:8080/jobs/${props.job.idJob}`,
+              data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+            });
+            editedJob.parts.forEach(async (p) => {
+              try {
+                await axios({
+                  method: "PATCH",
+                  url: `http://localhost:8080/jobs/${props.job.idJob}/${p.idPart}/${p.quantityUsed}`,
+                  headers: {
+                    Authorization: `Bearer ${authCtx.authData.token}`,
+                  },
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            });
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+        setForm(
+          <CompleteJob
+            formData={formData}
+            descriptionRequired={props.job.descriptionRequired}
+            estTimeMin={props.job.estTimeMin}
+          />
+        );
         break;
       }
       case 3: {
-        setForm(<EditDescriptionRequired />);
+        formData = { descriptionRequired: props.job.descriptionRequired };
+        submitAction.current = async () => {
+          const editedJob = {
+            ...props.job,
+            descriptionRequired: formData.descriptionRequired,
+          };
+          try {
+            const response = await axios({
+              method: "PATCH",
+              url: `http://localhost:8080/jobs/${props.job.idJob}`,
+              data: editedJob,
+              headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+            });
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
+        setForm(<EditDescriptionRequired formData={formData} />);
         break;
       }
-      case 4: {
-        setForm(<EditUsedParts idJob={props.job.idJob} />);
-        break;
-      }
-      case 5: {
-        setForm(<EditServicesForJob />);
-        break;
-      }
+
       default: {
+        formData = {};
+        submitAction.current = async () => {
+          try {
+            const response = await axios({});
+            console.log(response);
+          } catch (err) {
+            console.log(err);
+          } finally {
+            props.obtainJobs();
+            setShow(false);
+          }
+        };
+
         setForm(<UserAssignment />);
         break;
       }
@@ -90,6 +188,7 @@ const Job = (props) => {
   return (
     <>
       <tr>
+        <td>{props.job.idJob}</td>
         <td>{props.job.vehicle.customer[0].name}</td>
         <td>{props.job.vehicle.idRegNo}</td>
         <td>
@@ -132,20 +231,14 @@ const Job = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {props.jobType === "active" ? (
+              {props.jobType === "active" &&
+              (authCtx.authData.role === "ROLE_FOREPERSON" ||
+                authCtx.authData.role === "ROLE_MECHANIC"|| authCtx.authData.role === "ROLE_FRANCHISEE") ? (
                 <>
                   <Dropdown.Item onClick={() => formHandler(2)}>
                     Set completed
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(4)}>
-                    {props.job.parts && props.job.parts.length > 0
-                      ? "Edit"
-                      : "Set"}{" "}
-                    used parts
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(5)}>
-                    Edit services
-                  </Dropdown.Item>
+
                   <Dropdown.Item onClick={() => formHandler(1)}>
                     Change assignment
                   </Dropdown.Item>
@@ -153,23 +246,25 @@ const Job = (props) => {
               ) : null}
               {props.jobType === "booked" ? (
                 <>
-                  <Dropdown.Item onClick={() => formHandler(1)}>
-                    Assign mechanic
-                  </Dropdown.Item>
+                  {authCtx.authData.role === "ROLE_FOREPERSON" ||
+                  authCtx.authData.role === "ROLE_MECHANIC" || authCtx.authData.role === "ROLE_FRANCHISEE" ? (
+                    <Dropdown.Item onClick={() => formHandler(1)}>
+                      Assign mechanic
+                    </Dropdown.Item>
+                  ) : null}
                   <Dropdown.Item onClick={() => formHandler(3)}>
                     Change description
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => formHandler(5)}>
-                    Change services
-                  </Dropdown.Item>
                 </>
               ) : null}
-              <Dropdown.Item
-                style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                onClick={() => props.deleteJob(props.job.idJob)}
-              >
-                Delete
-              </Dropdown.Item>
+              {authCtx.authData.role === "ROLE_FOREPERSON" || authCtx.authData.role === "ROLE_FRANCHISEE" ? (
+                <Dropdown.Item
+                  style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+                  onClick={() => props.deleteJob(props.job.idJob)}
+                >
+                  Delete
+                </Dropdown.Item>
+              ) : null}
             </Dropdown.Menu>
           </Dropdown>
         </td>
