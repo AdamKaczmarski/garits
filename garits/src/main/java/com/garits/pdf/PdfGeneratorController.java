@@ -4,9 +4,9 @@ import com.garits.customer.CustomerRepository;
 import com.garits.job.Job;
 import com.garits.job.JobRepository;
 import com.garits.part.Part;
+import com.garits.part.PartRepository;
 import com.garits.payment.job.PaymentJob;
 import com.garits.payment.job.PaymentJobRepository;
-import com.garits.report.PdfFileServiceLedger;
 import com.garits.user.User;
 import com.garits.vehicle.Vehicle;
 import com.garits.vehicle.VehicleRepository;
@@ -33,10 +33,12 @@ public class PdfGeneratorController {
     VehicleRepository vehicleRepository;
     @Autowired
     PaymentJobRepository paymentJobRepository;
-
+    @Autowired
+    PartRepository partRepository;
     @GetMapping(value = "/stock-ledger", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateStockLedger() {
-        ByteArrayInputStream bis = GeneratePdfReport.stockLedger();
+        Iterable<Part> parts = partRepository.findAll();
+        ByteArrayInputStream bis = GeneratePdfReport.stockLedger(parts);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=Stock_ledger_report.pdf");
 

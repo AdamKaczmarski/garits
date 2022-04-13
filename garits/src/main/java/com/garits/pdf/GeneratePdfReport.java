@@ -27,8 +27,8 @@ import java.util.Date;
 public class GeneratePdfReport {
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-    //TBD
-    public static ByteArrayInputStream stockLedger() {
+    //DONE
+    public static ByteArrayInputStream stockLedger(Iterable<Part> parts) {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         //String filepathStock = "./pdf_reports/stock_ledger.pdf";
@@ -118,42 +118,43 @@ public class GeneratePdfReport {
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
+        for (Part p : parts) {
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getPartName()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getCode()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getManufacturer()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getVehicleType()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getYearS()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getPrice()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n"+p.getStockLevel()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
 
         //Document document=new Document(pdfStock);
 
