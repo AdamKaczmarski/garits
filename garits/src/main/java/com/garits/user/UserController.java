@@ -90,7 +90,7 @@ public class UserController {
     User editUser(@RequestBody User editedUser, @PathVariable Integer id) {
         return userRepository.findById(id).map(user -> {
             if (editedUser.getEmail()!=null)user.setEmail(editedUser.getEmail());
-            if (editedUser.getFirstName()!=null)user.setFirstName(editedUser.getFirstName());
+            if (editedUser.getFirstName()!=null)user.setFirstName(editedUser.getFirstName()z);
             if(editedUser.getLastName()!=null)user.setLastName(editedUser.getLastName());
             return userRepository.save(user);
         }).orElseThrow(() -> new NotFound("Could not find user: " + id));
