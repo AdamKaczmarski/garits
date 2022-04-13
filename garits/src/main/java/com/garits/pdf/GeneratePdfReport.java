@@ -1,7 +1,10 @@
 package com.garits.pdf;
 
+import com.garits.customer.Customer;
 import com.garits.job.Job;
 import com.garits.part.Part;
+import com.garits.payment.job.PaymentJob;
+import com.garits.vehicle.Vehicle;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -15,10 +18,16 @@ import com.itextpdf.layout.property.VerticalAlignment;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class GeneratePdfReport {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
+    //TBD
     public static ByteArrayInputStream stockLedger() {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -158,7 +167,9 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    public static ByteArrayInputStream motReminder() {
+    //DONE
+    public static ByteArrayInputStream motReminder(Vehicle v) {
+        Customer c = v.getCustomer().iterator().next();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfMot = new PdfDocument(pdfWriter);
@@ -176,30 +187,29 @@ public class GeneratePdfReport {
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setMarginLeft(10f)
         );
 
-        float address = 500f;
+        float address = 600f;
         float columnAddress[] = {address, address};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
                 .setMarginRight(30f);
-
+//Insert Customer Address
+        location.addCell(new Cell(0, 1).add(c.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                .setFontSize(11));
         location.addCell(new Cell(0, 1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0, 1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 1).add(c.getAddress()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         location.addCell(new Cell(0, 1).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0, 1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 1).add(c.getCity() + " " + c.getPostcode()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         location.addCell(new Cell(0, 1).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0, 1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 1).add("").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         location.addCell(new Cell(0, 1).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(11));
-        //Insert Customer Address
-        location.addCell(new Cell(0, 1).add("Insert Customer Address").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
 
 
@@ -207,7 +217,7 @@ public class GeneratePdfReport {
         float date = 100f;
         float columnDate[] = {dear, date, date};
         Table time = new Table(columnDate).setMarginTop(10f);
-        time.addCell(new Cell().add("Dear").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        time.addCell(new Cell().add("Dear " + c.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(12));//Insert customer name here
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
                 .setFontSize(12));
@@ -229,9 +239,13 @@ public class GeneratePdfReport {
         float info = 300f;
         float columnInfo[] = {info, info};
         Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        infoText.addCell(new Cell().add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell().add("Vehicle Registration No.: " + v.getIdRegNo()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.CENTER).setBold());//Insert Reg No here
-        infoText.addCell(new Cell().add("Renewal Test Date:  ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        DateTimeFormatter dtfFromDb = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        //String dateString = v.getLastMot().toString().substring(0,10);
+        LocalDateTime dT = LocalDateTime.parse(v.getLastMot().toString(), dtfFromDb);
+        dT = dT.plusYears(1);
+        infoText.addCell(new Cell().add("Renewal Test Date:  " + dT.toString().substring(0, 10)).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.CENTER).setBold());//Insert Renewal date here
 
         float text = 600f;
@@ -257,7 +271,9 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    public static ByteArrayInputStream invoice() {
+    //DONE
+    public static ByteArrayInputStream invoice(Job j, PaymentJob p) {
+        Customer c = j.getVehicle().getCustomer().iterator().next();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfInvoice = new PdfDocument(pdfWriter);
@@ -288,37 +304,35 @@ public class GeneratePdfReport {
         );
 
         float address = 300f;
-        float columnAddress[] = {address,address+50};
+        float columnAddress[] = {address, address + 50};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
-
-                ;
-        //Insert customer's address here
-        location.addCell(new Cell(0,1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                .setMarginRight(30f);
+//Insert Customer Address
+        location.addCell(new Cell(0, 1).add(c.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                .setFontSize(11));
+        location.addCell(new Cell(0, 1).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+        location.addCell(new Cell(0, 1).add(c.getAddress()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,1).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
-                .setFontSize(11));
-        //Insert Customer Address
-        location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
-                .setFontSize(11));
-        location.addCell(new Cell(0,1).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 1).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+        location.addCell(new Cell(0, 1).add(c.getCity() + " " + c.getPostcode()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,1).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 1).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         //Insert Customer Address
-        location.addCell(new Cell(0,1).add("Insert Customer Address:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER)
+        location.addCell(new Cell(0, 1).add("").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+                .setFontSize(11));
+        location.addCell(new Cell(0, 1).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
 
         float dear = 400f;
         float date = 100f;
-        float columnDate[] = {dear,date,date};
+        float columnDate[] = {dear, date, date};
         Table time = new Table(columnDate).setMarginTop(10f);
-        time.addCell(new Cell().add("Dear").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        time.addCell(new Cell().add("Dear " + c.getName()).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(12));//Insert customer name here
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
                 .setFontSize(12));
@@ -333,7 +347,7 @@ public class GeneratePdfReport {
         float columnInvoice[] = {invoice};
         Table invoiceText = new Table(columnInvoice).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
         //Insert Invoice Number here
-        invoiceText.addCell(new Cell(0,5).add("INVOICE NO: ").setBold()
+        invoiceText.addCell(new Cell(0, 5).add("INVOICE NO: " + p.getIdPayment()).setBold()
                 .setBorderLeft(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderLeft(Border.NO_BORDER).setMarginLeft(10f));
@@ -342,21 +356,21 @@ public class GeneratePdfReport {
         float columnInfo[] = {info, info};
         Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
         //Insert info here
-        infoText.addCell(new Cell(0,2).add("Vehicle Registration No.: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Vehicle Registration No.: " + j.getVehicle().getIdRegNo()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Make: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Make: " + j.getVehicle().getManufacturer()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Model: \n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Model: " + j.getVehicle().getModel() + "\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Description of work: \n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Description of work:\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
         //Insert description of work here
-        infoText.addCell(new Cell(0,2).add("1) Insert info here").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add(j.getDescriptionDone()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("2) Insert info here").setBorder(Border.NO_BORDER).setFontSize(11f)
+        /*infoText.addCell(new Cell(0, 2).add("2) Insert info here").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("3) Insert info here\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
-                .setTextAlignment(TextAlignment.LEFT));
+        infoText.addCell(new Cell(0, 2).add("3) Insert info here\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+                .setTextAlignment(TextAlignment.LEFT));*/
 
 
         //Creating Table
@@ -365,7 +379,7 @@ public class GeneratePdfReport {
                 .setMarginRight(-20f).setFontSize(12)
                 .setTextAlignment(TextAlignment.CENTER);
 
-        information.addCell(new Cell().add("Number:").setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("Item:").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
@@ -394,31 +408,30 @@ public class GeneratePdfReport {
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
+        for (Part part : j.getParts()) {
+            information.addCell(new Cell().add(part.getPartName()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            information.addCell(new Cell().add(part.getCode()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            information.addCell(new Cell().add("£" + df.format(part.getPrice())).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            information.addCell(new Cell().add(part.getQuantityUsed().toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            Double cost = part.getPrice() * part.getQuantityUsed();
+            information.addCell(new Cell().add("£" + df.format(cost).toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
 
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
+        }
 
 
         information.addCell(new Cell().add("\n\nLabour").setBold().setMarginTop(-20f)
@@ -433,17 +446,26 @@ public class GeneratePdfReport {
         );
 
         //Insert total unit cost
-        information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+        /*Double totalUnitCost = 0.0;
+        Integer totalQuantity=0;
+        Double totalCost=0.0;
+        for (Part part : j.getParts()){
+            totalUnitCost += part.getPrice();
+            totalQuantity+=part.getQuantityUsed();
+            totalCost=totalUnitCost*totalQuantity;
+        }*/
+        information.addCell(new Cell().add("\n\n£" + df.format(j.getUser().iterator().next().getRoles().iterator().next().getHourlyRate())).setBold().setMarginTop(-20f)
                 .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
 
         );
         //insert total quantity
-        information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("\n\n" + j.getActTimeMin()).setBold().setMarginTop(-20f)
                 .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
 
         );
         //insert total cost
-        information.addCell(new Cell().add("\n\nInsert Value").setBold().setMarginTop(-20f)
+        double labourCost = (j.getActTimeMin() / 60) * j.getUser().iterator().next().getRoles().iterator().next().getHourlyRate();
+        information.addCell(new Cell().add("\n\n£" + df.format(labourCost)).setBold().setMarginTop(-20f)
                 .setFontSize(11).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)
 
 
@@ -453,21 +475,21 @@ public class GeneratePdfReport {
         float columnTotal[] = {total, total, total};
         Table totalTable = new Table(columnTotal).setMarginTop(30f).setMarginLeft(-40f)
                 .setBorder(Border.NO_BORDER).setFontSize(12).setMarginLeft(10);
-
-        totalTable.addCell(new Cell(0,3).add("Subtotal:").setBold().setMarginTop(-20f)
-                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+        Double totalCostWithoutVat = p.getAmount() / 1.2;
+        totalTable.addCell(new Cell(0, 3).add("Subtotal: \t\t\t£" + df.format(totalCostWithoutVat).toString()).setBold().setMarginTop(-20f)
+                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.RIGHT)
         );
 
-        totalTable.addCell(new Cell(0,3).add("VAT:").setBold().setMarginTop(-20f)
-                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+        totalTable.addCell(new Cell(0, 3).add("VAT: \t\t\t£" + df.format(p.getAmount() - totalCostWithoutVat)).setBold().setMarginTop(-20f)
+                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.RIGHT)
         );
 
-        totalTable.addCell(new Cell(0,3).add("Total:").setBold().setMarginTop(-20f)
-                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.CENTER)
+        totalTable.addCell(new Cell(0, 3).add("Total: \t\t\t£" + df.format(p.getAmount())).setBold().setMarginTop(-20f)
+                .setBorder(Border.NO_BORDER).setFontSize(11).setTextAlignment(TextAlignment.RIGHT)
         );
 
 
-        float thankYou= 600f;
+        float thankYou = 600f;
         float columnText[] = {thankYou};
         Table textTable = new Table(columnText).setMarginTop(10f);
         textTable.addCell(new Cell().add("\nThank you for your valued custom. We look forward to receiving your payment in due course. \n\n\n ").setBorder(Border.NO_BORDER)
@@ -481,8 +503,8 @@ public class GeneratePdfReport {
 
         document.add(name);
         document.add(text);
-        document.add(time);
         document.add(location);
+        document.add(time);
         document.add(invoiceText);
         document.add(infoText);
         document.add(information);
@@ -494,6 +516,7 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
+    //DONE
     public static ByteArrayInputStream jobSheet(Job j) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
@@ -513,25 +536,24 @@ public class GeneratePdfReport {
         );
 
         float address = 100f;
-        float columnAddress[] = {address,address,address,address};
+        float columnAddress[] = {address, address, address, address};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
-                .setMarginRight(30f)
-                ;
+                .setMarginRight(30f);
 
-        location.addCell(new Cell(0,4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11)
 
         );
 
 
         float date = 100f;
-        float columnDate[] = {date,date};
+        float columnDate[] = {date, date};
         Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
                 .setMarginLeft(360f);
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
@@ -547,7 +569,7 @@ public class GeneratePdfReport {
         float jobNo[] = {job};
         //Insert Job No here
         Table jobText = new Table(jobNo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        jobText.addCell(new Cell().add("Job No: "+j.getIdJob()).setBorderLeft(Border.NO_BORDER).setFontSize(11f)
+        jobText.addCell(new Cell().add("Job No: " + j.getIdJob()).setBorderLeft(Border.NO_BORDER).setFontSize(11f)
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBold().setTextAlignment(TextAlignment.CENTER)
         );
@@ -556,17 +578,17 @@ public class GeneratePdfReport {
         float columnInfo[] = {info, info};
         //Insert Info here
         Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        infoText.addCell(new Cell(0,2).add("Vehicle Registration No.: "+j.getVehicle().getIdRegNo()).setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Vehicle Registration No.: " + j.getVehicle().getIdRegNo()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Date Booked In: "+j.getBookingDate()).setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Date Booked In: " + j.getBookingDate()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Make: "+j.getVehicle().getManufacturer()).setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Make: " + j.getVehicle().getManufacturer()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Model: "+j.getVehicle().getModel()).setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Model: " + j.getVehicle().getModel()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Customer Name: "+j.getVehicle().getCustomer().iterator().next().getName()).setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Customer Name: " + j.getVehicle().getCustomer().iterator().next().getName()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Tel.: "+j.getVehicle().getCustomer().iterator().next().getTelephoneNumber()).setBorderLeft(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Tel.: " + j.getVehicle().getCustomer().iterator().next().getTelephoneNumber()).setBorderLeft(Border.NO_BORDER).setFontSize(11f)
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setBorderBottom(Border.NO_BORDER)
                 .setTextAlignment(TextAlignment.LEFT));
 
@@ -583,7 +605,7 @@ public class GeneratePdfReport {
         float columnEstimatedTime[] = {eTime};
         //Insert data here
         Table estimatedTime = new Table(columnEstimatedTime).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        estimatedTime.addCell(new Cell().add("Estimated time: "+j.getEstTimeMin()+" min").setBorderLeft(Border.NO_BORDER).setFontSize(11f)
+        estimatedTime.addCell(new Cell().add("Estimated time: " + j.getEstTimeMin() + " min").setBorderLeft(Border.NO_BORDER).setFontSize(11f)
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER).setBold()
                 .setTextAlignment(TextAlignment.CENTER));
 
@@ -598,11 +620,11 @@ public class GeneratePdfReport {
         float actualTime = 600f;
         float columnActualTime[] = {actualTime};
         Table actualTimeText = new Table(columnActualTime).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        actualTimeText.addCell(new Cell().add("Actual Time: "+j.getActTimeMin()+" min")//Insert actual time here
+        actualTimeText.addCell(new Cell().add("Actual Time: " + j.getActTimeMin() + " min")//Insert actual time here
                 .setBorderLeft(Border.NO_BORDER).setFontSize(11f).setBorderRight(Border.NO_BORDER)
                 .setBorderTop(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER).setBold());
-        Table sparePartsText=null;
-        Table sparePart=null;
+        Table sparePartsText = null;
+        Table sparePart = null;
         if (j.getParts() != null && !j.getParts().isEmpty()) {
             float sparePartsUsed = 400f;
             float columnSparePartsUsed[] = {sparePartsUsed};
@@ -646,7 +668,7 @@ public class GeneratePdfReport {
         document.add(estimatedTime);
         document.add(fullDescriptionText);
         document.add(actualTimeText);
-        if (j.getParts()!=null && !j.getParts().isEmpty()) {
+        if (j.getParts() != null && !j.getParts().isEmpty()) {
             document.add(sparePartsText);
             document.add(sparePart);
         }
@@ -657,6 +679,7 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
+    //TBD
     public static ByteArrayInputStream averagesReport() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
@@ -676,7 +699,7 @@ public class GeneratePdfReport {
         );
 
         float date = 250f;
-        float columnDate[] = {date,date};
+        float columnDate[] = {date, date};
         Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
                 .setMarginLeft(360f);
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
@@ -721,7 +744,7 @@ public class GeneratePdfReport {
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
 
         //Creating Table
-        float colWidth[] = {300,300};
+        float colWidth[] = {300, 300};
         Table averageCost = new Table(colWidth).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
@@ -761,6 +784,7 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
+    //TBD
     public static ByteArrayInputStream bookingStats() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
@@ -780,7 +804,7 @@ public class GeneratePdfReport {
         );
 
         float date = 250f;
-        float columnDate[] = {date,date};
+        float columnDate[] = {date, date};
         Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
                 .setMarginLeft(360f);
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
@@ -801,7 +825,7 @@ public class GeneratePdfReport {
         );
 
         //Creating Table
-        float colWidth[] = {300,300,300};
+        float colWidth[] = {300, 300, 300};
         Table information = new Table(colWidth).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
@@ -841,7 +865,7 @@ public class GeneratePdfReport {
 
 
         //Creating Table
-        float colAmount[] = {140,140,140,140,140,140};
+        float colAmount[] = {140, 140, 140, 140, 140, 140};
         Table amount = new Table(colAmount).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
@@ -922,6 +946,7 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
+    //TBD
     public static ByteArrayInputStream partsOrder() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
@@ -941,24 +966,23 @@ public class GeneratePdfReport {
         );
 
         float address = 100f;
-        float columnAddress[] = {address,address,address,address};
+        float columnAddress[] = {address, address, address, address};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
-                .setMarginRight(30f)
-                ;
+                .setMarginRight(30f);
 
-        location.addCell(new Cell(0,4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
-        location.addCell(new Cell(0,4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11)
 
         );
 
         float date = 100f;
-        float columnDate[] = {date,date};
+        float columnDate[] = {date, date};
         Table time = new Table(columnDate).setMarginTop(10f).setTextAlignment(TextAlignment.RIGHT)
                 .setMarginLeft(360f);
         time.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT)
@@ -974,14 +998,14 @@ public class GeneratePdfReport {
         float columnInfo[] = {info, info};
         Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
         //Insert Company name here
-        infoText.addCell(new Cell(0,2).add("\n\nCompany: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("\n\nCompany: ").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
         //Might need dynamic info for address
-        infoText.addCell(new Cell(0,2).add("Address: 25 The Causeway, Staines, Middlesex\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Address: 25 The Causeway, Staines, Middlesex\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Tel: 01784 407862\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Tel: 01784 407862\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0,2).add("Fax: 01784 407862\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Fax: 01784 407862\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
 
 

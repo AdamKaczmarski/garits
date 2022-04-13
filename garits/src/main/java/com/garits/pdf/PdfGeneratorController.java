@@ -4,8 +4,12 @@ import com.garits.customer.CustomerRepository;
 import com.garits.job.Job;
 import com.garits.job.JobRepository;
 import com.garits.part.Part;
+import com.garits.payment.job.PaymentJob;
+import com.garits.payment.job.PaymentJobRepository;
 import com.garits.report.PdfFileServiceLedger;
 import com.garits.user.User;
+import com.garits.vehicle.Vehicle;
+import com.garits.vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +29,12 @@ public class PdfGeneratorController {
     JobRepository jobRepository;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    VehicleRepository vehicleRepository;
+    @Autowired
+    PaymentJobRepository paymentJobRepository;
 
-    @GetMapping(value="/stock-ledger",produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/stock-ledger", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateStockLedger() {
         ByteArrayInputStream bis = GeneratePdfReport.stockLedger();
         var headers = new HttpHeaders();
@@ -38,9 +46,12 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/mot-reminder",produces = MediaType.APPLICATION_PDF_VALUE)
-    ResponseEntity<InputStreamResource> generateMotReminder() {
-        ByteArrayInputStream bis = GeneratePdfReport.motReminder();
+
+    @GetMapping(value = "/mot-reminder/{idVehicle}", produces = MediaType.APPLICATION_PDF_VALUE)
+    ResponseEntity<InputStreamResource> generateMotReminder(@PathVariable Integer idVehicle) {
+        Vehicle v = vehicleRepository.findById(idVehicle).orElseThrow(() -> new RuntimeException("Vehicle not found"));
+        v.setCustomer(customerRepository.findCustomerForVehicle(v.getIdRegNo()));
+        ByteArrayInputStream bis = GeneratePdfReport.motReminder(v);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=GARITS_Mot_Reminder.pdf");
 
@@ -50,9 +61,10 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/job-sheet/{idJob}",produces = MediaType.APPLICATION_PDF_VALUE)
-    ResponseEntity<InputStreamResource> generateJobSheet(@PathVariable("idJob")Integer idJob) {
-        Job j = jobRepository.findById(idJob).orElseThrow(()->new RuntimeException("Job not found"));
+
+    @GetMapping(value = "/job-sheet/{idJob}", produces = MediaType.APPLICATION_PDF_VALUE)
+    ResponseEntity<InputStreamResource> generateJobSheet(@PathVariable("idJob") Integer idJob) {
+        Job j = jobRepository.findById(idJob).orElseThrow(() -> new RuntimeException("Job not found"));
         j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
         if (!j.getStatus().equals("booked")) {
             User u = new User(j.getUser().iterator().next().getIdUser(), j.getUser().iterator().next().getFirstName(), j.getUser().iterator().next().getLastName());
@@ -77,9 +89,27 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/invoice",produces = MediaType.APPLICATION_PDF_VALUE)
-    ResponseEntity<InputStreamResource> generateInvoice() {
-        ByteArrayInputStream bis = GeneratePdfReport.invoice();
+
+    @GetMapping(value = "/invoice/{idJob}", produces = MediaType.APPLICATION_PDF_VALUE)
+    ResponseEntity<InputStreamResource> generateInvoice(@PathVariable Integer idJob) {
+        Job j = jobRepository.findById(idJob).orElseThrow(() -> new RuntimeException("Job not found"));
+        j.getVehicle().setCustomer(customerRepository.findCustomerForVehicle(j.getVehicle().getIdRegNo()));
+       /* if (!j.getStatus().equals("booked")) {
+            System.out.println("ADDING USER");
+            User u = new User(j.getUser().iterator().next().getIdUser(), j.getUser().iterator().next().getFirstName(), j.getUser().iterator().next().getLastName());
+            j.getUser().clear();
+            j.getUser().add(u);
+        }*/
+        if (j.getParts() != null) {
+            for (Part p : j.getParts()) {
+                Integer q = jobRepository.getQuantityOfPart(p.getIdPart(), j.getIdJob());
+                if (q != null) {
+                    p.setQuantityUsed(q);
+                }
+            }
+        }
+        PaymentJob p = paymentJobRepository.findPaymentByJobId(j.getIdJob());
+        ByteArrayInputStream bis = GeneratePdfReport.invoice(j, p);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=GARITS_Invoice.pdf");
 
@@ -89,7 +119,8 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/parts-order",produces = MediaType.APPLICATION_PDF_VALUE)
+
+    @GetMapping(value = "/parts-order", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generatePartsOrder() {
         ByteArrayInputStream bis = GeneratePdfReport.partsOrder();
         var headers = new HttpHeaders();
@@ -101,7 +132,8 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/averages",produces = MediaType.APPLICATION_PDF_VALUE)
+
+    @GetMapping(value = "/averages", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateAveragesReport() {
         ByteArrayInputStream bis = GeneratePdfReport.averagesReport();
         var headers = new HttpHeaders();
@@ -113,7 +145,8 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-    @GetMapping(value="/booking-stats",produces = MediaType.APPLICATION_PDF_VALUE)
+
+    @GetMapping(value = "/booking-stats", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateBookingStats() {
         ByteArrayInputStream bis = GeneratePdfReport.bookingStats();
         var headers = new HttpHeaders();
@@ -125,7 +158,6 @@ public class PdfGeneratorController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(bis));
     }
-
 
 
 }
