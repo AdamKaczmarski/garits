@@ -3,6 +3,10 @@ package com.garits.pdf;
 import com.garits.customer.CustomerRepository;
 import com.garits.job.Job;
 import com.garits.job.JobRepository;
+import com.garits.order.Order;
+import com.garits.order.OrderRepository;
+import com.garits.order.PartsOrdersDetail;
+import com.garits.order.PartsOrdersDetailRepository;
 import com.garits.part.Part;
 import com.garits.part.PartRepository;
 import com.garits.payment.job.PaymentJob;
@@ -35,6 +39,10 @@ public class PdfGeneratorController {
     PaymentJobRepository paymentJobRepository;
     @Autowired
     PartRepository partRepository;
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    PartsOrdersDetailRepository partsOrdersDetailRepository;
     @GetMapping(value = "/stock-ledger", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateStockLedger() {
         Iterable<Part> parts = partRepository.findAll();
@@ -122,9 +130,11 @@ public class PdfGeneratorController {
                 .body(new InputStreamResource(bis));
     }
 
-    @GetMapping(value = "/parts-order", produces = MediaType.APPLICATION_PDF_VALUE)
-    ResponseEntity<InputStreamResource> generatePartsOrder() {
-        ByteArrayInputStream bis = GeneratePdfReport.partsOrder();
+    @GetMapping(value = "/parts-order/{idOrder}", produces = MediaType.APPLICATION_PDF_VALUE)
+    ResponseEntity<InputStreamResource> generatePartsOrder(@PathVariable Integer idOrder) {
+        Order o  = orderRepository.findById(idOrder).orElseThrow(() -> new RuntimeException("Order not found"));
+        Iterable<PartsOrdersDetail> pod = partsOrdersDetailRepository.getAllByOrderId(idOrder);
+        ByteArrayInputStream bis = GeneratePdfReport.partsOrder(o,pod);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=Parts_order.pdf");
 

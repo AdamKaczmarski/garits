@@ -87,3 +87,12 @@ INNER JOIN users u ON u.id_user = uj.user_id
 WHERE first_name='Gavin' AND last_name='Ross'
 GROUP BY s.service_name, CONCAT(u.first_name,' ',u.last_name)
 ORDER BY 2,1;
+
+
+
+select * from jobs;
+select * from payments;
+select * from payments_customer;
+select * from customers_vehicles;
+select * from vehicles;
+select * from customers;

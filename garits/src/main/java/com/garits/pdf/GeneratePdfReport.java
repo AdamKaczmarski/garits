@@ -2,6 +2,8 @@ package com.garits.pdf;
 
 import com.garits.customer.Customer;
 import com.garits.job.Job;
+import com.garits.order.Order;
+import com.garits.order.PartsOrdersDetail;
 import com.garits.part.Part;
 import com.garits.payment.job.PaymentJob;
 import com.garits.vehicle.Vehicle;
@@ -120,37 +122,37 @@ public class GeneratePdfReport {
         );
         for (Part p : parts) {
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getPartName()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getPartName()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getCode()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getCode()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getManufacturer()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getManufacturer()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getVehicleType()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getVehicleType()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getYearS()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getYearS()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getPrice()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getPrice()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+p.getStockLevel()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + p.getStockLevel()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                     .setBorder(Border.NO_BORDER)
             );
@@ -947,8 +949,8 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    //TBD
-    public static ByteArrayInputStream partsOrder() {
+    //TBD -  Add Company to Order table
+    public static ByteArrayInputStream partsOrder(Order o, Iterable<PartsOrdersDetail> pod) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfPartsOrder = new PdfDocument(pdfWriter);
@@ -1009,19 +1011,27 @@ public class GeneratePdfReport {
         infoText.addCell(new Cell(0, 2).add("Fax: 01784 407862\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
 
+        float invoice = 600f;
+        float columnInvoice[] = {invoice};
+        Table orderText = new Table(columnInvoice).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
+        //Insert Invoice Number here
+        orderText.addCell(new Cell(0, 5).add("ORDER NO: " + o.getIdOrder()).setBold()
+                .setBorderLeft(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderLeft(Border.NO_BORDER).setMarginLeft(10f));
 
         float colWidth[] = {150, 150, 150, 150};
         Table information = new Table(colWidth).setMarginTop(20f).setMarginLeft(-20f)
                 .setMarginRight(-20f).setFontSize(12)
                 .setTextAlignment(TextAlignment.CENTER);
 
-        information.addCell(new Cell().add("Order Number").setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("Part Code").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        information.addCell(new Cell().add("Description").setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("Part Name").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
@@ -1038,26 +1048,46 @@ public class GeneratePdfReport {
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+        for (PartsOrdersDetail p : pod) {
+            //Insert data
+            information.addCell(new Cell().add("\n" + p.getPart().getCode()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n" + p.getPart().getPartName()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n" + p.getQuantityOrdered()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add("\n£" + df.format(p.getPart().getPrice())).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
+        //Layout cell
+        information.addCell(new Cell().add("\n").setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                .setBorderLeft(Border.NO_BORDER).setBorderBottom(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER));
+        //Layout cell
+        information.addCell(new Cell().add("\n").setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                .setBorderLeft(Border.NO_BORDER).setBorderBottom(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER));
+        information.addCell(new Cell().add("\n Total:").setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("\nInsert data here").setMarginTop(-20f)
+                .setBorderLeft(Border.NO_BORDER).setBorderBottom(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER).setBold());
+        information.addCell(new Cell().add("\n£" + df.format(o.getOrderAmount())).setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
+                .setBorderLeft(Border.NO_BORDER).setBorderBottom(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER).setBold());
 
         float signature = 600f;
         float columnSignature[] = {signature};
@@ -1071,6 +1101,7 @@ public class GeneratePdfReport {
         document.add(location);
         document.add(time);
         document.add(infoText);
+        document.add(orderText);
         document.add(information);
         document.add(signatureText);
         document.close();
