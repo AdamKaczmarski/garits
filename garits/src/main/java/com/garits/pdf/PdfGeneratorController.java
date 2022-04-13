@@ -11,6 +11,8 @@ import com.garits.part.Part;
 import com.garits.part.PartRepository;
 import com.garits.payment.job.PaymentJob;
 import com.garits.payment.job.PaymentJobRepository;
+import com.garits.report.StatReport;
+import com.garits.report.StatReports;
 import com.garits.user.User;
 import com.garits.vehicle.Vehicle;
 import com.garits.vehicle.VehicleRepository;
@@ -43,6 +45,8 @@ public class PdfGeneratorController {
     OrderRepository orderRepository;
     @Autowired
     PartsOrdersDetailRepository partsOrdersDetailRepository;
+    
+    StatReports statReports;
     @GetMapping(value = "/stock-ledger", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateStockLedger() {
         Iterable<Part> parts = partRepository.findAll();
@@ -160,6 +164,10 @@ public class PdfGeneratorController {
 
     @GetMapping(value = "/booking-stats", produces = MediaType.APPLICATION_PDF_VALUE)
     ResponseEntity<InputStreamResource> generateBookingStats() {
+        StatReport s = statReports.getSomething();
+        System.out.println(s.getCount());
+        System.out.println(statReports.getSomething());
+        System.out.println(statReports.getSomething());
         ByteArrayInputStream bis = GeneratePdfReport.bookingStats();
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=Booking_stats.pdf");
