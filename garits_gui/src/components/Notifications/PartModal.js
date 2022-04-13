@@ -3,13 +3,13 @@ const PartModal = (props) => {
     <>
       <tr>
         <td>{props.part.code}</td>
-        <td>{props.part.part_name}</td>
-        <td>{props.part.part_type}</td>
+        <td>{props.part.partName}</td>
+        <td>{props.part.partType}</td>
         <td>{props.part.manufacturer}</td>
-        <td>{props.part.vehicle_type}</td>
-        <td>{props.part.year_s}</td>
-        <td style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}><span style={{'color':'red'}}>{props.part.stock_level}</span></td>
-        <td><span style={{fontWeight:'bold'}}>{props.part.stock_level_threshold}</span></td>
+        <td>{props.part.vehicleType}</td>
+        <td>{props.part.yearS}</td>
+        <td style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}><span style={{'color':'red'}}>{props.part.stockLevel}</span></td>
+        <td><span style={{fontWeight:'bold'}}>{props.part.stockLevelThreshold}</span></td>
       </tr>
     </>
   );

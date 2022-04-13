@@ -4,9 +4,11 @@ import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -27,12 +29,14 @@ public class ServiceController {
     Iterable<Service> getAllServices() {
         return serviceRepository.findAll();
     }
+
     @GetMapping("/services/short")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Service> getShortInfoServices() {
         Iterable<Service> result = serviceRepository.findAll();
         Set<Service> services = new HashSet<>();
         for (Service s : result) {
-            services.add(new Service(s.getIdService(),s.getServiceName()));
+            services.add(new Service(s.getIdService(), s.getServiceName(), s.getServicePrice()));
         }
         return services;
     }
@@ -44,9 +48,17 @@ public class ServiceController {
      * @return Service object
      */
     @GetMapping("/services/{id}")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Service one(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
+
+    @GetMapping("/services/{id}/price")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
+    double getPrice(@PathVariable Integer id) {
+        return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
+    }
+
     //POST MAPPINGS
 
     /**
@@ -56,6 +68,7 @@ public class ServiceController {
      * @return
      */
     @PostMapping("/services")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     Service newService(@RequestBody Service newService) {
         return serviceRepository.save(newService);
     }
@@ -66,6 +79,7 @@ public class ServiceController {
      * Edit service
      */
     @PatchMapping("/services/{idService}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     ResponseEntity<Service> updateService(@PathVariable Integer idService, @RequestBody Service editedService) {
         Service s = serviceRepository.findById(idService).orElseThrow(() -> new NotFound("Could not find the service: " + idService));
         if (editedService.getServiceName() != null) s.setServiceName(editedService.getServiceName());
@@ -84,6 +98,7 @@ public class ServiceController {
      * @param id - service ID
      */
     @DeleteMapping("/services/{id}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteService(@PathVariable Integer id) {
         serviceRepository.deleteById(id);
     }

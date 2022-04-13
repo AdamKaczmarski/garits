@@ -1,6 +1,6 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import CustomerModal from "./CustomerModal";
 import CustomerDetailsTabs from "./CustomerDetailsTabs";
 import EditCustomer from "./EditCustomer";
@@ -9,6 +9,7 @@ import axios from "axios";
 import AddFlexDiscount from "./AddFlexDiscount";
 import AddVarDiscount from "./AddVarDiscount";
 import CustomModal from "../CommonComponents/CustomModal";
+import AuthContext from "../../store/auth-context";
 const Customer = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => setShowDetails(!showDetails);
@@ -18,6 +19,7 @@ const Customer = (props) => {
   const handleShowVar = () => setShowVar(!showVar);
   const [showFlex, setShowFlex] = useState(false);
   const handleShowFlex = () => setShowFlex(!showFlex);
+  const authCtx = useContext(AuthContext);
   const [customer, setCustomer] = useState({
     ...new CustomerClass(),
     ...props.customer,
@@ -38,6 +40,7 @@ const Customer = (props) => {
         method: "PATCH",
         url: "http://localhost:8080/customers/" + props.customer.idCustomer,
         data: customer,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -55,6 +58,7 @@ const Customer = (props) => {
           props.customer.idCustomer +
           "/flexDiscount",
         data: flexDiscount,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -72,6 +76,7 @@ const Customer = (props) => {
           props.customer.idCustomer +
           "/varDiscount",
         data: varDiscount,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       if (response.status !== 200) {
         handleShowVar();
@@ -90,24 +95,28 @@ const Customer = (props) => {
       <td>{props.customer.name}</td>
       <td>{props.customer.email}</td>
       <td style={{ display: "flex", justifyContent: "space-evenly" }}>
-        <Dropdown className="m-0 p-0" align={"end"} >
+        <Dropdown className="m-0 p-0" align={"end"}>
           <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item>Generate monthly report</Dropdown.Item>
-            <Dropdown.Item onClick={handleShowEdit}>Edit</Dropdown.Item>
-            <Dropdown.Item onClick={handleShowVar}>
-              Add Variable Discount
-            </Dropdown.Item>
-            <Dropdown.Item onClick={handleShowFlex}>
-              Add Flexible Discount
-            </Dropdown.Item>
-            <Dropdown.Item
-              style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-              href="#/action-3"
-            >
-              Delete
-            </Dropdown.Item>
+            {authCtx.authData.role !== "ROLE_RECEPTIONIST" ? (
+              <>
+                <Dropdown.Item onClick={handleShowEdit}>Edit</Dropdown.Item>
+                <Dropdown.Item onClick={handleShowVar}>
+                  Add Variable Discount
+                </Dropdown.Item>
+                <Dropdown.Item onClick={handleShowFlex}>
+                  Add Flexible Discount
+                </Dropdown.Item>
+                <Dropdown.Item
+                  style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
+                  href="#/action-3"
+                >
+                  Delete
+                </Dropdown.Item>
+              </>
+            ) : null}
           </Dropdown.Menu>
         </Dropdown>{" "}
         <Button variant="info" onClick={handleShowDetails}>

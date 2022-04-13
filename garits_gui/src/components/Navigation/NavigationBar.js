@@ -1,12 +1,117 @@
+import { useContext } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
-
+import AuthContext from "../../store/auth-context";
 import { Link } from "react-router-dom";
 
 /*need to add conditions what should be shown for each role */
+/*
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="payments">
+          Payments
+        </Nav.Link>
+        <Nav.Link as={Link} to="services">
+          Services
+        </Nav.Link>
+        <Nav.Link as={Link} to="customers">
+          Customers
+        </Nav.Link>
 
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>*/
 const NavigationBar = () => {
+  const authCtx = useContext(AuthContext);
+  const { authData, onLogout } = authCtx;
+
+  let navLinks;
+  if (authData.role === "ROLE_ADMIN") {
+    navLinks = (
+      <>
+        <Nav.Link as={Link} to="users">
+          Users
+        </Nav.Link>
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>
+      </>
+    );
+  } else if (authData.role === "ROLE_MECHANIC") {
+    navLinks = (
+      <>
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>
+      </>
+    );
+  } else if (authData.role === "ROLE_FRANCHISEE") {
+    navLinks = (
+      <>
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="payments">
+          Payments
+        </Nav.Link>
+        <Nav.Link as={Link} to="services">
+          Services
+        </Nav.Link>
+        <Nav.Link as={Link} to="customers">
+          Customers
+        </Nav.Link>
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>
+      </>
+    );
+  } else if (
+    authData.role === "ROLE_RECEPTIONIST" ||
+    authData.role === "ROLE_FOREPERSON"
+  ) {
+    navLinks = (
+      <>
+        <Nav.Link as={Link} to="jobs">
+          Jobs
+        </Nav.Link>
+        <Nav.Link as={Link} to="inventory">
+          Inventory
+        </Nav.Link>
+        <Nav.Link as={Link} to="payments">
+          Payments
+        </Nav.Link>
+
+        <Nav.Link as={Link} to="customers">
+          Customers
+        </Nav.Link>
+
+        <Nav.Link as={Link} to="login" onClick={onLogout}>
+          Logout
+        </Nav.Link>
+      </>
+    );
+  } else {
+    navLinks = (
+      <Nav.Link as={Link} to="login">
+        Login
+      </Nav.Link>
+    );
+  }
+
   return (
     <Navbar
       sticky="top"
@@ -25,27 +130,7 @@ const NavigationBar = () => {
 
         <Navbar.Collapse id="navbar-nav">
           <Nav className="justify-content-end flex-grow-1 pe-3">
-            <Nav.Link as={Link} to="jobs">
-              Jobs
-            </Nav.Link>
-            <Nav.Link as={Link} to="inventory">
-              Inventory
-            </Nav.Link>
-            <Nav.Link as={Link} to="payments">
-              Payments
-            </Nav.Link>
-            <Nav.Link as={Link} to="services">
-              Services
-            </Nav.Link>
-            <Nav.Link as={Link} to="customers">
-              Customers
-            </Nav.Link>
-            <Nav.Link as={Link} to="users">
-              Users
-            </Nav.Link>
-            <Nav.Link as={Link} to="login">
-              Login/out(TBD)
-            </Nav.Link>
+            {navLinks}{" "}
           </Nav>
         </Navbar.Collapse>
       </Container>

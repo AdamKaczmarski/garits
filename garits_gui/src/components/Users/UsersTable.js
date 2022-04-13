@@ -1,4 +1,5 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -12,30 +13,37 @@ const UserTable = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
   const [users, setUsers] = useState([]);
-  //const users = USERS.map((user) => <User key={user.id} user={user} />);
+  const [isLoading, setIsLoading] = useState(true);
+  const authCtx  = useContext(AuthContext);
+  console.log(authCtx)
   let userView;
-  useEffect(() => {
-    obtainUsers();
-  }, []);
-
   const obtainUsers = async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/users",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       setUsers(response.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (authCtx.authData.token)obtainUsers();
+  }, [authCtx]);
+
   if (users && users.length > 0) {
     userView = users.map((user) => <User key={user.idUser} user={user} />);
   }
-
+  if (isLoading){
+    return <Spinner animation="border" variant="primary" />
+  }
   return (
     <>
-      <Suspense fallback={<Spinner animation="border" variant="primary" />}>
         <Table striped hover className="mt-3">
           <thead>
             <tr>
@@ -56,8 +64,7 @@ const UserTable = () => {
           </thead>
           <tbody>{userView}</tbody>
         </Table>
-        <AddUserModal show={show} onClose={handleShow} />
-      </Suspense>
+        <AddUserModal show={show} onClose={handleShow} obtainUsers={obtainUsers} />
     </>
   );
 };

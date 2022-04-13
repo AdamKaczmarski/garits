@@ -1,35 +1,61 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import AddService from "./AddService";
+import BoldSpan from "../CommonComponents/BoldSpan";
+import AuthContext from "../../store/auth-context";
 const AddJob = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [customers, setCustomers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [servicesView, setServicesView] = useState([]);
-  const [selectedCustomer,setSelectedCustomer] = useState(null);
+  //const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [total, setTotal] = useState(0.0);
+  const servicesIDs = useRef([]);
+  const authCtx = useContext(AuthContext);
+  const obtainVehicles = useCallback(
+    async (id) => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://localhost:8080/vehicles/${id}/short`,
+          headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+        });
+        console.log(response);
+        setVehicles(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    []
+  );
+
   const obtainCustomers = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/customers/short",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setCustomers(response.data);
-      setSelectedCustomer(response.data[0]);
+      //setSelectedCustomer(response.data[0]);
       obtainVehicles(response.data[0].idCustomer);
     } catch (err) {
       console.log(err);
-    } 
-  }, []);
+    }
+  }, [obtainVehicles]);
   const obtainServices = useCallback(async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/services/short",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       setServices(response.data);
@@ -37,18 +63,6 @@ const AddJob = (props) => {
       console.log(err);
     }
   }, []);
-  const obtainVehicles = useCallback(async (id) => {
-    try {
-      const response = await axios({
-        method: "GET",
-        url: `http://localhost:8080/vehicles/${id}/short`,
-      });
-      console.log(response);
-      setVehicles(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }, [selectedCustomer]);
   const obtainData = useCallback(async () => {
     try {
       await obtainCustomers();
@@ -94,15 +108,38 @@ const AddJob = (props) => {
       </option>
     ));
   }
+  const obtainPrice = async () => {
+    let sum=0;
+    servicesIDs.current.forEach(async id=>{
+      let tmp=id.idService;
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://localhost:8080/services/${tmp}/price`,
+          headers:{'Authorization': `Bearer ${authCtx.authData.token}`}          
+        });
+        sum+=parseFloat(response.data);
+        console.log(sum)
+      } catch (er) {
+        console.log(er);
+      } finally {
+        setTotal(sum);
+
+      }
+    })
+  };
   const addService = () => {
     if (servicesView.length < services.length) {
-      props.selectedServices.push({ idService: 1 });
+      props.selectedServices.push({  idService: 1 });
+      servicesIDs.current.push({idService:1});
       setServicesView([
         ...servicesView,
         <AddService
           key={Math.random()}
           servicesOptions={servicesOptions}
           service={props.selectedServices[props.selectedServices.length - 1]}
+          id={servicesIDs.current[servicesIDs.current.length - 1]}
+          obtainPrice={obtainPrice}
         />,
       ]);
     } else {
@@ -110,7 +147,7 @@ const AddJob = (props) => {
     }
   };
   const customerHandler = (ev) => {
-    setSelectedCustomer(+ev.target.value);
+    //setSelectedCustomer(+ev.target.value);
     obtainVehicles(+ev.target.value);
   };
   const vehicleHandler = (ev) => {
@@ -138,12 +175,14 @@ const AddJob = (props) => {
         Add service
       </Button>
       <Form.Group controlId="booking_date">
-        <Form.Label onChange={dateHandler}>Booking date</Form.Label>
+        <Form.Label>Booking date</Form.Label>
         <Form.Control
           type="date"
           defaultValue={new Date().toISOString().substring(0, 10)}
+          onChange={dateHandler}
         />
       </Form.Group>
+      <BoldSpan>Total: £{total}</BoldSpan>
     </Form>
   );
 };

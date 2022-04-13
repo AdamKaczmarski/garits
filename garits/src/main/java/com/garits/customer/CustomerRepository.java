@@ -35,5 +35,6 @@ public interface CustomerRepository extends CrudRepository<Customer,Integer> {
     Integer checkDuplicateVarDiscount(Integer serviceId, Integer customerId);
     @Query (value="select * from customers where id_customer in (select customer_id from customers_vehicles where reg_no_id=:idRegNo)", nativeQuery = true)
     Set<Customer> findCustomerForVehicle(@Param("idRegNo") String idRegNo);
-
+    @Query(value = "SELECT * from customers where id_customer IN (SELECT DISTINCT pc.customer_id FROM payments_customer pc INNER JOIN payments p on p.id_payment = pc.payment_id where p.payment_due<CURDATE() AND p.payment_date is NULL);",nativeQuery = true)
+    Iterable<Customer> findLatePaymentCustomers();
 }

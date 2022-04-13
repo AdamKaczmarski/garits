@@ -1,5 +1,6 @@
 package com.garits.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -19,15 +20,14 @@ public class User {
     private Integer idUser;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "password")
     private String password;
-    @Column(name = "salt")
-    private String salt;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -39,7 +39,6 @@ public class User {
         this.idUser = idUser;
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;
@@ -70,15 +69,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
+    
     public String getFirstName() {
         return firstName;
     }

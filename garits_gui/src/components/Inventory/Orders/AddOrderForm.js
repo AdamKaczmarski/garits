@@ -1,15 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import SelectItem from "./SelectItem";
 import Spinner from "react-bootstrap/Spinner";
+import AuthContext from "../../../store/auth-context";
 const STATUSES = ["ordered", "completed"];
 
 const AddOrderForm = (props) => {
   const [items, setItems] = useState([]);
   const [words, setWords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const authCtx = useContext(AuthContext);
   const options = STATUSES.map((status, index) => (
     <option value={status} key={index}>
       {status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()}
@@ -21,6 +23,8 @@ const AddOrderForm = (props) => {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/partNames",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
       if (response.status === 200) {
@@ -34,14 +38,13 @@ const AddOrderForm = (props) => {
             Add items...
           </option>
         );
-
-        console.log(itemNames);
         props.orderItems.push({ partId: 0, quantity: 0 });
         setItems([
           <SelectItem
             itemNames={itemNames.current}
             key={Math.random()}
             item={props.orderItems[props.orderItems.length - 1]}
+            from="order"
           />,
         ]);
       }
@@ -66,6 +69,7 @@ const AddOrderForm = (props) => {
           itemNames={itemNames.current}
           key={Math.random()}
           item={props.orderItems[props.orderItems.length - 1]}
+          from="order"
         />,
       ]);
     } else {

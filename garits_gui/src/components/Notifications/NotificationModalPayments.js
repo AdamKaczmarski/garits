@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 const NotificationModalPayments = (props) => {
+  const navigate = useNavigate();
   return (
     <Modal show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
@@ -9,8 +11,7 @@ const NotificationModalPayments = (props) => {
       <Modal.Body>
         These customers are late with their payments
         <ul>
-            <li>Customer 1</li>
-            <li>Customer 2</li>
+            {props.latePaymentCustomers.map((customer, index) => (<li key={index}>{customer.name} - ID: {customer.idCustomer}</li>))}
         </ul>
       </Modal.Body>
       <Modal.Footer>
@@ -19,6 +20,9 @@ const NotificationModalPayments = (props) => {
         </Button>
         <Button variant="primary" onClick={props.onClose}>
           Acknowledge
+        </Button>
+        <Button variant="primary" onClick={()=>{navigate("/payments");props.onClose();}}>
+          Go to payments
         </Button>
       </Modal.Footer>
     </Modal>

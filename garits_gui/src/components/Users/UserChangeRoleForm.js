@@ -1,9 +1,13 @@
 import Form from "react-bootstrap/Form";
-const roles = ["MECHANIC", "FRANCHISEE", "RECEPTIONIST", "FOREPERSON"];
+const roles = ["ROLE_MECHANIC", "ROLE_FRANCHISEE", "ROLE_RECEPTIONIST", "ROLE_FOREPERSON"];
 const UserChangeRoleForm = (props) => {
   const options = roles.map((role, index) => {
-    if (props.roleFrom !== role) {
-      const roleLC = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+    if (props.roleFrom.toUpperCase() !== role.substring(5, role.length)) {
+      let roleLC = role.substring(5, role.length);
+      roleLC =
+      roleLC.charAt(0).toUpperCase() +
+      roleLC.slice(1).toLowerCase();
+    
       return (
         <option key={index} value={role}>
           {roleLC}

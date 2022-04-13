@@ -61,9 +61,9 @@ const Order = (props) => {
                 Change status
               </Dropdown.Item>
               
-              <Dropdown.Item onClick={handleShowFinish}>
+              {props.order.status==='ordered'?<Dropdown.Item onClick={handleShowFinish}>
                 Complete order
-              </Dropdown.Item></>):null}
+              </Dropdown.Item>:null}</>):null}
               <Dropdown.Item
                 style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                 onClick={handleDelete}

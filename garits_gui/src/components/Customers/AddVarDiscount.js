@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import AuthContext from "../../store/auth-context";
 const AddVarDiscount = (props) => {
   const [services, setServices] = useState([]);
   const serviceNameRef = useRef();
-
+  const authCtx = useContext(AuthContext);
   let servicesOptions;
   /**
    * ADD SERVICES FILTERING SO THE ONES THAT CUSTOMER ALREADY HAS ARE NOT DISPLAYED IN THE OPTIONS
@@ -13,7 +14,8 @@ const AddVarDiscount = (props) => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:8080/services",
+        url: "http://localhost:8080/services",        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       /*       const filteredServices = response.data
        */

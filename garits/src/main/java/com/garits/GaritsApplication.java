@@ -1,5 +1,7 @@
 package com.garits;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.garits.customer.Customer;
 import com.garits.part.Part;
 import com.garits.user.User;
@@ -25,4 +27,11 @@ public class GaritsApplication {
             }
         };
     }
-}
+    @Bean
+    ObjectMapper myObjectMapper() {
+        Hibernate5Module m = new Hibernate5Module();
+        m.disable(Hibernate5Module.Feature.USE_TRANSIENT_ANNOTATION);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(m);
+        return mapper;
+    }}

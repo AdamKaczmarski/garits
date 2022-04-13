@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext , useCallback} from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 //import { SERVICES } from "../../dummy-data/services";
 import Service from "./Service";
 import AddServiceForm from "./AddServiceForm";
 import ServiceModal from "./ServiceModal";
-import { Spinner } from "react-bootstrap";
+import  Spinner  from "react-bootstrap/Spinner";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
 const ServicesTable = () => {
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState([]);
   const handleShow = () => setShow(!show);
+  const authCtx = useContext(AuthContext);
   let servicesView=[];
   let newService = {
     serviceName: "",
@@ -19,28 +21,30 @@ const ServicesTable = () => {
     shortDescription: "",
     approxTimeMin: 0,
   };
-  const obtainServices = async () => {
+  const obtainServices =useCallback( async () => {
     try {
       const response = await axios({
         method: "GET",
         url: "http://localhost:8080/services",
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
       });
       setServices(response.data);
     } catch (err) {
     } finally {
       setIsLoading(false);
     }
-  };
+  },[authCtx]);
   useEffect(() => {
     obtainServices();
-  }, []);
+  }, [obtainServices]);
   const addService = async () => {
-    console.log(newService)
     try {
-      const response = axios({
+      const response = await axios({
         method: "POST",
         url: "http://localhost:8080/services",
         data: newService,
+        headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
+
       });
       console.log(response);
     } catch (err) {

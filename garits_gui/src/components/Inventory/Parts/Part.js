@@ -1,11 +1,16 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import InventoryModal from "../InventoryModal";
 import EditPartForm from "./EditPartForm";
+import AuthContext from "../../../store/auth-context";
+
+import BoldSpan from "../../CommonComponents/BoldSpan";
 const Part = (props) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(!show);
+  const authCtx = useContext(AuthContext);
+
   let editedPart = { ...props.part };
 
   const editPart = async () => {
@@ -14,6 +19,7 @@ const Part = (props) => {
         method: "PATCH",
         url: "http://localhost:8080/parts/" + editedPart.idPart,
         data: editedPart,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
       });
       console.log(response);
     } catch (err) {
@@ -26,7 +32,13 @@ const Part = (props) => {
 
   return (
     <>
-      <tr>
+      <tr
+        style={
+          props.part.stockLevel < props.part.stockLevelThreshold || !props.part.stockLevel
+            ? { backgroundColor: "rgba(242, 97, 99,0.2)" }
+            : null
+        }
+      >
         <td>{props.part.code}</td>
         <td>{props.part.partName}</td>
         <td>{props.part.partType}</td>
@@ -36,9 +48,15 @@ const Part = (props) => {
         <td>
           {(Math.round(props.part.price * 100) / 100).toFixed(2) + " GBP"}
         </td>
-        <td>{props.part.stockLevel}</td>
+        <td>
+          {props.part.stockLevel < props.part.stockLevelThreshold ? (
+            <BoldSpan>{props.part.stockLevel}</BoldSpan>
+          ) : (
+            props.part.stockLevel
+          )}
+        </td>
         <td colSpan={2}>
-          <Dropdown>
+        {authCtx.authData.role !== "ROLE_MECHANIC" ? (  <Dropdown>
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
@@ -50,7 +68,7 @@ const Part = (props) => {
                 Delete
               </Dropdown.Item>
             </Dropdown.Menu>
-          </Dropdown>{" "}
+          </Dropdown>) : null}
         </td>
         <td></td>
       </tr>
