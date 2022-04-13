@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceVehiclesBooked {
 
     public static void pdfCreationVehiclesBooked() {
-    String filepathVehiclesBooked = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsMonthlyVehicles.pdf";
+    String filepathVehiclesBooked = "./pdf_reports/Vehicles_Booked.pdf";
 
     try
     {

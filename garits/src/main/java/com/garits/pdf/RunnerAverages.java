@@ -23,7 +23,7 @@ public class RunnerAverages implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         pdfFileServiceAverages.pdfCreationAverages();
-        System.out.println("Stock Ledger PDF File Created");
+        System.out.println("Averages PDF File Created");
 
 
     }

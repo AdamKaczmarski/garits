@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
         public void run(ApplicationArguments args) throws Exception {
 
             pdfFileServicePartsOrder.pdfCreationStock();
-            System.out.println("Stock Level Pdf File Created");
+            System.out.println("Parts Order Pdf File Created");
 
 
         }

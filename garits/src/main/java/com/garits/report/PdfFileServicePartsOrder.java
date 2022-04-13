@@ -26,7 +26,7 @@ public class PdfFileServicePartsOrder {
 
 
     public static void pdfCreationStock() {
-        String filepathStock = "./pdf_reports/parts_orders.pdf";
+        String filepathStock = "./pdf_reports/Parts_Order.pdf";
 
         try {
             //Creating the page

@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class PdfFileServiceAverages {
 
     public static void pdfCreationAverages() {
-        String filepathAverages = "C:\\Users\\adelz\\OneDrive - City, University of London\\Desktop\\PdfFiles\\garitsAverages.pdf";
+        String filepathAverages = "./pdf_reports/Averages.pdf";
 
         try {
             //Creating the page
