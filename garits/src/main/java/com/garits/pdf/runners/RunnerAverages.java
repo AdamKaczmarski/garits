@@ -1,4 +1,4 @@
-package com.garits.pdf;
+package com.garits.pdf.runners;
 
 import com.garits.report.PdfFileServiceAverages;
 import com.garits.report.PdfFileServiceLedger;
@@ -7,7 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class RunnerAverages implements ApplicationRunner {
 
     private PdfFileServiceAverages pdfFileServiceAverages;

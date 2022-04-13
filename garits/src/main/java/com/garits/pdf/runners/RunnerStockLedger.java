@@ -1,4 +1,4 @@
-package com.garits.pdf;
+package com.garits.pdf.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.garits.report.PdfFileServiceLedger;
 
-@Component
+
 public class RunnerStockLedger implements ApplicationRunner {
 
     private PdfFileServiceLedger pdfFileServiceLedger;

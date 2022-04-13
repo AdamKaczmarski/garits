@@ -1,4 +1,4 @@
-package com.garits.pdf;
+package com.garits.pdf.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.garits.report.PdfFileServiceInvoice;
 
 
-@Component
+
 public class RunnerInvoice implements ApplicationRunner {
 
     private PdfFileServiceInvoice pdfFileServiceInvoice;

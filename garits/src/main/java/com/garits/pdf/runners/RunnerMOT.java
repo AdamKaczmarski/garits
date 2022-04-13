@@ -1,4 +1,4 @@
-package com.garits.pdf;
+package com.garits.pdf.runners;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -7,7 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import com.garits.report.PdfFileServiceMOT;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class RunnerMOT implements ApplicationRunner {
 
     private PdfFileServiceMOT pdfFileServiceMOT;
