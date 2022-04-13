@@ -1,20 +1,38 @@
 package com.garits.report;
 
-public class StatReport {
-    private int count;
+import org.hibernate.annotations.NamedNativeQuery;
 
-    public StatReport() {
-    }
+import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
+import javax.persistence.SqlResultSetMapping;
+import java.io.Serializable;
+import java.util.Map;
 
-    public StatReport(int count) {
-        this.count = count;
-    }
+@SqlResultSetMapping(
+        name = "StatReportResult",
+        entities = {
+                @EntityResult(
+                        entityClass = com.garits.report.StatReport.class,
+                        fields = {
+                                @FieldResult(name = "count", column = "count")}
+                )
+        }
+)
+@NamedNativeQuery(
+        name = "Stats",
+        query = "SELECT count(*) as count FROM customers",
+        resultSetMapping = "StatReportResult"
+)
+public class StatReport implements Serializable {
+    private Long count;
 
-    public int getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Long count) {
         this.count = count;
     }
+
+
 }
