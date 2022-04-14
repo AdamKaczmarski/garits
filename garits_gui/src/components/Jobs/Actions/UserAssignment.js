@@ -61,7 +61,9 @@ const UserAssignment = (props) => {
   const bayHandler = (ev) => {
     props.formData.bay = ev.target.value;
   };
-
+  const dateHandler = (ev) => {
+    props.formData.bookingDate = ev.target.value;
+  };
   if (props.user) {
     let bay;
     if (props.bay && props.bay !== "MOT") {
@@ -74,6 +76,10 @@ const UserAssignment = (props) => {
     //props.formData.idUser = props.user[0].idUser;
     return (
       <Form>
+        <Form.Group controlId="date">
+          <Form.Label>Booking Date</Form.Label>
+          <Form.Control onChange={dateHandler} type="date" />{" "}
+        </Form.Group>
         <Form.Group controlId="assignee">
           <Form.Label>Assigned Mechanic</Form.Label>
           <Form.Select onChange={mechanicHandler}>{mechanicsView}</Form.Select>
@@ -94,6 +100,11 @@ const UserAssignment = (props) => {
     props.formData.bay = "repair";
     return (
       <Form>
+        <Form.Group controlId="date">
+          <Form.Label>Booking Date</Form.Label>
+          <Form.Control onChange={dateHandler} type="date" />{" "}
+        </Form.Group>
+
         <Form.Group controlId="assignee">
           <Form.Label>Assign Mechanic</Form.Label>
           <Form.Select onChange={mechanicHandler}>{mechanicsView}</Form.Select>

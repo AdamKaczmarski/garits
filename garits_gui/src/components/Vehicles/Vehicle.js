@@ -42,7 +42,7 @@ const Vehicle = (props) => {
         title={`Edit vehicle : ${props.vehicle.idRegNo}`}
         submitAction={() => props.editVehicle(editedVehicle)}
         show={show}
-        onClose={handleShow}
+      
         form={<EditVehicleForm editedVehicle={editedVehicle} />}
       />
     </>

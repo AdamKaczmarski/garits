@@ -41,6 +41,7 @@ const Job = (props) => {
           user: [{ idUser: 0 }],
           bay: "",
           status: "active",
+          bookingDate:"",
         };
         console.log(props.job.status);
         //console.log(props.job.status === "active" ? "active" : "booked")
@@ -52,6 +53,7 @@ const Job = (props) => {
               bay: formData.bay,
               status: formData.status,
               user: [formData.user[0]],
+              bookingDate: formData.bookingDate,
             };
             const response = await axios({
               method: "PATCH",

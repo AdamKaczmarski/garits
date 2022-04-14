@@ -54,6 +54,7 @@ const VehiclesTable = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
+      handleShow();
       obtainVehicles();
     }
   };
