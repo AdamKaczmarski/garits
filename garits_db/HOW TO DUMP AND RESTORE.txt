@@ -1,0 +1,22 @@
+How to backup
+1. Open CMD with the Administrator rights
+2. Navigate to you mysql server/bin file
+On windows, it's something like this:
+C:\Program Files\MySQL\MySQL Server 8.0\bin
+You can also specify this path in your environmental variables.
+
+3. Then you execute this command
+
+mysqldump -uroot -p --add-drop-table garits >  dumpfile.sql
+
+This will a .sql file with the current state of the database, ready to be restored.
+
+
+
+How to Restore
+
+1. Open CMD with the Administrator rightsm
+2. Navigate to the directory where your dumpfile.sql is located.
+3. Execute this command
+mysql -uroot -p garits < dumpfile.sql
+-- You can always open the dumpfile.sql in MySQL Workbench and execute all the queries ;)

@@ -4,6 +4,8 @@ Project's structure
 
 ```garits``` - Java Application (w/ Spring) =>  Bundled with Maven
 
+- .jar file in out/artifacts/garits_jar
+
 ```garits_db``` - Here we put the latest MySQL dumps (exports) => 
 
 - The schema - garits_schema.sql; 
