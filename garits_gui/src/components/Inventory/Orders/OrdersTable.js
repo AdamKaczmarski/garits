@@ -95,6 +95,10 @@ const OrdersTable = () => {
     description: "",
     orderDate: new Date().toISOString().substring(0, 10),
     orderArrival: null,
+    company:"",
+    address:"",
+    phoneNo:"",
+    fax:""
   };
   const orderItems = [];
   const addOrder = async () => {

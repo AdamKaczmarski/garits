@@ -164,20 +164,19 @@ public class JobController {
         }
 
         if (j.getActTimeMin() != null && j.getActTimeMin() >= 0 && j.getStatus().equals("completed")) {
-            System.out.println("COMPLETING");
+
             Optional<Customer> customer  = customerRepository.findById(jobRepository.getCustomerIdByVehicle(j.getVehicle().getIdVehicle()));
-            System.out.println("DUPA");
-            System.out.println(customer.isPresent());
+
             if (customer.isPresent()) {
                 if (customer.get().isAccountHolder()){
-                    System.out.println("30 DAYS");
+
                     jobRepository.setPaymentDate30(j.getIdJob());
                 }else {
-                    System.out.println("5 DAYS");
+
                     jobRepository.setPaymentDate5(j.getIdJob());
                 }
             } else {
-                System.out.println("5 DAYS");
+
                 jobRepository.setPaymentDate5(j.getIdJob());
             }
             jobRepository.updatePriceOnFinish(j.getIdJob());
