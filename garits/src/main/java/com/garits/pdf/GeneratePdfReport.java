@@ -683,8 +683,8 @@ public class GeneratePdfReport {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    //TBD
-    public static ByteArrayInputStream averagesReport() {
+    //DONE
+    public static ByteArrayInputStream averagesReport(List<Object[]> r1, List<Object[]> r2, List<Object[]> r3) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfAverages = new PdfDocument(pdfWriter);
@@ -726,10 +726,36 @@ public class GeneratePdfReport {
         float MoTdescription = 600f;
         float columnMoTDescription[] = {MoTdescription};
         Table MoTdescriptionText = new Table(columnMoTDescription).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        MoTdescriptionText.addCell(new Cell().add("MoT Service").setFontSize(15f)
+        MoTdescriptionText.addCell(new Cell().add("Overall").setFontSize(15f)
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold());
-        MoTdescriptionText.addCell(new Cell().add("The average time and average cost for MoT services.").setFontSize(11f)
+        MoTdescriptionText.addCell(new Cell().add("The average time and average cost of all services.").setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        float colWidth[] = {300, 300};
+        Table averageOverall = new Table(colWidth).setMarginTop(20f)
+                .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+        averageOverall.addCell(new Cell().add("Average Time").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+
+        averageOverall.addCell(new Cell().add("Average Cost Per Job").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+
+        averageOverall.addCell(new Cell().add(r1.get(0)[0].toString()).setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorder(Border.NO_BORDER)
+        );
+
+        averageOverall.addCell(new Cell().add("£" + r1.get(0)[1].toString()).setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorder(Border.NO_BORDER)
+        );
+
 
         float vehicleDescription = 600f;
         float columnvehicleDescription[] = {vehicleDescription};
@@ -738,58 +764,109 @@ public class GeneratePdfReport {
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold());
         vehicleDescriptionText.addCell(new Cell().add("The average time and average cost for vehicle repairs.").setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        //Creating Table
+        float colWidthPerJob[] = {200, 200, 200};
+        Table averagePerJob = new Table(colWidthPerJob).setMarginTop(20f)
+                .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+        averagePerJob.addCell(new Cell().add("Job Type").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+        averagePerJob.addCell(new Cell().add("Average Time").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
 
+        averagePerJob.addCell(new Cell().add("Average Cost Per Job").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+        for (Object[] row : r2) {
+            averagePerJob.addCell(new Cell().add(row[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            averagePerJob.addCell(new Cell().add(row[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+
+            averagePerJob.addCell(new Cell().add("£" + row[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
         float annualService = 600f;
         float columnAnnualService[] = {annualService};
         Table annualServiceText = new Table(columnAnnualService).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        annualServiceText.addCell(new Cell().add("Annual Services").setFontSize(15f)
+        annualServiceText.addCell(new Cell().add("Average per Mechanic").setFontSize(15f)
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setBold());
-        annualServiceText.addCell(new Cell().add("The average time and average cost for annual services.").setFontSize(11f)
+        annualServiceText.addCell(new Cell().add("The average time and average cost per job per mechanic.").setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-
-        //Creating Table
-        float colWidth[] = {300, 300};
-        Table averageCost = new Table(colWidth).setMarginTop(20f)
+        float colWidthPerJobPerMechanic[] = {150, 150, 150, 150};
+        Table averagePerJobPerMechanic = new Table(colWidthPerJobPerMechanic).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
-
-        averageCost.addCell(new Cell().add("Average Time").setBold().setMarginTop(-20f)
+        averagePerJobPerMechanic.addCell(new Cell().add("Job Type").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+        averagePerJobPerMechanic.addCell(new Cell().add("Mechanic").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+        averagePerJobPerMechanic.addCell(new Cell().add("Average Time").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        averageCost.addCell(new Cell().add("Average Cost Per Job").setBold().setMarginTop(-20f)
+        averagePerJobPerMechanic.addCell(new Cell().add("Average Cost Per Job").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
+        for (Object[] row : r3) {
+            averagePerJobPerMechanic.addCell(new Cell().add(row[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            averagePerJobPerMechanic.addCell(new Cell().add(row[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            averagePerJobPerMechanic.addCell(new Cell().add(row[2].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
 
-        averageCost.addCell(new Cell().add("Insert Value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-
-        averageCost.addCell(new Cell().add("Insert Value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
+            averagePerJobPerMechanic.addCell(new Cell().add("£"+row[3].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
 
         document.add(name);
         document.add(time);
         document.add(tableAverages);
         document.add(MoTdescriptionText);
-        document.add(averageCost);
+        document.add(averageOverall);
         document.add(vehicleDescriptionText);
-        document.add(averageCost);
+        document.add(averagePerJob);
         document.add(annualServiceText);
-        document.add(averageCost);
+        document.add(averagePerJobPerMechanic);
         document.close();
         pdfAverages.close();
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    //TBD
-    public static ByteArrayInputStream bookingStats() {
+    //TBD - DO AFTER ADDING CUSTOMER ACCOUNT HOLDER
+    public static ByteArrayInputStream bookingStats(List<Object[]> resultsPerMonthPerYear, List<Object[]> resultsOverall, List<Object[]> resultsPerJob) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfBookingStats = new PdfDocument(pdfWriter);
@@ -823,13 +900,26 @@ public class GeneratePdfReport {
         float Monthly = 1000f;
         float columnMonthly[] = {Monthly};
         Table tableMonthly = new Table(columnMonthly).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
-        tableMonthly.addCell(new Cell().add("Number of Monthly Vehicles Booked on a Monthly Basis ").setBorderLeft(Border.NO_BORDER).setFontSize(12f)
+        tableMonthly.addCell(new Cell().add("Vehicle Bookings Stats").setBorderLeft(Border.NO_BORDER).setFontSize(12f)
                 .setBorderRight(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBold().setTextAlignment(TextAlignment.CENTER).setFontSize(30f)
         );
+        float totalWidth[] = {300f, 300f};
+        Table total = new Table(totalWidth).setMarginTop(20f)
+                .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
+        total.addCell(new Cell().add("Total bookings: ").setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
+        total.addCell(new Cell().add(resultsOverall.get(0)[0].toString()).setBold().setMarginTop(-20f)
+                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
+        );
         //Creating Table
-        float colWidth[] = {300, 300, 300};
+        float colWidth[] = {300, 300};
         Table information = new Table(colWidth).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
@@ -839,33 +929,53 @@ public class GeneratePdfReport {
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        information.addCell(new Cell().add("Service Dates").setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("Amount of Bookings").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        information.addCell(new Cell().add("Type of Customer").setBold().setMarginTop(-20f)
+
+        for (Object[] x : resultsPerJob) { //Insert data
+            information.addCell(new Cell().add(x[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            information.addCell(new Cell().add(x[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
+        //Creating Table
+        float monthlyColWidth[] = {300, 300};
+        Table perMonthPerYear = new Table(monthlyColWidth).setMarginTop(20f)
+                .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+        perMonthPerYear.addCell(new Cell().add("Job Type").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        //Insert data
-        information.addCell(new Cell().add("Insert data here").setMarginTop(-20f)
+        perMonthPerYear.addCell(new Cell().add("Amount of Bookings").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
+                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
+                .setBorderRight(Border.NO_BORDER)
         );
-        //Insert data
-        information.addCell(new Cell().add("Insert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert data
-        information.addCell(new Cell().add("Insert data here").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
+
+
+        for (Object[] x : resultsPerMonthPerYear) { //Insert data
+            perMonthPerYear.addCell(new Cell().add(x[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            perMonthPerYear.addCell(new Cell().add(x[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
 
 
         //Creating Table
@@ -943,7 +1053,9 @@ public class GeneratePdfReport {
         document.add(name);
         document.add(time);
         document.add(tableMonthly);
+        document.add(total);
         document.add(information);
+        document.add(perMonthPerYear);
         document.add(amount);
         document.close();
         pdfBookingStats.close();
@@ -1109,15 +1221,15 @@ public class GeneratePdfReport {
         pdfPartsOrder.close();
         return new ByteArrayInputStream(out.toByteArray());
     }
+
     //DONE
-    public static ByteArrayInputStream stockLevel(List<Object[]> items){
+    public static ByteArrayInputStream stockLevel(List<Object[]> items) {
         //Creating the page
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfStockLevel = new PdfDocument(pdfWriter);
         pdfStockLevel.setDefaultPageSize(PageSize.A4.rotate());
         Document document = new Document(pdfStockLevel);
-
 
 
         //Creating the first column
@@ -1133,18 +1245,17 @@ public class GeneratePdfReport {
         );
 
         float address = 80f;
-        float columnAddress[] = {address,address,address,address};
+        float columnAddress[] = {address, address, address, address};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
-                .setMarginRight(30f)
-                ;
+                .setMarginRight(30f);
 
-        location.addCell(new Cell(0,4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Quick Fix Fitters").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(10));
-        location.addCell(new Cell(0,4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("19 High St.,").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(10));
-        location.addCell(new Cell(0,4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Ashford").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(10));
-        location.addCell(new Cell(0,4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
+        location.addCell(new Cell(0, 4).add("Kent CT16 8YY").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(10)
 
         );
@@ -1158,7 +1269,7 @@ public class GeneratePdfReport {
         );
 
         //Creating Table
-        float colWidth[] = {80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80 ,80, 80};
+        float colWidth[] = {80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80};
         Table information = new Table(colWidth).setMarginTop(20f).setMarginLeft(-20f)
                 .setMarginRight(-20f).setFontSize(12)
                 .setTextAlignment(TextAlignment.CENTER);
@@ -1227,100 +1338,99 @@ public class GeneratePdfReport {
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
         );
-        Double totalInitCost=0.0;
-        Double totalStockCost=0.0;
+        Double totalInitCost = 0.0;
+        Double totalStockCost = 0.0;
         for (Object[] item : items) {
-            totalInitCost+=Double.parseDouble(item[7].toString());
-            totalStockCost+=Double.parseDouble(item[11].toString());
+            totalInitCost += Double.parseDouble(item[7].toString());
+            totalStockCost += Double.parseDouble(item[11].toString());
 
             //Insert data
-            information.addCell(new Cell().add("\n"+item[0].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[0].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[1].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[1].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[2].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[2].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[3].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[3].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[4].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[4].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n£"+item[5].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n£" + item[5].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[6].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[6].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n£"+item[7].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n£" + item[7].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[8].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[8].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[9].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[9].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n"+item[10].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[10].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
             //Insert data
-            information.addCell(new Cell().add("\n£"+item[11].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n£" + item[11].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
-            information.addCell(new Cell().add("\n"+item[12].toString()).setMarginTop(-20f)
+            information.addCell(new Cell().add("\n" + item[12].toString()).setMarginTop(-20f)
                     .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
             );
         }
-        information.addCell(new Cell(0,7).add("Total:").setBold().setMarginTop(-20f)
+        information.addCell(new Cell(0, 7).add("Total:").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
                 .setTextAlignment(TextAlignment.LEFT)
         );
 
-        information.addCell(new Cell().add("£"+df.format(totalInitCost)).setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("£" + df.format(totalInitCost)).setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
         );
         //Empty Cells
-        information.addCell(new Cell(0,3).add("").setBold().setMarginTop(-20f)
+        information.addCell(new Cell(0, 3).add("").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
         );
-        information.addCell(new Cell().add("£"+df.format(totalStockCost)).setBold().setMarginTop(-20f)
+        information.addCell(new Cell().add("£" + df.format(totalStockCost)).setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(10)
 
         );
 
         float date = 150f;
-        float columnDate[] = {date,date};
-        Table time = new Table(columnDate).setMarginTop(20f).setTextAlignment(TextAlignment.LEFT)
-                ;
+        float columnDate[] = {date, date};
+        Table time = new Table(columnDate).setMarginTop(20f).setTextAlignment(TextAlignment.LEFT);
         time.addCell(new Cell().add("Report date:").setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.LEFT)
                 .setFontSize(11));
         LocalDate now = LocalDate.now();
@@ -1330,7 +1440,7 @@ public class GeneratePdfReport {
                 .setFontSize(11).setMarginLeft(-20f)
         );
 
-        float thankYou= 600f;
+        float thankYou = 600f;
         float columnText[] = {thankYou};
         Table textTable = new Table(columnText);
         textTable.addCell(new Cell().add("\nSenior Storekeeper:\n\n ").setBorder(Border.NO_BORDER)

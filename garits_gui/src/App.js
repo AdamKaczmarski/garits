@@ -167,7 +167,7 @@ const App = () => {
       style={{ maxWidth: "90%" }}
     >
       <NavigationBar />
-      {/*  <Routes>
+        <Routes>
         <Route path="/" element={<Login />} />
         <Route path="login" element={<Login />} />
         <Route path="inventory" element={<Inventory />} />
@@ -184,8 +184,8 @@ const App = () => {
             </main>
           }
         />
-      </Routes> */}
-      {routes}
+      </Routes> 
+      {/* routes */}
       <Footer />
       <NotificationModalPayments
         show={show}

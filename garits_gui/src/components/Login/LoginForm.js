@@ -42,7 +42,7 @@ const LoginForm = () => {
   };
   useEffect(()=>{
     if (authCtx.authData.token!==null){
-      authCtx.onLogout();
+     // authCtx.onLogout();
     }
   },[authCtx])
   const emailHandler = (ev) => {
