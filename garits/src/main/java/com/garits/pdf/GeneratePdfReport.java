@@ -173,6 +173,7 @@ public class GeneratePdfReport {
 
     //DONE
     public static ByteArrayInputStream motReminder(Vehicle v) {
+        System.out.println("Generating MOT Reminder");
         Customer c = v.getCustomer().iterator().next();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
@@ -308,7 +309,7 @@ public class GeneratePdfReport {
         );
 
         float address = 300f;
-        float columnAddress[] = {address, address + 50};
+        float columnAddress[] = {address, address};
         Table location = new Table(columnAddress).setMarginTop(10f).setTextAlignment(TextAlignment.LEFT)
                 .setMarginRight(30f);
 //Insert Customer Address
@@ -1114,14 +1115,14 @@ public class GeneratePdfReport {
         float columnInfo[] = {info, info};
         Table infoText = new Table(columnInfo).setMarginTop(10f).setTextAlignment(TextAlignment.CENTER);
         //Insert Company name here
-        infoText.addCell(new Cell(0, 2).add("\n\nCompany: ").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("\n\nCompany: "+o.getCompany()).setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
         //Might need dynamic info for address
-        infoText.addCell(new Cell(0, 2).add("Address: 25 The Causeway, Staines, Middlesex\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Address: "+o.getAddress()+"\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0, 2).add("Tel: 01784 407862\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Tel: "+o.getPhoneNo()+"\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
-        infoText.addCell(new Cell(0, 2).add("Fax: 01784 407862\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
+        infoText.addCell(new Cell(0, 2).add("Fax: "+o.getFax()+"\n\n").setBorder(Border.NO_BORDER).setFontSize(11f)
                 .setTextAlignment(TextAlignment.LEFT));
 
         float invoice = 600f;

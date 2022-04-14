@@ -33,6 +33,8 @@ public class Customer {
     private String fax;
     @Column(name="fixed_discount", nullable = true)
     private Integer fixedDiscount;
+    @Column(name="is_account_holder")
+    private boolean isAccountHolder;
     @OneToMany(mappedBy = "customerId")
     private Set<FlexDiscount> flexDiscounts = new HashSet<>();
 
@@ -47,7 +49,13 @@ public class Customer {
         this.name = name;
     }
 
-    public Customer(Integer idCustomer, String name, String city, String address, String postcode, String telephoneNumber, String email, String fax, Integer fixedDiscount, Set<FlexDiscount> flexDiscounts, Set<VariableDiscount> variableDiscounts) {
+    public Customer(Integer idCustomer, String name, boolean isAccountHolder) {
+        this.idCustomer = idCustomer;
+        this.name = name;
+        this.isAccountHolder = isAccountHolder;
+    }
+
+    public Customer(Integer idCustomer, String name, String city, String address, String postcode, String telephoneNumber, String email, String fax, Integer fixedDiscount, boolean isAccountHolder, Set<FlexDiscount> flexDiscounts, Set<VariableDiscount> variableDiscounts) {
         this.idCustomer = idCustomer;
         this.name = name;
         this.city = city;
@@ -57,6 +65,7 @@ public class Customer {
         this.email = email;
         this.fax = fax;
         this.fixedDiscount = fixedDiscount;
+        this.isAccountHolder = isAccountHolder;
         this.flexDiscounts = flexDiscounts;
         this.variableDiscounts = variableDiscounts;
     }
@@ -145,4 +154,11 @@ public class Customer {
         this.variableDiscounts = variableDiscounts;
     }
 
+    public boolean isAccountHolder() {
+        return isAccountHolder;
+    }
+
+    public void setAccountHolder(boolean accountHolder) {
+        isAccountHolder = accountHolder;
+    }
 }

@@ -59,7 +59,10 @@ public class CustomerController {
     Iterable<Customer> getLatePaymentCustomers() {
         Set<Customer> result = new HashSet<>();
         for (Customer c : customerRepository.findLatePaymentCustomers()) {
-            result.add(new Customer(c.getIdCustomer(), c.getName()));
+            result.add(new Customer(c.getIdCustomer(), c.getName(),c.isAccountHolder()));
+        }
+        for (Customer c : customerRepository.findLateAccountHolders()){
+            result.add(new Customer(c.getIdCustomer(), c.getName(),c.isAccountHolder()));
         }
         return result;
     }
@@ -115,7 +118,17 @@ public class CustomerController {
         if (editedCustomer.getFixedDiscount() >= 0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
         return customerRepository.save(c);
     }
-
+    @PatchMapping("/customers/account-holding/{idCustomer}/{decision}")
+    @PreAuthorize("hasRole('FRANCHISEE')")
+    ResponseEntity<String> editAccountHolding(@PathVariable("idCustomer")Integer idCustomer,@PathVariable("decision") boolean decision) {
+        customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
+        customerRepository.updateHolding(idCustomer,decision);
+        if (decision==false){
+            customerRepository.deleteVarDiscounts(idCustomer);
+            customerRepository.deleteFlexDiscounts(idCustomer);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Account status changed");
+    }
     @DeleteMapping("/customers/{idCustomer}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteCustomer(@PathVariable Integer idCustomer) {

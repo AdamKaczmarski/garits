@@ -3,6 +3,24 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 const NotificationModalPayments = (props) => {
   const navigate = useNavigate();
+  const regularCustomers = props.latePaymentCustomers.map((customer, index) => {
+    if (customer.accountHolder == false || !customer.accountHolder) {
+      return (
+        <li key={index}>
+          {customer.name} - ID: {customer.idCustomer}
+        </li>
+      );
+    }
+  });
+  const accHolders = props.latePaymentCustomers.map((customer, index) => {
+    if (customer.accountHolder == true) {
+      return (
+        <li key={index}>
+          {customer.name} - ID: {customer.idCustomer}
+        </li>
+      );
+    }
+  });
   return (
     <Modal show={props.show} onHide={props.onClose} backdrop="static">
       <Modal.Header closeButton>
@@ -11,7 +29,11 @@ const NotificationModalPayments = (props) => {
       <Modal.Body>
         These customers are late with their payments
         <ul>
-            {props.latePaymentCustomers.map((customer, index) => (<li key={index}>{customer.name} - ID: {customer.idCustomer}</li>))}
+          {regularCustomers}
+        </ul>
+        These account holders are late with their payments
+        <ul>
+          {accHolders}
         </ul>
       </Modal.Body>
       <Modal.Footer>
@@ -21,7 +43,13 @@ const NotificationModalPayments = (props) => {
         <Button variant="primary" onClick={props.onClose}>
           Acknowledge
         </Button>
-        <Button variant="primary" onClick={()=>{navigate("/payments");props.onClose();}}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            navigate("/payments");
+            props.onClose();
+          }}
+        >
           Go to payments
         </Button>
       </Modal.Footer>

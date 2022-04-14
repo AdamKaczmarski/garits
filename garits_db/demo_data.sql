@@ -7,11 +7,11 @@ INSERT INTO Users (email,password,first_name,last_name) VALUE
 ( "Anthony", "$2a$12$J3o7jF0Zdd7czHPyPA.wSO/H3PJ/s1Yi7yRoVLb4WvjTHPfqg7C1G",  "Anthony", "Wild"
 );
 
-INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fixed_discount) VALUE
-( "Jack Varta", "Bucks", "Transco Gas Supplies, Methane Buildings, Sulphur Lane, Stenchville", "HP19 2MT",  "01494683725", "JackVarta@gmail.com", NULL, NULL),
-( "John Doherty", "Nowhereshire", "Miscellaneous House, Unknown Street, Whichville", "MT1 2UP", "01010100101", "JohnDoherty@gmail.com", NULL, NULL),
-( "William Gates", "Richville", "World Domination House, Enormous Street", "NW10 4AT", "02074773333", "WilliamGates@gmail.com", NULL, NULL), 
-( "Jean-Claude Laprie", "Brokenglasshire", "10 Green Bottles", "NW9 NO8", "02083334444", "JeanClaudeLaprie@gmail.com", NULL, NULL
+INSERT INTO Customers (name,city,address,postcode,telephone_number,email,fax,fixed_discount,is_account_holder) VALUE
+( "Jack Varta", "Bucks", "Transco Gas Supplies, Methane Buildings, Sulphur Lane, Stenchville", "HP19 2MT",  "01494683725", "JackVarta@gmail.com", NULL, NULL,false),
+( "John Doherty", "Nowhereshire", "Miscellaneous House, Unknown Street, Whichville", "MT1 2UP", "01010100101", "JohnDoherty@gmail.com", NULL, NULL,false),
+( "William Gates", "Richville", "World Domination House, Enormous Street", "NW10 4AT", "02074773333", "WilliamGates@gmail.com", NULL, NULL,true), 
+( "Jean-Claude Laprie", "Brokenglasshire", "10 Green Bottles", "NW9 NO8", "02083334444", "JeanClaudeLaprie@gmail.com", NULL, NULL,false
 ) ;
 
 INSERT INTO vehicles ( id_reg_no,manufacturer,model,engine_serial_number,chassis_number,colour,last_mot) VALUE
@@ -101,3 +101,4 @@ INSERT INTO Jobs_Payments(job_id,payment_id) VALUE
 
 
 
+INSERT INTO customer_flex_discounts (customer_id,discount,range_from) values (3,1,1000),(3,2,5000),(3,3,10000);

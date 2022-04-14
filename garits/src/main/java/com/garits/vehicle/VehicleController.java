@@ -2,6 +2,7 @@ package com.garits.vehicle;
 
 import com.garits.exceptions.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,4 +106,5 @@ public class VehicleController {
         vehicleRepository.deleteCustomerVehicle(idRegNo, customerId);
         vehicleRepository.deleteVehicle(idRegNo);
     }
+
 }

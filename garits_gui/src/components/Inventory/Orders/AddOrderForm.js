@@ -90,6 +90,18 @@ const AddOrderForm = (props) => {
     props.newOrder.description = ev.target.value;
     setWords(ev.target.value.length);
   };
+  const companyHandler = (ev) => {
+    props.newOrder.company = ev.target.value;
+  };
+  const addressHandler = (ev) => {
+    props.newOrder.address = ev.target.value;
+  };
+const telHandler = (ev) => {
+  props.newOrder.phoneNo = ev.target.value;
+};
+const faxHandler = (ev) => {
+  props.newOrder.fax = ev.target.value;
+}
   return (
     <>
       <Form>
@@ -109,7 +121,22 @@ const AddOrderForm = (props) => {
           <Form.Label>Arrival Date</Form.Label>
           <Form.Control type="date" onChange={arrivalDateHandler} />
         </Form.Group>
-
+        <Form.Group conctrolId="company">
+          <Form.Label>Company</Form.Label>
+          <Form.Control onChange={companyHandler} />
+        </Form.Group>
+        <Form.Group conctrolId="address">
+          <Form.Label>Address</Form.Label>
+          <Form.Control onChange={addressHandler} />
+        </Form.Group>
+        <Form.Group conctrolId="telephone">
+          <Form.Label>Telephone No.</Form.Label>
+          <Form.Control onChange={telHandler} />
+        </Form.Group>
+        <Form.Group conctrolId="fax">
+          <Form.Label>FAX</Form.Label>
+          <Form.Control onChange={faxHandler} />
+        </Form.Group>
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
           <Form.Control as="textarea" rows={2} onChange={descriptionHandler} />

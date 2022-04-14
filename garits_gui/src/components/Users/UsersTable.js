@@ -37,7 +37,7 @@ const UserTable = () => {
   }, [authCtx]);
 
   if (users && users.length > 0) {
-    userView = users.map((user) => <User key={user.idUser} user={user} />);
+    userView = users.map((user) => <User key={user.idUser} user={user} obtainUsers={obtainUsers}/>);
   }
   if (isLoading){
     return <Spinner animation="border" variant="primary" />

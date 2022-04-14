@@ -12,9 +12,9 @@ const User = (props) => {
     role.charAt(0).toUpperCase() +
     role.slice(1).toLowerCase();
 
-  const deleteUser = () => {
+  const deleteUser = async() => {
     try {
-      const response = axios({
+      const response = await axios({
         method: "DELETE",
         url: "http://localhost:8080/users/" + props.user.idUser,
         headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
@@ -24,10 +24,24 @@ const User = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      window.location.reload();
+      props.obtainUsers()
     }
   };
+const resetPassword =async()=>{
+  try {
+    const response = await axios({
+      method: "PATCH",
+      url: "http://localhost:8080/users/" + props.user.idUser + "/password",
+      headers:{'Authorization': `Bearer ${authCtx.authData.token}`}
 
+    });
+    console.log(response);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    props.obtainUsers()
+  }
+}
   return (
     <>
       <tr>
@@ -41,7 +55,7 @@ const User = (props) => {
 
             <Dropdown.Menu>
               <Dropdown.Item>Edit</Dropdown.Item>
-              <Dropdown.Item href="#/action-1">Reset password</Dropdown.Item>
+              <Dropdown.Item onClick={resetPassword}>Reset password</Dropdown.Item>
               {props.user.role === "ADMIN" ? null : (
                 <Dropdown.Item onClick={handleShow}>Change role</Dropdown.Item>
               )}

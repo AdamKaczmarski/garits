@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import AuthContext from "../../../store/auth-context";
 const AddRetailPaymentForm = (props) => {
   const [items, setItems] = useState([]);
-  const [total, setTotal] = useState(0);
+  /* const [total, setTotal] = useState(0); */
   const [isLoading, setIsLoading] = useState(true);
   let itemNames = useRef([]);
   let itemsTmp = useRef();
@@ -71,6 +71,9 @@ const authCtx = useContext(AuthContext)
       console.log("Cannot add any more items");
     }
   };
+  const typeHandler=ev=>{
+    props.newPayment.cashOrCard=ev.target.value;
+  }
   return (
     <Form>
       <Form.Group controlId="pay_date">
@@ -83,7 +86,7 @@ const authCtx = useContext(AuthContext)
 
       <Form.Group controlId="paymentType">
         <Form.Label>Payment Type</Form.Label>
-        <Form.Select>
+        <Form.Select onChange={typeHandler}>
           <option value="card">Card</option>
           <option value="cash">Cash</option>
         </Form.Select>
@@ -95,7 +98,7 @@ const authCtx = useContext(AuthContext)
         </Button>
       </Form.Group>
       <Form.Group controlId="total">
-      <Form.Label><span style={{fontWeight:'bold', fontSize:"1.5em"}}>Total: {total}</span></Form.Label>
+      {/* <Form.Label><span style={{fontWeight:'bold', fontSize:"1.5em"}}>Total: {total}</span></Form.Label> */}
       </Form.Group>
     </Form>
   );

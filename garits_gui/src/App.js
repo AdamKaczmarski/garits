@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import Customers from "./pages/Customers";
 import Services from "./pages/Services";
 import Payments from "./pages/Payments";
+import Reports from "./pages/Reports";
 
 import NavigationBar from "./components/Navigation/NavigationBar";
 import Footer from "./components/Footer/Footer";
@@ -62,7 +63,7 @@ const App = () => {
   }, [authCtx]);
   useEffect(() => {
     if (
-      authCtx.authData.role !== "ROLE_MECHANIC" &&
+      authCtx.authData.role !== "ROLE_MECHANIC" && authCtx.authData.role !== "ROLE_ADMIN" && 
       authCtx.authData.token !== null
     ) {
       obtainLowStockParts();
@@ -70,7 +71,7 @@ const App = () => {
     }
   }, [obtainLatePaymentCustomers, obtainLowStockParts, authCtx]);
   let routes;
-  if (authCtx.authData.role === "ROLE_MECHANIC") {
+  if (authCtx.authData.role === "ROLE_MECHANIC") {  
     routes = (
       <Routes>
         <Route exact path="/" element={<Login />} />
@@ -176,6 +177,7 @@ const App = () => {
         <Route path="users" element={<Users />} />
         <Route path="customers" element={<Customers />} />
         <Route path="services" element={<Services />} />
+        <Route path="reports" element={<Reports />} />
         <Route
           path="*"
           element={

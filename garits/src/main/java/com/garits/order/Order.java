@@ -21,17 +21,28 @@ public class Order {
     private double orderAmount;
     @Column(name="description")
     private String description;
-
+    @Column(name="company")
+    private String company;
+    @Column(name="address")
+    private String address;
+    @Column(name="phone_no")
+    private String phoneNo;
+    @Column(name="fax")
+    private String fax;
     public Order() {
     }
 
-    public Order(Integer idOrder, String status, Date orderDate, Date orderArrival, double orderAmount, String description) {
+    public Order(Integer idOrder, String status, Date orderDate, Date orderArrival, double orderAmount, String description, String company, String address, String phoneNo, String fax) {
         this.idOrder = idOrder;
         this.status = status;
         this.orderDate = orderDate;
         this.orderArrival = orderArrival;
         this.orderAmount = orderAmount;
         this.description = description;
+        this.company = company;
+        this.address = address;
+        this.phoneNo = phoneNo;
+        this.fax = fax;
     }
 
     //Getters and Setters
@@ -80,6 +91,38 @@ public class Order {
     }
 
     /*public void setOrderTotalAmount(double amount){this.orderAmount=amount}*/
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
 }
 
 

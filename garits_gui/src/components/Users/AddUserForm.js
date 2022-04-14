@@ -34,8 +34,8 @@ const AddUserForm = (props) => {
     return (
     <Form className="mt-3">
       <Form.Group controlId="formEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" onChange={emailHandler} />
+        <Form.Label>Username</Form.Label>
+        <Form.Control  onChange={emailHandler} />
       </Form.Group>
       <Form.Group controlId="firstName">
         <Form.Label>First Name</Form.Label>
@@ -49,17 +49,17 @@ const AddUserForm = (props) => {
         <Form.Label>Role</Form.Label>
         <Form.Select aria-label="roleSelect" onChange={roleNameHandler}>
           <option>Role...</option>
-          <option value="MECHANIC">Mechanic</option>
-          <option value="FRANCHISEE">Franchisee</option>
-          <option value="MECHANIC">Mechanic</option>
-          <option value="FOREPERSON">Foreperson</option>
+          <option value="ROLE_MECHANIC">Mechanic</option>
+          <option value="ROLE_FRANCHISEE">Franchisee</option>
+          <option value="ROLE_MECHANIC">Mechanic</option>
+          <option value="ROLE_FOREPERSON">Foreperson</option>
         </Form.Select>
       </Form.Group>
-      {role==='MECHANIC'?
+      {/* role==='MECHANIC'?
       <Form.Group controlId="Hourly rate">
         <Form.Label>Hourly Rate</Form.Label>
         <Form.Control type="number" onChange={hourlyRateHandler} min={0}/>
-      </Form.Group>:null}
+      </Form.Group>:null */}
     </Form>
   );
 };

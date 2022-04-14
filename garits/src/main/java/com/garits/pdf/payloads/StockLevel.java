@@ -1,9 +1,15 @@
 package com.garits.pdf.payloads;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.sql.Date;
 
+@JsonDeserialize
 public class StockLevel {
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateFrom;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateTo;
 
     public StockLevel() {

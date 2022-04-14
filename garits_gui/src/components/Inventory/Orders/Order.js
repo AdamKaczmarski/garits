@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
+import AuthContext from "../../../store/auth-context";
+import axios from "axios";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import InventoryModal from "../InventoryModal";
@@ -6,6 +8,7 @@ import ChangeOrderStatusForm from "./ChangeOrderStatusForm";
 import OrderDetails from "./OrderDetails";
 import CompleteOrderForm from "./CompleteOrderForm";
 const Order = (props) => {
+  const authCtx=useContext(AuthContext);
   const [showChange, setShowChange] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [showFinish, setShowFinish] = useState(false);
@@ -13,6 +16,26 @@ const Order = (props) => {
   const handleShowDetails = () => setShowDetails(!showDetails);
   const handleShowFinish = () => setShowFinish(!showFinish);
   const newStatus = { status: "" };
+  const downloadReport = async()=>{
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/pdf/parts-order/" + props.order.idOrder,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+        responseType: 'blob'
+      });
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Order_"+props.order.idOrder+".pdf");
+        document.body.appendChild(link);
+        link.click();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   let formattedDateArrival = "";
   if (props.order.orderArrival != null) {
     formattedDateArrival = new Date(props.order.orderArrival)
@@ -56,7 +79,7 @@ const Order = (props) => {
           <Dropdown className="m-0 p-0" align={"end"}>
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
             <Dropdown.Menu>
-            <Dropdown.Item>Download report</Dropdown.Item>
+            <Dropdown.Item onClick={downloadReport}>Download report</Dropdown.Item>
             {props.order.status!=='completed'?(<><Dropdown.Item onClick={handleShowChange}>
                 Change status
               </Dropdown.Item>

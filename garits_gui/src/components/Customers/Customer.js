@@ -10,6 +10,7 @@ import AddFlexDiscount from "./AddFlexDiscount";
 import AddVarDiscount from "./AddVarDiscount";
 import CustomModal from "../CommonComponents/CustomModal";
 import AuthContext from "../../store/auth-context";
+import ChangeAccountStatus from "./ChangeAccStatus";
 const Customer = (props) => {
   const [showDetails, setShowDetails] = useState(false);
   const handleShowDetails = () => setShowDetails(!showDetails);
@@ -19,6 +20,8 @@ const Customer = (props) => {
   const handleShowVar = () => setShowVar(!showVar);
   const [showFlex, setShowFlex] = useState(false);
   const handleShowFlex = () => setShowFlex(!showFlex);
+  const [showAccStatus, setShowAccStatus] = useState(false);
+  const handleShowAccStatus = () => setShowAccStatus(!showAccStatus);
   const authCtx = useContext(AuthContext);
   const [customer, setCustomer] = useState({
     ...new CustomerClass(),
@@ -46,7 +49,7 @@ const Customer = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      window.location.reload();
+      props.obtainCustomers();
     }
   };
   const addFlexDiscount = () => {
@@ -64,7 +67,7 @@ const Customer = (props) => {
     } catch (err) {
       console.log(err);
     } finally {
-      window.location.reload();
+      props.obtainCustomers();
     }
   };
   const addVarDiscount = () => {
@@ -87,8 +90,23 @@ const Customer = (props) => {
       console.log(err);
     } finally {
       //window.location.reload();
+      props.obtainCustomers();
     }
   };
+  let decision = {accountHolder:props.customer.accountHolder};
+  const changeAccountStatus = async() => {
+    try {
+      const response=await axios({
+        method: "PATCH",
+        url:`http://localhost:8080/customers/account-holding/${props.customer.idCustomer}/${!props.customer.accountHolder}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+      })
+    } catch(err) {
+      console.log(err)
+    } finally {
+      props.obtainCustomers();
+    }
+  }
   return (
     <tr>
       <td>{props.customer.idCustomer}</td>
@@ -99,16 +117,21 @@ const Customer = (props) => {
           <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item>Generate monthly report</Dropdown.Item>
-            {authCtx.authData.role !== "ROLE_RECEPTIONIST" ? (
+            {/* <Dropdown.Item>Generate monthly report</Dropdown.Item> */}
+            {authCtx.authData.role === "ROLE_FRANCHISEE" ? (
               <>
                 <Dropdown.Item onClick={handleShowEdit}>Edit</Dropdown.Item>
-                <Dropdown.Item onClick={handleShowVar}>
-                  Add Variable Discount
-                </Dropdown.Item>
-                <Dropdown.Item onClick={handleShowFlex}>
-                  Add Flexible Discount
-                </Dropdown.Item>
+                {props.customer.accountHolder ? (
+                  <>
+                    <Dropdown.Item onClick={handleShowVar}>
+                      Add Variable Discount
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleShowFlex}>
+                      Add Flexible Discount
+                    </Dropdown.Item>
+                  </>
+                ) : null}
+                <Dropdown.Item onClick={handleShowAccStatus}>Change account status</Dropdown.Item>
                 <Dropdown.Item
                   style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
                   href="#/action-3"
@@ -150,6 +173,13 @@ const Customer = (props) => {
         onClose={handleShowFlex}
         submitAction={addFlexDiscount}
         form={<AddFlexDiscount flexDiscount={flexDiscount} />}
+      />
+      <CustomerModal
+        title={"Change account status"}
+        show={showAccStatus}
+        onClose={handleShowAccStatus}
+        submitAction={changeAccountStatus}
+        form={<ChangeAccountStatus accountHolder={props.customer.accountHolder} />}
       />
       <CustomerModal
         title={"Add Variable Discount"}

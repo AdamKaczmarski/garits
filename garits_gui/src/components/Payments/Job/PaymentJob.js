@@ -63,6 +63,26 @@ const PaymentJob = (props) => {
       props.obtainPaymentsJobs();
     }
   };
+  const downloadInvoice = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8080/pdf/invoice/" + props.paymentJob.idPayment,
+        headers: {Authorization: `Bearer ${authCtx.authData.token}`},
+        responseType: "blob",
+      });
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Invoice.pdf");
+        document.body.appendChild(link);
+        link.click();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <tr style={isLate ? { backgroundColor: "rgba(242, 97, 99,0.2)" } : null}>
@@ -82,7 +102,7 @@ const PaymentJob = (props) => {
             <Dropdown.Toggle variant="secondary">Action</Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>Download invoice</Dropdown.Item>
+              <Dropdown.Item onClick={downloadInvoice}>Download invoice</Dropdown.Item>
               {props.paymentJob.paymentDate ? null : (
                 <Dropdown.Item onClick={handleShow}>
                   Set payment as done

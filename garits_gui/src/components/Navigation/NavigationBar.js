@@ -59,6 +59,9 @@ const NavigationBar = () => {
   } else if (authData.role === "ROLE_FRANCHISEE") {
     navLinks = (
       <>
+       <Nav.Link as={Link} to="reports">
+          Reports
+        </Nav.Link>
         <Nav.Link as={Link} to="jobs">
           Jobs
         </Nav.Link>
@@ -85,6 +88,9 @@ const NavigationBar = () => {
   ) {
     navLinks = (
       <>
+       <Nav.Link as={Link} to="reports">
+          Reports
+        </Nav.Link>
         <Nav.Link as={Link} to="jobs">
           Jobs
         </Nav.Link>

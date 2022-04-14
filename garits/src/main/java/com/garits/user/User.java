@@ -35,6 +35,10 @@ public class User {
     public User() {
     }
 
+    public User(Integer idUser) {
+        this.idUser = idUser;
+    }
+
     public User(Integer idUser, String email, String password, String salt, String firstName, String lastName, Set<Role> roles) {
         this.idUser = idUser;
         this.email = email;

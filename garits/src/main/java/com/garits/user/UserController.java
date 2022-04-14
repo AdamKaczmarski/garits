@@ -1,8 +1,12 @@
 package com.garits.user;
 
 import com.garits.exceptions.NotFound;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,13 +55,20 @@ public class UserController {
      */
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    User newUser(@RequestBody User newUser) {
-        newUser.setPassword("1234");
+    ResponseEntity<User> newUser(@RequestBody User newUser) {
+        if (userRepository.checkEmail(newUser.getEmail()) == null || userRepository.checkEmail(newUser.getEmail()) != 1) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String randPass = RandomString.make(16);
+        System.out.println(randPass);
+        newUser.setPassword(encoder.encode(randPass));
+            System.out.println("SEND EMAIL TO THE USER WITH GENERATED PASSWORD");
+            userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getFirstName(), newUser.getLastName());
+            Integer id = userRepository.getUserId(newUser.getEmail());
+            userRepository.addUserRole(id, newUser.getRoles().iterator().next().getRoleName());
+            return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.findById(id).orElseThrow(() -> new NotFound("Couldn't add user")));
 
-        userRepository.addUser(newUser.getEmail(), newUser.getPassword(), newUser.getFirstName(), newUser.getLastName());
-        Integer id = userRepository.getUserId(newUser.getEmail());
-        userRepository.addUserRole(id, newUser.getRoles().iterator().next().getRoleName());
-        return userRepository.findById(id).orElseThrow(() -> new NotFound("Couldn't add user"));
+        }
+        return ResponseEntity.status(400).body(null);
     }
 
     //PATCH MAPPINGS
@@ -76,6 +87,17 @@ public class UserController {
         }).orElseThrow(() -> new NotFound("Could not find user: " + id));*/
         System.out.println(newRole.getRoleName());
         userRepository.changeUserRole(idUser, newRole.getRoleName());
+    }
+    @PatchMapping("/users/{idUser}/password")
+    @PreAuthorize("hasRole('ADMIN')")
+    void resetPassword(@PathVariable Integer idUser) {
+        User u = userRepository.findById(idUser).orElseThrow(() -> new NotFound("Could not find user: " + idUser));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String randPass = RandomString.make(16);
+        System.out.println(randPass);
+        u.setPassword(encoder.encode(randPass));
+        System.out.println("SEND EMAIL TO THE USER WITH GENERATED PASSWORD");
+        userRepository.save(u);
     }
 
     /*

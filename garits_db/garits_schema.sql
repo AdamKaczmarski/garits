@@ -33,7 +33,7 @@ CREATE TABLE `Customers` (
     `email` varchar(100) NOT NULL UNIQUE,
     `fax` int,
     `fixed_discount` int,
-    `flex_discounts_json` text,
+    `is_account_holder` boolean default false,
     PRIMARY KEY (`id_customer`),
     UNIQUE INDEX (`id_customer`)
 );
@@ -146,6 +146,10 @@ CREATE TABLE `Orders` (
     `order_date` date NOT NULL,
     `order_arrival` date,
     `order_amount` decimal(8, 2) NOT NULL,
+    `company` varchar(250),
+    `address` varchar(250),
+    `phone_no` varchar(13),
+    `fax` varchar(13),
     PRIMARY KEY (`id_order`),
     UNIQUE INDEX (`id_order`)
 );

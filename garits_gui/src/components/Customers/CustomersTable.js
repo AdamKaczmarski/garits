@@ -38,7 +38,7 @@ const CustomersTable = (props) => {
   };
   if (customers && customers.length > 0) {
     customersView = customers.map((customer) => (
-      <Customer key={customer.idCustomer} customer={customer} />
+      <Customer key={customer.idCustomer} customer={customer} obtainCustomers={obtainCustomers}/>
     ));
   }
 if (isLoading){

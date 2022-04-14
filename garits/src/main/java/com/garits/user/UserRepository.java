@@ -27,4 +27,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     Iterable<User> findAllMechanics();
     @Query(value="SELECT * from users where email=:email",nativeQuery = true)
     public User getUserByEmail(@Param("email")String email);
+    @Query(value="SELECT 1 from users where email=:email",nativeQuery = true)
+    public Integer checkEmail(@Param("email")String email);
 }
