@@ -166,7 +166,6 @@ public class PdfGeneratorController {
         List<Object[]> r1 = q1.getResultList();
         List<Object[]> r2 = q2.getResultList();
         List<Object[]> r3 = q3.getResultList();
-
         ByteArrayInputStream bis = GeneratePdfReport.averagesReport(r1, r2, r3);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=Average_reports.pdf");
@@ -180,10 +179,16 @@ public class PdfGeneratorController {
         Query queryPerMonthPerYear = em.createNativeQuery("SELECT CONCAT(YEAR(j.create_date),'-',MONTH(j.create_date)),count(j.id_job)\n" + "FROM jobs j \n" + "GROUP BY MONTH(j.create_date) ORDER BY 1,2");
         Query queryOverall = em.createNativeQuery("SELECT CAST(COUNT(id_job) AS CHAR(10)),'dummy' from jobs");
         Query queryPerJob = em.createNativeQuery("SELECT s.service_name,COUNT(j.id_job)\n" + "FROM jobs j \n" + "INNER JOIN jobs_services js ON j.id_job = js.job_id\n" + "INNER JOIN services s ON s.id_service=js.service_id\n" + "GROUP BY s.service_name");
+        Query q4 = em.createNativeQuery("SELECT LEFT(create_date,7),COUNT(c.id_customer) from customers c inner join customers_vehicles cv on cv.customer_id=c.id_customer inner join vehicles v on v.id_reg_no=cv.reg_no_id inner join jobs j on j.vehicle_id=v.id_vehicle where c.is_account_holder=true group by LEFT(create_date,7) order by LEFT(create_date,7);");
+        Query q5 = em.createNativeQuery("SELECT LEFT(create_date,7),COUNT(c.id_customer) from customers c inner join customers_vehicles cv on cv.customer_id=c.id_customer inner join vehicles v on v.id_reg_no=cv.reg_no_id inner join jobs j on j.vehicle_id=v.id_vehicle where c.is_account_holder=false group by LEFT(create_date,7) order by LEFT(create_date,7);");
+
         List<Object[]> resultsPerMonthPerYear = queryPerMonthPerYear.getResultList();
         List<Object[]> resultsOverall = queryOverall.getResultList();
         List<Object[]> resultsPerJob = queryPerJob.getResultList();
-        ByteArrayInputStream bis = GeneratePdfReport.bookingStats(resultsPerMonthPerYear, resultsOverall, resultsPerJob);
+        List<Object[]> r4 = q4.getResultList();
+        List<Object[]> r5 = q5.getResultList();
+
+        ByteArrayInputStream bis = GeneratePdfReport.bookingStats(resultsPerMonthPerYear, resultsOverall, resultsPerJob,r4,r5);
         var headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=Booking_stats.pdf");
 

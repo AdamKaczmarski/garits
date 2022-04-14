@@ -53,13 +53,16 @@ public class ServiceController {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find service: " + id));
     }
 
+    /**
+     * Get service's price. Just price, for the frontend to calculate total amount.
+     * @param id - service's id
+     * @return Service's price
+     */
     @GetMapping("/services/{id}/price")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     double getPrice(@PathVariable Integer id) {
         return serviceRepository.findById(id).orElseThrow(() -> new NotFound("Could not find the service: " + id)).getServicePrice();
     }
-
-    //POST MAPPINGS
 
     /**
      * Add new service mapping.
@@ -73,10 +76,11 @@ public class ServiceController {
         return serviceRepository.save(newService);
     }
 
-    //PUT MAPPINGS
-
     /**
-     * Edit service
+     * Updates the service
+     * @param idService - service ID
+     * @param editedService edited Service object
+     * @return Edited Service object
      */
     @PatchMapping("/services/{idService}")
     @PreAuthorize("hasRole('FRANCHISEE')")

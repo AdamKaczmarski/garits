@@ -867,7 +867,7 @@ public class GeneratePdfReport {
     }
 
     //TBD - DO AFTER ADDING CUSTOMER ACCOUNT HOLDER
-    public static ByteArrayInputStream bookingStats(List<Object[]> resultsPerMonthPerYear, List<Object[]> resultsOverall, List<Object[]> resultsPerJob) {
+    public static ByteArrayInputStream bookingStats(List<Object[]> resultsPerMonthPerYear, List<Object[]> resultsOverall, List<Object[]> resultsPerJob,List<Object[]> r4,List<Object[]> r5) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);
         PdfDocument pdfBookingStats = new PdfDocument(pdfWriter);
@@ -953,7 +953,7 @@ public class GeneratePdfReport {
         Table perMonthPerYear = new Table(monthlyColWidth).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
-        perMonthPerYear.addCell(new Cell().add("Job Type").setBold().setMarginTop(-20f)
+        perMonthPerYear.addCell(new Cell().add("Year - Month").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
@@ -980,76 +980,63 @@ public class GeneratePdfReport {
 
 
         //Creating Table
-        float colAmount[] = {140, 140, 140, 140, 140, 140};
-        Table amount = new Table(colAmount).setMarginTop(20f)
+        float accHolderWidth[] = {300, 300};
+        Table accHolder = new Table(accHolderWidth).setMarginTop(20f)
                 .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
 
-        amount.addCell(new Cell().add("Account Holder").setBold().setMarginTop(-20f)
+        accHolder.addCell(new Cell().add("Year - Month").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        amount.addCell(new Cell().add("Annual Service").setBold().setMarginTop(-20f)
+        accHolder.addCell(new Cell().add("Amount of Bookings by account holders").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        amount.addCell(new Cell().add("MoT").setBold().setMarginTop(-20f)
+
+        for (Object[] x : r4) { //Insert data
+            accHolder.addCell(new Cell().add(x[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            accHolder.addCell(new Cell().add(x[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
+        float casualWidth[] = {300, 300};
+        Table casual = new Table(casualWidth).setMarginTop(20f)
+                .setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+        casual.addCell(new Cell().add("Year - Month").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        amount.addCell(new Cell().add("Vehicle Repair").setBold().setMarginTop(-20f)
+        casual.addCell(new Cell().add("Amount of Bookings by casual customers").setBold().setMarginTop(-20f)
                 .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
                 .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
                 .setBorderRight(Border.NO_BORDER)
         );
 
-        amount.addCell(new Cell().add("Casual").setBold().setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
-                .setBorderRight(Border.NO_BORDER)
-        );
 
-        amount.addCell(new Cell().add("Total Vehicles").setBold().setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorderLeft(Border.NO_BORDER).setBorderTop(Border.NO_BORDER)
-                .setBorderRight(Border.NO_BORDER)
-        );
+        for (Object[] x : r5) { //Insert data
+            casual.addCell(new Cell().add(x[0].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+            //Insert data
+            casual.addCell(new Cell().add(x[1].toString()).setMarginTop(-20f)
+                    .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
+                    .setBorder(Border.NO_BORDER)
+            );
+        }
 
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
-        //Insert Value
-        amount.addCell(new Cell().add("Insert value").setMarginTop(-20f)
-                .setMarginLeft(-20f).setMarginRight(-20f).setFontSize(11)
-                .setBorder(Border.NO_BORDER)
-        );
 
         document.add(name);
         document.add(time);
@@ -1057,13 +1044,14 @@ public class GeneratePdfReport {
         document.add(total);
         document.add(information);
         document.add(perMonthPerYear);
-        document.add(amount);
+        document.add(accHolder);
+        document.add(casual);
         document.close();
         pdfBookingStats.close();
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    //TBD -  Add Company to Order table
+    //DONE
     public static ByteArrayInputStream partsOrder(Order o, Iterable<PartsOrdersDetail> pod) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PdfWriter pdfWriter = new PdfWriter(out);

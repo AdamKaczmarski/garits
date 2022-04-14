@@ -16,11 +16,22 @@ public class VehicleController {
     private VehicleRepository vehicleRepository;
 
     //GET MAPPINGS
+
+    /**
+     * This functions returns an Iterable of objects of type Vehicle.
+     * @return
+     */
     @GetMapping("/vehicles")
     Iterable<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
     }
 
+    /**
+     * This function has been created for short info about a vehicle.
+     * It is used for the front end to not obtain all the information about a vehicle. To preserve storage and fasten the process.
+     * @param customerId The id of the Customer that vehicles are assigned to.
+     * @return Iterable of short info about vehicles.
+     */
     @GetMapping("/vehicles/{customerId}/short")
     @PreAuthorize("hasRole('MECHANIC') or hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Vehicle> getShortInfoVehicles(@PathVariable Integer customerId) {
@@ -36,10 +47,9 @@ public class VehicleController {
     }
 
     /**
-     * @param customerId
-     * @return
+     * @param customerId The id of the Customer that vehicles are assigned to.
+     * @return Iterable of all vehicles that belong to the specified customer.
      */
-    // SECURE IT FOR NON EXISTENT CUSTOMERS. IF USER SEARCHES FOR CUSTOMER ID THAT DOESNT EXIST IT SHOULD RETURN ERROR
     @GetMapping("/vehicles/{customerId}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Vehicle> getAllCustomerVehicles(@PathVariable Integer customerId) {
@@ -53,8 +63,9 @@ public class VehicleController {
     //POST MAPPINGS
 
     /**
-     * @param customerId
-     * @param newVehicle
+     * Create vehicle and assign it to the customer
+     * @param customerId ID of the customer to assign the vehicle to
+     * @param newVehicle Vehicle to be created
      */
     @PostMapping("/vehicles/{customerId}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
@@ -72,8 +83,8 @@ public class VehicleController {
     /**
      * Updates the Vehicle object given that there's one in the database with the specified idRegNo
      *
-     * @param idVehicle
-     * @param editedVehicle
+     * @param idVehicle ID of the edited vehicle
+     * @param editedVehicle Vehicle object with the updated information
      * @return
      */
     @PatchMapping("/vehicles/{idVehicle}")
@@ -97,8 +108,9 @@ public class VehicleController {
     //DELETE MAPPINGS
 
     /**
-     * @param customerId
-     * @param idRegNo
+     * Deletes the Vehicle object with the specified idRegNo and unassigns it from the customer
+     * @param customerId ID of the customer to unassign the vehicle from
+     * @param idRegNo ID of the vehicle to delete
      */
     @DeleteMapping("/vehicles/{customerId}/{idRegNo}")
     @PreAuthorize("hasRole('FRANCHISEE')")

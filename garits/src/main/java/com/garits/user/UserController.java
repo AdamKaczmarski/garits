@@ -48,10 +48,10 @@ public class UserController {
     //POST MAPPINGS
 
     /**
-     * Add new user mapping.
+     * Add new user.
      *
      * @param newUser - user object
-     * @return
+     * @return created user object
      */
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
@@ -74,9 +74,9 @@ public class UserController {
     //PATCH MAPPINGS
 
     /**
-     * Change user's role
-     *
-     * @return
+     * Update user's role
+     * @param newRole new Role object to assign to the user
+     * @param idUser id of the user
      */
     @PatchMapping("/users/{idUser}/role")
     @PreAuthorize("hasRole('ADMIN')")
@@ -88,6 +88,11 @@ public class UserController {
         System.out.println(newRole.getRoleName());
         userRepository.changeUserRole(idUser, newRole.getRoleName());
     }
+
+    /**
+     * Reset user's password to a random one.
+     * @param idUser id of the user
+     */
     @PatchMapping("/users/{idUser}/password")
     @PreAuthorize("hasRole('ADMIN')")
     void resetPassword(@PathVariable Integer idUser) {
