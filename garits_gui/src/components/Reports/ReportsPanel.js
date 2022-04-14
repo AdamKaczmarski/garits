@@ -13,8 +13,6 @@ const ReportsPanel = () => {
   const authCtx = useContext(AuthContext);
   const [chosenForm, setChosenForm] = useState(0);
   const downloadReport = async (id) => {
-
-    
     try {
       const response = await axios({
         method: "GET",
@@ -22,7 +20,7 @@ const ReportsPanel = () => {
         headers: {
           Authorization: `Bearer ${authCtx.authData.token}`,
         },
-       /*  data: {
+        /*  data: {
           idUser: id,
         }, */
         responseType: "blob",
@@ -43,15 +41,16 @@ const ReportsPanel = () => {
   let form = null;
   switch (chosenForm) {
     case 0:
-        form=<StockLedger />
+      form = <StockLedger />;
       break;
-    case 1: form=<StockLevels />
+    case 1:
+      form = <StockLevels />;
       break;
     case 2:
-        form=<BookingStats />
+      form = <BookingStats />;
       break;
     case 3:
-        form=<AveragesForm downloadReport={downloadReport}/>
+      form = <AveragesForm downloadReport={downloadReport} />;
       break;
 
     default:
@@ -62,13 +61,17 @@ const ReportsPanel = () => {
   };
   return (
     <>
-      <Form className="mt-5 mb-auto mx-auto"  style={{ width: "32rem" }}>
+      <Form className="mt-5 mb-auto mx-auto" style={{ width: "32rem" }}>
         <Form.Group controlId="formSelector">
           <Form.Select onChange={formHandler}>
             <option value={0}>Stock Ledger</option>
             <option value={1}>Stock Levels</option>
-            <option value={2}>Booking Statistics</option>
-            <option value={3}>Average Jobs Report</option>
+            {authCtx.authData.role === "ROLE_FRANCHISEE" ? (
+              <>
+                <option value={2}>Booking Statistics</option>
+                <option value={3}>Average Jobs Report</option>
+              </>
+            ) : null}
             {/*  <option value={4}>
                         Average Report
                     </option>

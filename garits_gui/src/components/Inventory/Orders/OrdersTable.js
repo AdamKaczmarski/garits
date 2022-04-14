@@ -64,7 +64,7 @@ const OrdersTable = () => {
       setIsLoading(true);
       const response = await axios({
         method: "PATCH",
-        url: `http://localhost:8080/orders/${id}`,
+        url: `http://localhost:8080/orders/${id}/status`,
         headers: { Authorization: `Bearer ${authCtx.authData.token}` },
         data: newStatus,
       });

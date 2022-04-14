@@ -79,7 +79,7 @@ public class OrderController {
     }
 
     @PatchMapping("/orders/{idOrder}")
-    @PreAuthorize("hasRole('FRANCHISEE')")
+    @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Order editOrder(@PathVariable Integer idOrder, @RequestBody Order editedOrder) {
         Order o = orderRepository.findById(idOrder).orElseThrow(() -> new NotFound("Could not find order: " + idOrder));
         if (editedOrder.getStatus() != null) o.setStatus(editedOrder.getStatus());
