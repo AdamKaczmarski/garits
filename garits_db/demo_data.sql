@@ -88,8 +88,8 @@ INSERT INTO Parts_Payments(part_id,quantity_sold,payment_id) VALUE
 INSERT INTO Payments_Customer(payment_id,customer_id) VALUE
 (1,4);
 
-INSERT INTO Orders(status,description,order_date,order_arrival,order_amount) VALUE
-("completed", "Exhaust x1, Engine Mounts x2, Spark Plugs x4","2021-11-5","2021-11-5",236.00);
+INSERT INTO Orders(status,description,order_date,order_arrival,order_amount,company,address,phone_no,fax) VALUE
+("completed", "Exhaust x1, Engine Mounts x2, Spark Plugs x4","2021-11-5","2021-11-5",236.00,"Fjord Distribution Ltd"," 25 The Causeway, Staines, Middlesex","01784 407862","01784 407863");
 
 INSERT INTO Parts_Orders(part_id,order_id,quantity_ordered) VALUE
 (2,1,1),
