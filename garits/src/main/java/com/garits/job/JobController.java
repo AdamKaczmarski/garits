@@ -33,6 +33,11 @@ public class JobController {
     private ServiceRepository serviceRepository;
     //GET MAPPINGS
     //Those 3 methods should return only data neeeded for the frontend without any details.
+
+    /**
+     *
+     * @return returns only an array of jobs that are currently active
+     */
     @GetMapping("/jobs-active")
     @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllActiveJobs() {
@@ -48,6 +53,10 @@ public class JobController {
         return result;
     }
 
+    /**
+     *
+     * @return returns the array of job objects of those that are completed
+     */
     @GetMapping("/jobs-completed")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllCompletedJobs() {
@@ -63,6 +72,10 @@ public class JobController {
         return result;
     }
 
+    /**
+     *
+     * @return  array of job objects that are pending/booked
+     */
     @GetMapping("/jobs-booked")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Job> getAllBookedJobs() {
@@ -75,6 +88,11 @@ public class JobController {
         return result;
     }
 
+    /**
+     * Get single job details
+     * @param idJob
+     * @return
+     */
     @GetMapping("/jobs/{idJob}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job getOneJob(@PathVariable Integer idJob) {
@@ -97,6 +115,12 @@ public class JobController {
     }
 
     //POST MAPPINGS
+
+    /**
+     * Save a new job and set its price => craete a new payment record
+     * @param newJob
+     * @return
+     */
     @PostMapping("/jobs")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job addJob(@RequestBody Job newJob) {
@@ -143,6 +167,13 @@ public class JobController {
     }
 
     //PATCH MAPPINGS
+
+    /**
+     * Edit the job details
+     * @param idJob
+     * @param editedJob
+     * @return
+     */
     @PatchMapping("/jobs/{idJob}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Job editJob(@PathVariable Integer idJob, @RequestBody Job editedJob) {
@@ -183,6 +214,13 @@ public class JobController {
         }
         return jobRepository.save(j);
     }
+
+    /**
+     * Add quantity of the parts used
+     * @param idJob
+     * @param idPart
+     * @param quantity
+     */
     @PatchMapping("/jobs/{idJob}/{idPart}/{quantity}")
     @PreAuthorize("hasRole('RECEPTIONIST')  or hasRole('MECHANIC') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void addQuantity(@PathVariable Integer idJob, @PathVariable Integer idPart, @PathVariable Integer quantity) {
@@ -190,6 +228,11 @@ public class JobController {
         jobRepository.updateStockLevel(idPart,quantity);
     }
     //DELETE MAPPINGS
+
+    /**
+     * delete a job
+     * @param idJob
+     */
     @DeleteMapping("/jobs/{idJob}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void deleteJob(@PathVariable Integer idJob) {

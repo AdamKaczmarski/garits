@@ -246,4 +246,3 @@ select * from customers_vehicles;
 update payments set payment_due='2022-02-12';
 SELECT * from customers where id_customer IN (SELECT DISTINCT pc.customer_id FROM payments_customer pc INNER JOIN payments p on p.id_payment = pc.payment_id inner join customers c on c.id_customer = pc.customer_id where datediff(p.payment_due,curdate())<=5 AND p.payment_date is NULL AND c.is_account_holder=true)
 
-select * from parts_orders;	

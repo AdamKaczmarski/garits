@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentRetailDetailController {
     @Autowired
     private PaymentRetailDetailRepository paymentRetailDetailrepository;
+
+    /**
+     * Return the details of a retail payment. This means items, it's price, quantity_sold.
+     * @param paymentId id of the payment
+     * @return array of payment details objects.
+     */
     @GetMapping("/{paymentId}/details")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<PaymentRetailDetail> getAllDetailsByPaymentId(@PathVariable Integer paymentId) {

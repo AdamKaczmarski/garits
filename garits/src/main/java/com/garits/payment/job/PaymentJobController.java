@@ -14,7 +14,10 @@ public class PaymentJobController {
 
     //GET MAPPINGS
 
-
+    /**
+     * Obtain all payments that are for the jobs
+     * @return Array of PaymentJob objects
+     */
     @GetMapping("/payments-jobs")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     public @ResponseBody
@@ -44,6 +47,11 @@ public class PaymentJobController {
         return paymentRepository.save(newPayment);
     }
 
+    /**
+     *
+     * @param id - ID of the payment
+     * @param completedPayment data to complete the Payment/
+     */
     @PatchMapping("/payments-jobs/{id}/complete")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     void completeJobPayment(@PathVariable Integer id, @RequestBody PaymentJob completedPayment) {

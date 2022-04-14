@@ -40,7 +40,6 @@ public interface JobRepository extends CrudRepository<Job, Integer> {
     @Query(value = "UPDATE jobs_parts set quantity_used = :quantity where part_id = :idPart and job_id = :idJob", nativeQuery = true)
     void setQuantityOfPart(@Param("idPart") Integer idPart, @Param("idJob") Integer idJob, @Param("quantity") Integer quantityUsed);
 
-    @Transactional
     @Modifying
     @Query(value = "INSERT INTO payments (cash_or_card,amount,create_date,payment_date,payment_due) VALUES (:cashOrCard,:amount,CURDATE(),:paymentDate,:paymentDueDate)", nativeQuery = true)
     void addPayment(@Param("cashOrCard") String cashOrCard, @Param("amount") Double amount, @Param("paymentDate") String paymentDate, @Param("paymentDueDate") String paymentDueDate);

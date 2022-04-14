@@ -107,6 +107,20 @@ const Customer = (props) => {
       props.obtainCustomers();
     }
   }
+  const deleteCustomer = async() => {
+    try {
+      const response=await axios({
+        method: "DELETE",
+        url:`http://localhost:8080/customers/${props.customer.idCustomer}`,
+        headers: { Authorization: `Bearer ${authCtx.authData.token}` },
+      })
+    } catch(err) {
+      console.log(err)
+    } finally {
+      props.obtainCustomers();
+    }
+  }
+
   return (
     <tr>
       <td>{props.customer.idCustomer}</td>
@@ -134,7 +148,7 @@ const Customer = (props) => {
                 <Dropdown.Item onClick={handleShowAccStatus}>Change account status</Dropdown.Item>
                 <Dropdown.Item
                   style={{ backgroundColor: "rgba(242, 97, 99,0.2)" }}
-                  href="#/action-3"
+                  onClick={deleteCustomer}
                 >
                   Delete
                 </Dropdown.Item>

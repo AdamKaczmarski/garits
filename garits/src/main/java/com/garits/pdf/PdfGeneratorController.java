@@ -62,7 +62,10 @@ public class PdfGeneratorController {
 /*    @Autowired
     StatReports statReports;*/
 
-
+    /**
+     * Generate a stock ledger report
+     * @return
+     */
     @GetMapping(value = "/stock-ledger", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateStockLedger() {
@@ -74,6 +77,11 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate a MOT reminder for a specified vehicle
+     * @param idVehicle
+     * @return
+     */
     @GetMapping(value = "/mot-reminder/{idVehicle}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateMotReminder(@PathVariable Integer idVehicle) {
@@ -86,6 +94,11 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate a job sheet
+     * @param idJob
+     * @return
+     */
     @GetMapping(value = "/job-sheet/{idJob}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateJobSheet(@PathVariable("idJob") Integer idJob) {
@@ -111,6 +124,11 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate an invoice of a job payment
+     * @param idJob
+     * @return
+     */
     @GetMapping(value = "/invoice/{idJob}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateInvoice(@PathVariable Integer idJob) {
@@ -138,6 +156,11 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate parts order report
+     * @param idOrder
+     * @return
+     */
     @GetMapping(value = "/parts-order/{idOrder}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generatePartsOrder(@PathVariable Integer idOrder) {
@@ -150,6 +173,11 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate the average per X report
+     * @param idUser
+     * @return
+     */
     @GetMapping(value = "/averages/{idUser}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateAveragesReport(@PathVariable(required = false)Integer idUser) {
@@ -173,6 +201,10 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate booking statustics report
+     * @return
+     */
     @GetMapping(value = "/booking-stats", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateBookingStats() {
@@ -195,6 +227,12 @@ public class PdfGeneratorController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(bis));
     }
 
+    /**
+     * Generate stock level report
+     * @param dateFrom date where to generate the report from
+     * @param dateTo date where to gnerate the report to
+     * @return return type blob which is generated to the pdf file by the frontend
+     */
     @GetMapping(value = "/stock-level/{dateFrom}/{dateTo}", produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     ResponseEntity<InputStreamResource> generateStockLevel(@PathVariable String dateFrom, @PathVariable String dateTo) {

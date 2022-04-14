@@ -23,6 +23,7 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     /**
+     * Get all customers in the system
      * @return
      */
     @GetMapping("/customers")
@@ -31,6 +32,10 @@ public class CustomerController {
         return customerRepository.findAll();
     }
 
+    /**
+     * Obtain short data of the customer for the front end.
+     * @return
+     */
     @GetMapping("/customers/short")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Customer> getShortInfoCustomers() {
@@ -42,18 +47,32 @@ public class CustomerController {
         return result;
     }
 
+    /**
+     * Get details of a customer
+     * @param idCustomer
+     * @return
+     */
     @GetMapping("/customers/{idCustomer}")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Customer getOneCustomer(@PathVariable Integer idCustomer) {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not find customer: " + idCustomer));
     }
 
+    /**
+     * get variable discount for a customer
+     * @param idCustomer
+     * @return
+     */
     @GetMapping("/customers/{idCustomer}/varDiscounts")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<VariableDiscount> getVariableDiscounts(@PathVariable Integer idCustomer) {
         return null;
     }
 
+    /**
+     * Get customers that are late with their payments
+     * @return
+     */
     @GetMapping("/customers/late-payments")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Iterable<Customer> getLatePaymentCustomers() {
@@ -67,12 +86,23 @@ public class CustomerController {
         return result;
     }
 
+    /**
+     * Add a new customer
+     * @param newCustomer
+     * @return
+     */
     @PostMapping("/customers")
     @PreAuthorize("hasRole('RECEPTIONIST') or hasRole('FOREPERSON') or hasRole('FRANCHISEE')")
     Customer addCustomer(@RequestBody Customer newCustomer) {
         return customerRepository.save(newCustomer);
     }
 
+    /**
+     * Add a flex discount to th customer
+     * @param idCustomer id of the customer
+     * @param fD flex discount to add
+     * @return
+     */
     @PostMapping("/customers/{idCustomer}/flexDiscount")
     @PreAuthorize(" hasRole('FRANCHISEE')")
     Customer addFlexDiscount(@PathVariable Integer idCustomer, @RequestBody FlexDiscount fD) {
@@ -80,6 +110,13 @@ public class CustomerController {
         return customerRepository.findById(idCustomer).orElseThrow(() -> new NotFound("Could not obtain customer: " + idCustomer));
     }
 
+    /**
+     * Add a variable discount to the customer
+     * @param idCustomer the customer id
+     * @param vD variable discount to add
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/customers/{idCustomer}/varDiscount")
     @PreAuthorize(" hasRole('FRANCHISEE')")
     ResponseEntity<String> addVariableDiscount(@PathVariable Integer idCustomer, @RequestBody VariableDiscount vD) throws Exception {
@@ -104,6 +141,12 @@ public class CustomerController {
         }
     }
 
+    /** Edit existing customer data
+     *
+     * @param idCustomer
+     * @param editedCustomer
+     * @return
+     */
     @PatchMapping("/customers/{idCustomer}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     Customer editCustomer(@PathVariable Integer idCustomer, @RequestBody Customer editedCustomer) {
@@ -118,6 +161,14 @@ public class CustomerController {
         if (editedCustomer.getFixedDiscount() >= 0) c.setFixedDiscount(editedCustomer.getFixedDiscount());
         return customerRepository.save(c);
     }
+
+    /**
+     * Change customer's account type to account holder or a casual customer
+     * If changed to the casual customer the discounts are deleted
+     * @param idCustomer
+     * @param decision
+     * @return
+     */
     @PatchMapping("/customers/account-holding/{idCustomer}/{decision}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     ResponseEntity<String> editAccountHolding(@PathVariable("idCustomer")Integer idCustomer,@PathVariable("decision") boolean decision) {
@@ -129,18 +180,33 @@ public class CustomerController {
         }
         return ResponseEntity.status(HttpStatus.OK).body("Account status changed");
     }
+
+    /**
+     * Delete customer
+     * @param idCustomer
+     */
     @DeleteMapping("/customers/{idCustomer}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteCustomer(@PathVariable Integer idCustomer) {
         customerRepository.deleteById(idCustomer);
     }
 
+    /**
+     * Delete variable discount for a specified customer
+     * @param idCustomer
+     * @param idVarDiscount
+     */
     @DeleteMapping("/customers/{idCustomer}/varDiscount/{idVarDiscount}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteVariableDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idVarDiscount) {
         customerRepository.deleteVarDiscount(idCustomer, idVarDiscount);
     }
 
+    /**
+     * Delete flex discount for a speciified customer
+     * @param idCustomer
+     * @param idFlexDiscount
+     */
     @DeleteMapping("/customers/{idCustomer}/flexDiscount/{idFlexDiscount}")
     @PreAuthorize("hasRole('FRANCHISEE')")
     void deleteFlexDiscount(@PathVariable Integer idCustomer, @PathVariable Integer idFlexDiscount) {

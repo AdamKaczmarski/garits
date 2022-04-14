@@ -102,7 +102,7 @@ public class UserController {
         System.out.println(randPass);
         u.setPassword(encoder.encode(randPass));
         System.out.println("SEND EMAIL TO THE USER WITH GENERATED PASSWORD");
-        userRepository.save(u);
+        userRepository.save(u); 
     }
 
     /*

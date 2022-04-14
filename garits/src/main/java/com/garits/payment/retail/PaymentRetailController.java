@@ -18,7 +18,6 @@ public class PaymentRetailController {
     private PaymentRetailRepository paymentRepository;
     @Autowired
     private PartRepository partRepository;
-    //GET MAPPINGS
 
     /**
      * This method returns all payments in the system.
@@ -51,7 +50,7 @@ public class PaymentRetailController {
     //POST MAPPINGS
 
     /**
-     * Add new payment mapping.
+     * Add new retail payment mapping.
      *
      * @param newPayment - payment object
      * @return
